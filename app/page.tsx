@@ -1,21 +1,25 @@
-import { getStructuredPages, getBlocks } from '@/lib/notion';
+import { getStructuredPages } from '@/lib/notion';
 import { renderBlock } from '@/components/NotionBlocks';
 import { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export async function generateMetadata(): Promise<Metadata> {
+  console.log('[generateMetadata] Starting');
   const rootPageId = process.env.NOTION_ROOT_PAGE_ID!;
+  console.log('[generateMetadata] Root Page ID:', rootPageId);
+
   const structuredPages = await getStructuredPages(rootPageId);
   const homePage = structuredPages[0];
 
   if (!homePage) {
-    console.error('No home page found');
+    console.error('[generateMetadata] No home page found');
     return {
       title: 'Error',
       description: 'Failed to load page content',
     };
   }
 
+  console.log('[generateMetadata] Generating metadata for home page');
   return {
     title: homePage.seo.ogTitle,
     description: homePage.seo.metaDescription,
@@ -28,31 +32,31 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
+  console.log('[Home] Starting');
   const rootPageId = process.env.NOTION_ROOT_PAGE_ID!;
-  console.log('Root Page ID:', rootPageId);
+  console.log('[Home] Root Page ID:', rootPageId);
   
   try {
+    console.log('[Home] Fetching structured pages');
     const structuredPages = await getStructuredPages(rootPageId);
-    console.log('Structured Pages:', JSON.stringify(structuredPages, null, 2));
+    console.log('[Home] Structured Pages:', JSON.stringify(structuredPages, null, 2));
     
     if (structuredPages.length === 0) {
-      console.error('No pages found');
+      console.error('[Home] No pages found');
       return <div>Error: No pages found</div>;
     }
 
     const homePage = structuredPages[0];
-    console.log('Home Page:', JSON.stringify(homePage, null, 2));
+    console.log('[Home] Home Page:', JSON.stringify(homePage, null, 2));
 
-    const homePageBlocks = await getBlocks(homePage.id);
-    console.log('Home Page Blocks:', JSON.stringify(homePageBlocks, null, 2));
-
+    console.log('[Home] Rendering home page');
     return (
       <Card>
         <CardHeader>
           <CardTitle>{homePage.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          {homePageBlocks && homePageBlocks.map((block: any, index: number) => (
+          {homePage.content.map((block, index) => (
             <div key={index}>
               {renderBlock(block)}
             </div>
@@ -61,7 +65,7 @@ export default async function Home() {
       </Card>
     );
   } catch (error) {
-    console.error('Error in Home component:', error);
+    console.error('[Home] Error:', error);
     return <div>Error: Failed to load page content</div>;
   }
 }
