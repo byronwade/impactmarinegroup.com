@@ -1,52 +1,35 @@
-import { getStructuredPages, getFlattenedPages } from '@/lib/notion';
-import { renderBlock } from '@/components/NotionBlocks';
-import { notFound } from 'next/navigation';
-import { Metadata } from 'next';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getPageBySlug } from "@/lib/sanity";
+import { RenderBlock } from "@/components/RenderBlock";
+import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }: { params: { slug: string[] } }): Promise<Metadata> {
-  const rootPageId = process.env.NOTION_ROOT_PAGE_ID!;
-  const structuredPages = await getStructuredPages(rootPageId);
-  const flattenedPages = getFlattenedPages(structuredPages);
-  
-  const path = params.slug.join('/');
-  const pageContent = flattenedPages.find(page => page.path === path);
+export async function generateMetadata({ params }: { params: { slug: string[] } }) {
+  const slug = params.slug.join('/');
+  const page = await getPageBySlug(slug);
 
-  if (!pageContent) {
+  if (!page) {
     return {};
   }
 
   return {
-    title: pageContent.seo.ogTitle,
-    description: pageContent.seo.metaDescription,
-    openGraph: {
-      title: pageContent.seo.ogTitle,
-      description: pageContent.seo.ogDescription,
-      images: [{ url: pageContent.seo.ogImageUrl }],
-    },
+    title: page.title,
+    description: page.seo?.metaDescription,
   };
 }
 
 export default async function Page({ params }: { params: { slug: string[] } }) {
-  const rootPageId = process.env.NOTION_ROOT_PAGE_ID!;
-  const structuredPages = await getStructuredPages(rootPageId);
-  const flattenedPages = getFlattenedPages(structuredPages);
-  
-  const path = params.slug.join('/');
-  const pageContent = flattenedPages.find(page => page.path === path);
+  const slug = params.slug.join('/');
+  const page = await getPageBySlug(slug);
 
-  if (!pageContent) {
+  if (!page) {
     notFound();
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{pageContent.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {pageContent.content.map(renderBlock)}
-      </CardContent>
-    </Card>
+    <div>
+      <h1 className="text-3xl font-bold mb-6">{page.title}</h1>
+      {page.content && page.content.map((block, index) => (
+        <RenderBlock key={index} block={block} />
+      ))}
+    </div>
   );
 }
