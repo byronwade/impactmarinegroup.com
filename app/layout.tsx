@@ -8,6 +8,11 @@ import { getMainMenu } from "@/lib/sanity";
 
 const inter = Inter({ subsets: ["latin"] });
 
+interface MenuItem {
+  url: string;
+  label: string;
+}
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +38,7 @@ export default async function RootLayout({
                 </Link>
                 <nav>
                   <ul className="flex space-x-4">
-                    {menu?.items?.map((item, index) => (
+                    {menu?.items?.map((item: MenuItem, index: number) => (
                       <li key={index}>
                         <Link href={item.url} className="hover:underline">
                           {item.label}

@@ -1,7 +1,36 @@
+import React from 'react';
 import Image from 'next/image';
 import { PortableText } from '@portabletext/react';
 
-export function RenderBlock({ block }) {
+// Define an interface for the block prop
+export type Block = {
+  _type: string;
+  asset: {
+    url: string;
+    metadata: {
+      dimensions: { width: number; height: number };
+    };
+  };
+  alt?: string;
+  heading?: string;
+  text?: string;
+  buttonLink?: string;
+  buttonText?: string;
+  imagePosition?: string;
+  componentName?: string;
+  props?: Record<string, unknown>;
+  image: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: { width: number; height: number };
+      };
+    };
+    alt?: string;
+  };
+};
+
+export function RenderBlock({ block }: { block: Block }) {
   switch (block._type) {
     case 'image':
       return (
@@ -39,6 +68,14 @@ export function RenderBlock({ block }) {
               className="object-cover w-full h-full"
             />
           </div>
+        </div>
+      );
+    case 'customComponent':
+      // You can implement custom rendering logic here based on the component name and props
+      return (
+        <div>
+          <p>Custom Component: {block.componentName}</p>
+          <pre>{JSON.stringify(block.props, null, 2)}</pre>
         </div>
       );
     default:

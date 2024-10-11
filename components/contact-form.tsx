@@ -32,7 +32,7 @@ export const ContactForm = () => {
         setSubmitMessage('Failed to send message. Please try again.');
       }
     } catch (error) {
-      setSubmitMessage('An error occurred. Please try again later.');
+      setSubmitMessage('An error occurred. Please try again later. Error: ' + error);
     } finally {
       setIsSubmitting(false);
     }

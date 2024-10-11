@@ -1,5 +1,5 @@
 import { getPageBySlug } from "@/lib/sanity";
-import { RenderBlock } from "@/components/RenderBlock";
+import { RenderBlock, Block } from "@/components/RenderBlock";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { slug: string[] } }) {
@@ -25,11 +25,38 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   }
 
   return (
-    <div>
+    <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">{page.title}</h1>
-      {page.content && page.content.map((block, index) => (
-        <RenderBlock key={index} block={block} />
+      {page.content && page.content.map((block: ContentBlock, index: number) => (
+        <RenderBlock key={index} block={block as unknown as Block} />
       ))}
     </div>
   );
+}
+
+interface ContentBlock {
+  _type: string;
+  asset?: {
+    url: string;
+    metadata: {
+      dimensions: { width: number; height: number };
+    };
+  };
+  alt?: string;
+  heading?: string;
+  text?: string;
+  buttonLink?: string;
+  buttonText?: string;
+  imagePosition?: string;
+  componentName?: string;
+  props?: Record<string, unknown>;
+  image?: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: { width: number; height: number };
+      };
+    };
+    alt?: string;
+  };
 }
