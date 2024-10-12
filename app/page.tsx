@@ -1,7 +1,10 @@
 import { getHomePage } from '@/lib/sanity';
 import { RenderBlock, Block } from '@/components/RenderBlock';
 import { Metadata } from 'next';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { InstagramFeed } from '@/components/instagram-feed';
+import { LeaderSection } from '@/components/leader-section';
+import { BoatShowcase } from '@/components/boat-showcase';
 
 export async function generateMetadata(): Promise<Metadata> {
   console.log('[generateMetadata] Starting');
@@ -41,9 +44,12 @@ export default async function Home() {
 
     return (
       <div>
-          {homePage.content && homePage.content.map((block, index) => (
+          {homePage.content && homePage.content.map((block: Block, index: number) => (
             <RenderBlock key={index} block={block as unknown as Block} />
           ))}
+          <BoatShowcase />
+          <LeaderSection />
+          <InstagramFeed />
       </div>
     );
   } catch (error) {

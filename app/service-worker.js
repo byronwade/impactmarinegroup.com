@@ -1,0 +1,1 @@
+// Empty service worker to prevent 404 errors
