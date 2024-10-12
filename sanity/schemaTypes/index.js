@@ -192,20 +192,9 @@ export const schemaTypes = [
         type: 'array',
         of: [
           {
-            type: 'object',
-            fields: [
-              {
-                name: 'label',
-                title: 'Label',
-                type: 'string',
-              },
-              {
-                name: 'url',
-                title: 'URL',
-                type: 'string',
-              },
-            ],
-          },
+            type: 'reference',
+            to: [{ type: 'page' }]
+          }
         ],
       },
     ],
@@ -483,6 +472,12 @@ export const schemaTypes = [
         },
       },
       {
+        name: 'isHomePage',
+        title: 'Is Home Page',
+        type: 'boolean',
+        description: 'Set this to true for the home page',
+      },
+      {
         name: 'content',
         title: 'Page Content',
         type: 'array',
@@ -545,6 +540,13 @@ export const schemaTypes = [
             of: [{type: 'string'}],
           },
         ],
+      },
+      {
+        name: 'order',
+        title: 'Menu Order',
+        type: 'number',
+        description: 'Order of the page in the main menu (lower numbers appear first)',
+        validation: (Rule) => Rule.required().min(0),
       },
     ],
   }),

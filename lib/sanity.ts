@@ -32,34 +32,42 @@ export interface StructuredPage {
 
 export async function getStructuredPages(): Promise<StructuredPage[]> {
 	const query = `*[_type == "page"] {
-    _id,
-    title,
-    "slug": slug.current,
-    content,
-    seo
-  }`;
+	_id,
+	title,
+	"slug": slug.current,
+	content,
+	seo,
+	order
+	} | order(order asc)`;
 	const pages = await client.fetch(query);
-	return pages.map((page: StructuredPage) => ({
+
+	return pages.map((page: StructuredPage & { order: number }) => ({
 		...page,
-		path: page.slug === "home" ? "" : page.slug,
+		path: page.slug === "home" ? "/" : `/${page.slug}`,
+		isHomePage: page.slug === "home",
 	}));
 }
 
 export async function getPageBySlug(slug: string) {
-  const query = `*[_type == "page" && slug.current == $slug][0] {
-    title,
-    content,
-    seo
-  }`;
-  return client.fetch(query, { slug });
+	const query = `*[_type in ["page", "landingPage"] && slug.current == $slug][0] {
+		_type,
+		_id,
+		title,
+		"slug": slug.current,
+		content,
+		sections,
+		seo,
+		isHomePage,
+		isLandingPage
+	}`;
+	return await client.fetch(query, { slug });
 }
 
-export async function getMainMenu() {
-  const query = `*[_type == "menu" && menuName == "Primary"][0] {
-    items[] {
-      label,
-      url
-    }
-  }`
-  return client.fetch(query)
+export async function getHomePage() {
+	const query = `*[_type == "page" && isHomePage == true][0] {
+		title,
+		content,
+		seo
+	}`;
+	return client.fetch(query);
 }

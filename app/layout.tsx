@@ -4,21 +4,14 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import Link from "next/link";
 import { getStructuredPages } from "@/lib/sanity";
-import { getMainMenu } from "@/lib/sanity";
 
 const inter = Inter({ subsets: ["latin"] });
-
-interface MenuItem {
-  url: string;
-  label: string;
-}
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const menu = await getMainMenu();
   const pages = await getStructuredPages();
 
   return (
@@ -34,17 +27,19 @@ export default async function RootLayout({
             <header className="border-b">
               <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 <Link href="/" className="text-2xl font-bold">
-                  {pages[0]?.title || 'Home'}
+                  Impact Marine
                 </Link>
                 <nav>
                   <ul className="flex space-x-4">
-                    {menu?.items?.map((item: MenuItem, index: number) => (
-                      <li key={index}>
-                        <Link href={item.url} className="hover:underline">
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
+                    {pages
+                      .sort((a, b) => (a.order || 0) - (b.order || 0))
+                      .map((page) => (
+                        <li key={page._id}>
+                          <Link href={page.path} className="hover:underline">
+                            {page.title}
+                          </Link>
+                        </li>
+                      ))}
                   </ul>
                 </nav>
                 <ModeToggle />
