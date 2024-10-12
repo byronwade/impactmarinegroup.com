@@ -78,6 +78,20 @@ export function RenderBlock({ block }: { block: Block }) {
           <pre>{JSON.stringify(block.props, null, 2)}</pre>
         </div>
       );
+    case 'hero':
+      return (
+        <div className="relative h-screen">
+          <video autoPlay muted loop playsInline className="absolute top-0 left-0 w-full h-full object-cover">
+            <source src="/impactlogo.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+            <div className="text-white text-center">
+              <h1 className="text-4xl font-bold mb-4">{block.heading}</h1>
+              <p className="text-xl">{block.tagline}</p>
+            </div>
+          </div>
+        </div>
+      );
     default:
       return <PortableText value={block} />;
   }

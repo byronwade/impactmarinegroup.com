@@ -40,16 +40,11 @@ export default async function Home() {
     console.log('[Home] Rendering home page:', homePage.title);
 
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{homePage.title}</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div>
           {homePage.content && homePage.content.map((block, index) => (
             <RenderBlock key={index} block={block as unknown as Block} />
           ))}
-        </CardContent>
-      </Card>
+      </div>
     );
   } catch (error) {
     console.error('[Home] Error:', error);

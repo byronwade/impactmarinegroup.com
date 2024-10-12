@@ -45,7 +45,7 @@ export default async function RootLayout({
                 <ModeToggle />
               </div>
             </header>
-            <main className="flex-grow container mx-auto px-4 py-8">
+            <main className="flex-grow">
               {children}
             </main>
             <footer className="border-t">
