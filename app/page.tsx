@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { getHomePage } from '@/lib/sanity';
-import { RenderBlock, Block } from '@/components/RenderBlock';
+import { Block } from '@/components/RenderBlock';
 import { Metadata } from 'next';
 
 import { ImprovedBoatSales } from '@/components/improved-boat-sales';

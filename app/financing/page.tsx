@@ -142,7 +142,7 @@ export default function FinancingPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="financingType">Financing Type</Label>
-                  <Select id="financingType">
+                  <Select>
                     <option value="boat">Boat Purchase</option>
                     <option value="service">Service Work</option>
                   </Select>

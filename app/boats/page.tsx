@@ -167,7 +167,7 @@ export default function BoatDealershipPage() {
 							<div className="text-center py-12">
 								<Ship className="mx-auto h-12 w-12 text-muted-foreground" aria-hidden="true" />
 								<h2 className="mt-4 text-lg font-semibold text-foreground">No boats found</h2>
-								<p className="mt-2 text-muted-foreground">Try adjusting your search or filter to find what you're looking for.</p>
+								<p className="mt-2 text-muted-foreground">Try adjusting your search or filter to find what you&apos;re looking for.</p>
 							</div>
 						)}
 					</div>

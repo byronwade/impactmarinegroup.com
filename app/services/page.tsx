@@ -9,7 +9,7 @@ export default function ServicesPage() {
         <section className="text-center mb-16">
           <h1 className="text-4xl font-bold text-blue-800 mb-4">Ocean Dreams Boat Services</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Dive into a world of nautical excellence. From sales to maintenance, we're your compass in the vast sea of boating.
+            Dive into a world of nautical excellence. From sales to maintenance, we&apos;re your compass in the vast sea of boating.
           </p>
         </section>
 
@@ -83,17 +83,17 @@ export default function ServicesPage() {
           <h2 className="text-3xl font-semibold text-blue-700 mb-8 text-center">Our Process</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <ProcessStep
-              number="1"
+              number={1}
               title="Consultation"
               description="Meet with our experts to discuss your boating needs and dreams."
             />
             <ProcessStep
-              number="2"
+              number={2}
               title="Personalized Solution"
               description="We'll craft a tailored plan, whether it's finding your perfect boat or creating a maintenance schedule."
             />
             <ProcessStep
-              number="3"
+              number={3}
               title="Smooth Sailing"
               description="Enjoy the water with confidence, backed by our ongoing support and services."
             />
@@ -142,7 +142,7 @@ export default function ServicesPage() {
   )
 }
 
-function ServiceCard({ icon, title, description, href }) {
+function ServiceCard({ icon, title, description, href }: { icon: React.ReactNode; title: string; description: string; href: string }) {
   return (
     <Link href={href} className="block">
       <div className="bg-white rounded-lg shadow-lg p-6 transition duration-300 hover:shadow-xl border border-blue-100 h-full">
@@ -156,7 +156,7 @@ function ServiceCard({ icon, title, description, href }) {
   )
 }
 
-function ListItem({ icon, text }) {
+function ListItem({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
     <li className="flex items-center space-x-3">
       <div className="flex-shrink-0 w-5 h-5 text-blue-500">
@@ -167,7 +167,7 @@ function ListItem({ icon, text }) {
   )
 }
 
-function ProcessStep({ number, title, description }) {
+function ProcessStep({ number, title, description }: { number: number; title: string; description: string }) {
   return (
     <div className="text-center">
       <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold mb-4">

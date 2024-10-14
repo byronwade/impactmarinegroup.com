@@ -13,16 +13,16 @@ export default function SinglePageDealership() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <p>
-                  Impact Marine Group is more than just a boat dealership – we're your gateway to unforgettable aquatic adventures. Founded by passionate boating enthusiasts, our mission is to provide unparalleled service and top-quality marine products to both seasoned sailors and newcomers to the boating world.
+                  Impact Marine Group is more than just a boat dealership – we&apos;re your gateway to unforgettable aquatic adventures. Founded by passionate boating enthusiasts, our mission is to provide unparalleled service and top-quality marine products to both seasoned sailors and newcomers to the boating world.
                 </p>
                 <p>
-                  Located at 5185 Browns Bridge Rd, our state-of-the-art facility is a testament to our commitment to excellence. We've created a space where customers can explore, learn, and find the perfect vessel for their needs. Our showroom features a wide array of boats, from sleek speedboats to comfortable family cruisers, all hand-picked for their quality and performance.
+                  Located at 5185 Browns Bridge Rd, our state-of-the-art facility is a testament to our commitment to excellence. We&apos;ve created a space where customers can explore, learn, and find the perfect vessel for their needs. Our showroom features a wide array of boats, from sleek speedboats to comfortable family cruisers, all hand-picked for their quality and performance.
                 </p>
                 <p>
-                  What sets Impact Marine Group apart is our team. Each member brings years of experience and a genuine love for boating to the table. We don't just sell boats – we use them, we live and breathe the boating lifestyle. This firsthand experience allows us to provide expert advice and insights that go beyond what you'll find in any product brochure.
+                  What sets Impact Marine Group apart is our team. Each member brings years of experience and a genuine love for boating to the table. We don&apos;t just sell boats – we use them, we live and breathe the boating lifestyle. This firsthand experience allows us to provide expert advice and insights that go beyond what you&apos;ll find in any product brochure.
                 </p>
                 <p>
-                  We believe that boating is more than a hobby – it's a way of life. That's why we're committed to fostering a community of boating enthusiasts. Through our events, workshops, and customer appreciation days, we bring together like-minded individuals who share our passion for the water.
+                  We believe that boating is more than a hobby – it&apos;s a way of life. That&apos;s why we&apos;re committed to fostering a community of boating enthusiasts. Through our events, workshops, and customer appreciation days, we bring together like-minded individuals who share our passion for the water.
                 </p>
               </div>
               <div className="space-y-6">
@@ -148,7 +148,7 @@ export default function SinglePageDealership() {
               ].map((testimonial, index) => (
                 <div key={index} className="bg-gray-100 p-6 rounded-lg">
                   <Star className="w-8 h-8 mb-4 text-yellow-400" />
-                  <p className="mb-4 italic">"{testimonial.text}"</p>
+                  <p className="mb-4 italic">&quot;{testimonial.text}&quot;</p>
                   <p className="font-semibold">{testimonial.name}</p>
                   <p className="text-sm text-gray-600">{testimonial.location}</p>
                 </div>
@@ -161,7 +161,7 @@ export default function SinglePageDealership() {
         <section id="contact" className="space-y-8">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold mb-8">Contact Us</h2>
-            <h3 className="text-xl font-semibold mb-4">We're here to assist you with all your boating needs</h3>
+            <h3 className="text-xl font-semibold mb-4">We&apos;re here to assist you with all your boating needs</h3>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div className="space-y-4">

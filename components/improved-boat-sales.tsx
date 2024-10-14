@@ -8,9 +8,14 @@ import { Badge } from "@/components/ui/badge"
 import { Anchor, Waves, Wind, ChevronRight, ChevronLeft, Heart, MessageCircle, Instagram, Star, Award, Wrench, Users, Quote } from "lucide-react"
 import Image from 'next/image'
 
+interface PostStat {
+  likes: number;
+  comments: number;
+}
+
 export function ImprovedBoatSales() {
   const [currentBoat, setCurrentBoat] = useState(0)
-  const [postStats, setPostStats] = useState([])
+  const [postStats, setPostStats] = useState<PostStat[]>([])
 
   useEffect(() => {
     setPostStats(Array(6).fill(0).map(() => ({

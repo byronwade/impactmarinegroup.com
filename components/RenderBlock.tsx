@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Calendar, ChevronRight, PhoneCall, Play, Pause, CheckCircle2, Send } from "lucide-react";
+import { Calendar, ChevronRight, PhoneCall, Play, Pause, Send } from "lucide-react";
 
 // Define an interface for the block prop
 export type Block = {
@@ -28,6 +28,7 @@ export type Block = {
   imagePosition?: string;
   componentName?: string;
   props?: Record<string, unknown>;
+  subheading?: string;
   image: {
     asset: {
       url: string;

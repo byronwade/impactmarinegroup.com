@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Head from 'next/head'
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -8,17 +8,17 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ExternalLink, Menu, ChevronRight } from "lucide-react"
 import Link from 'next/link'
 
-export default function Component() {
+const PrivacyPolicyPage = () => {
   const [activeSection, setActiveSection] = useState('')
 
-  const sections = [
+  const sections = useMemo(() => [
     { id: 'overview', title: 'Overview' },
     { id: 'vessel-service', title: 'Vessel Service Requirements' },
     { id: 'additional-policies', title: 'Additional Policies' },
     { id: 'scheduling', title: 'Scheduling Services' },
     { id: 'communication', title: 'Communication' },
     { id: 'payment', title: 'Payment Information' },
-  ]
+  ], [])
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId)
@@ -195,7 +195,7 @@ export default function Component() {
                   <ul className="list-disc pl-6 space-y-2 text-gray-600">
                     <li>Cash or Credit card at the time of pick up</li>
                     <li>Call in with your credit card number</li>
-                    <li>Online payment link "Text Request" can be emailed to you along with your invoice (available 24/7)</li>
+                    <li>Online payment link &quot;Text Request&quot; can be emailed to you along with your invoice (available 24/7)</li>
                     <li>We cannot accept checks</li>
                   </ul>
                 </section>
@@ -203,7 +203,7 @@ export default function Component() {
                 <section className="mt-12">
                   <h2 className="text-2xl font-bold mb-4">Questions or Concerns?</h2>
                   <p className="text-gray-600 mb-4">
-                    If you have any questions about our service policies or need further clarification, please don't hesitate to contact us.
+                    If you have any questions about our service policies or need further clarification, please don&apos;t hesitate to contact us.
                   </p>
                   <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                     Contact Us <ExternalLink className="ml-2 h-4 w-4" />
@@ -217,3 +217,5 @@ export default function Component() {
     </>
   )
 }
+
+export default PrivacyPolicyPage;
