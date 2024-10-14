@@ -1,6 +1,6 @@
 'use client'
 
-import { Heart, MessageCircle, Share2, Anchor, Instagram } from "lucide-react"
+import { Heart, MessageCircle, Anchor, Instagram } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
