@@ -11,9 +11,6 @@
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy"
   },
-  "keywords": [
-    "sanity"
-  ],
   "dependencies": {
     "@sanity/cli": "^3.60.0",
     "@sanity/client": "^6.22.1",
@@ -22,7 +19,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanity": "^3.60.0",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "@emailjs/browser": "^4.4.1",
+    "@notionhq/client": "^2.2.15"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^4.0.0",

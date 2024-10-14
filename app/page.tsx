@@ -1,10 +1,11 @@
+import dynamic from 'next/dynamic';
 import { getHomePage } from '@/lib/sanity';
 import { RenderBlock, Block } from '@/components/RenderBlock';
 import { Metadata } from 'next';
 
-import { InstagramFeed } from '@/components/instagram-feed';
-import { LeaderSection } from '@/components/leader-section';
-import { BoatShowcase } from '@/components/boat-showcase';
+import { ImprovedBoatSales } from '@/components/improved-boat-sales';
+
+const DynamicRenderBlock = dynamic(() => import('@/components/RenderBlock').then(mod => mod.RenderBlock), { ssr: false });
 
 export async function generateMetadata(): Promise<Metadata> {
   console.log('[generateMetadata] Starting');
@@ -44,12 +45,10 @@ export default async function Home() {
 
     return (
       <div>
-          {homePage.content && homePage.content.map((block: Block, index: number) => (
-            <RenderBlock key={index} block={block as unknown as Block} />
-          ))}
-          <BoatShowcase />
-          <LeaderSection />
-          <InstagramFeed />
+        {homePage.content && homePage.content.map((block: Block, index: number) => (
+          <DynamicRenderBlock key={index} block={block as unknown as Block} />
+        ))}
+        <ImprovedBoatSales />
       </div>
     );
   } catch (error) {
