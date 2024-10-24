@@ -94,10 +94,13 @@ export function RenderBlock({ block }: { block: Block }) {
 
 			return (
 				<section className="relative h-screen flex items-center justify-center overflow-hidden">
-					<video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" playsInline muted loop preload="metadata" poster="/impact-logo.webp">
-						<source src="/impactlogo.mp4" type="video/mp4" />
-						Your browser does not support the video tag.
-					</video>
+					<div className="absolute top-0 left-0 w-full h-full">
+						<Image src="/impact-logo.webp" alt="Impact Marine Group" layout="fill" objectFit="cover" priority className="block md:hidden" />
+						<video ref={videoRef} className="hidden md:block w-full h-full object-cover" playsInline muted loop preload="metadata" poster="/impact-logo.webp">
+							<source src="/impactlogo.mp4" type="video/mp4" />
+							Your browser does not support the video tag.
+						</video>
+					</div>
 					<div className="relative container mx-auto px-4 py-12 sm:py-24 lg:py-32">
 						<div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
 							<div className="lg:col-span-2 space-y-8">
