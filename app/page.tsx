@@ -1,9 +1,9 @@
 import { getHomePage } from "@/lib/sanity";
-import { Block } from "@/components/RenderBlock";
+import { Block, RenderBlock } from "@/components/RenderBlock";
 import { Metadata } from "next";
-import { RenderBlock } from "@/components/RenderBlock";
+import { Suspense, lazy } from "react";
 
-import { ImprovedBoatSales } from "@/components/improved-boat-sales";
+const ImprovedBoatSales = lazy(() => import("@/components/improved-boat-sales"));
 
 export async function generateMetadata(): Promise<Metadata> {
 	console.log("[generateMetadata] Starting");
@@ -29,26 +29,23 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-	console.log("[Home] Starting");
+	const homePage = await getHomePage();
 
-	try {
-		const homePage = await getHomePage();
-
-		if (!homePage) {
-			console.error("[Home] No home page found");
-			return <div>Error: No home page found</div>;
-		}
-
-		console.log("[Home] Rendering home page:", homePage.title);
-
-		return (
-			<div>
-				{homePage.content && homePage.content.map((block: Block, index: number) => <RenderBlock key={index} block={block as unknown as Block} />)}
-				<ImprovedBoatSales />
-			</div>
-		);
-	} catch (error) {
-		console.error("[Home] Error:", error);
-		return <div>Error: Failed to load page content</div>;
+	if (!homePage) {
+		throw new Error("No home page found");
 	}
+
+	return (
+		<div>
+			{homePage.content &&
+				homePage.content.map((block: Block, index: number) => (
+					<Suspense key={index} fallback={<div>Loading block...</div>}>
+						<RenderBlock block={block as Block} />
+					</Suspense>
+				))}
+			<Suspense fallback={<div>Loading boat sales...</div>}>
+				<ImprovedBoatSales />
+			</Suspense>
+		</div>
+	);
 }

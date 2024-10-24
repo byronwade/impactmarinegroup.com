@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,7 @@ interface PostStat {
 	comments: number;
 }
 
-export function ImprovedBoatSales() {
+export default function ImprovedBoatSales() {
 	const [currentBoat, setCurrentBoat] = useState(0);
 	const [postStats, setPostStats] = useState<PostStat[]>([]);
 
@@ -80,7 +80,7 @@ export function ImprovedBoatSales() {
 						<div className="flex flex-col lg:flex-row items-center justify-between gap-12">
 							<div className="w-full lg:w-3/5 relative">
 								<div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl">
-									<Image alt={`${boats[currentBoat].name} - Luxury boat by Impact Marine Group`} src={boats[currentBoat].image} className="object-cover w-full h-full transition-transform duration-500 hover:scale-105" width={800} height={600} layout="responsive" />
+									<Image alt={`${boats[currentBoat].name} - Luxury boat by Impact Marine Group`} src={boats[currentBoat].image} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority />
 									<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 									<div className="absolute bottom-4 left-4 right-4 text-white">
 										<h3 className="text-2xl font-bold mb-2">{boats[currentBoat].name}</h3>
@@ -296,14 +296,13 @@ export function ImprovedBoatSales() {
 									</CardContent>
 									<div className="relative group">
 										<Image
-											alt={`Beautiful boat showcased by Impact Marine Group on Instagram`}
 											src={["/service-department.webp", "/service-department.webp", "/service-department.webp", "/service-department.webp", "/service-department.webp", "/service-department.webp"][index % 6]}
+											alt={`Beautiful boat showcased by Impact Marine Group on Instagram`}
 											width={400}
 											height={400}
 											className="transition-transform duration-300 group-hover:scale-105 object-cover"
-											onError={(e) => {
-												e.currentTarget.src = "/service-department.webp";
-											}}
+											placeholder="blur"
+											blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg=="
 										/>
 										<div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
 											<Button variant="secondary" size="sm" className="text-xs bg-background/80 hover:bg-background">

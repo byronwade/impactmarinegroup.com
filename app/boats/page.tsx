@@ -157,7 +157,9 @@ export default function BoatInventoryShowcase() {
 		return fakeBoats.filter((boat) => (selectedManufacturer === "All" || boat.Manufacturer === selectedManufacturer) && (selectedCondition === "All" || boat.Condition === selectedCondition));
 	}, [selectedManufacturer, selectedCondition]);
 
-	const displayedBoats = filteredBoats.slice(0, displayCount);
+	const displayedBoats = useMemo(() => {
+		return filteredBoats.slice(0, displayCount);
+	}, [filteredBoats, displayCount]);
 
 	const loadMore = () => {
 		setDisplayCount((prevCount) => Math.min(prevCount + 6, filteredBoats.length));
