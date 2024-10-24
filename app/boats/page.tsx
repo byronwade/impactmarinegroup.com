@@ -221,7 +221,7 @@ export default function BoatInventoryShowcase() {
 									<p className="text-sm font-medium">Price: ${parseInt(boat.Retail).toLocaleString()}</p>
 								</div>
 
-								<Link href="/boat/details/" passHref>
+								<Link href="/boats/details/" passHref>
 									<Button size="sm" className="bg-white text-black hover:bg-gray-200 transition-colors duration-300 shadow-md">
 										Details <ChevronRight className="w-4 h-4 ml-1" />
 									</Button>
