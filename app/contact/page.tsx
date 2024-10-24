@@ -78,7 +78,7 @@ export default function ContactForm() {
 					</div>
 					<div className="space-y-6">
 						<div className="relative h-64 md:h-80">
-							<Image alt="Map to Impact Marine Group" src="https://placehold.co/400x600" width={400} height={600} className="w-full h-full object-cover" layout="fill" />
+							<Image alt="Map to Impact Marine Group" src="https://placehold.co/400x600" width={400} height={600} className="w-full h-full object-cover" />
 						</div>
 						<form className="space-y-4">
 							<Input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
