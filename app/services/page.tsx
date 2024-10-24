@@ -1,180 +1,178 @@
 import Image from 'next/image'
-import Link from 'next/link'
-import { Anchor, LifeBuoy, Compass, Sailboat, Ship, Zap, Award, PhoneCall } from 'lucide-react'
+import { Phone, Wrench, Anchor, Zap, Users, Shield, Snowflake, Music, Sun } from "lucide-react";
 
-export default function ServicesPage() {
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <main className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        <section className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-blue-800 mb-4">Ocean Dreams Boat Services</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Dive into a world of nautical excellence. From sales to maintenance, we&apos;re your compass in the vast sea of boating.
-          </p>
-        </section>
+import { Button } from "@/components/ui/button";
 
-        <section className="mb-20">
-          <h2 className="text-3xl font-semibold text-blue-700 mb-8 text-center">Our Premium Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ServiceCard
-              icon={<Anchor className="w-12 h-12 text-blue-600" />}
-              title="Boat Sales"
-              description="Discover your dream vessel from our curated selection of top-quality boats and yachts."
-              href="/services/boat-sales"
-            />
-            <ServiceCard
-              icon={<LifeBuoy className="w-12 h-12 text-blue-600" />}
-              title="Maintenance & Repair"
-              description="Keep your boat in pristine condition with our expert maintenance and repair services."
-              href="/services/maintenance-repair"
-            />
-            <ServiceCard
-              icon={<Compass className="w-12 h-12 text-blue-600" />}
-              title="Boat Financing"
-              description="Navigate the waters of boat financing with our tailored solutions and expert guidance."
-              href="/services/financing"
-            />
-            <ServiceCard
-              icon={<Sailboat className="w-12 h-12 text-blue-600" />}
-              title="Boat Rentals"
-              description="Experience the joy of boating without ownership through our flexible rental program."
-              href="/services/rentals"
-            />
-            <ServiceCard
-              icon={<Ship className="w-12 h-12 text-blue-600" />}
-              title="Trade-Ins"
-              description="Upgrade your vessel with our hassle-free trade-in services and fair valuations."
-              href="/services/trade-ins"
-            />
-            <ServiceCard
-              icon={<Zap className="w-12 h-12 text-blue-600" />}
-              title="Boating Courses"
-              description="Master the art of seamanship with our comprehensive boating courses for all skill levels."
-              href="/services/courses"
-            />
-          </div>
-        </section>
+export default function ServiceCenterLanding() {
+	const phoneNumber = "770-881-7808";
 
-        <section className="mb-20 bg-white rounded-lg shadow-xl p-8">
-          <h2 className="text-3xl font-semibold text-blue-700 mb-6">Why Choose Ocean Dreams?</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <ul className="space-y-4">
-                <ListItem icon={<Award />} text="Unparalleled expertise in the boating industry" />
-                <ListItem icon={<Anchor />} text="Wide selection of premium boats and yachts" />
-                <ListItem icon={<PhoneCall />} text="Exceptional customer service and support" />
-                <ListItem icon={<Zap />} text="State-of-the-art maintenance facilities" />
-                <ListItem icon={<Compass />} text="Flexible financing options to suit your needs" />
-              </ul>
-            </div>
-            <div className="relative h-64 md:h-auto">
-              <Image
-                src="https://placehold.co/400x600"
-                alt="Luxury yacht on the ocean"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-              />
-            </div>
-          </div>
-        </section>
+	const services = [
+		{
+			icon: Wrench,
+			title: "Comprehensive Engine Service",
+			description: "Our Lead Techs have extensive experience with I/O, Inboard, and PWC engines. We&apos;re certified by leading manufacturers including Yamaha and Indmar Marine Engines, supporting our Tige boater community.",
+		},
+		{
+			icon: Anchor,
+			title: "Repairs & Troubleshooting",
+			description: "From simple maintenance to comprehensive engine repair, our 10,000 sq ft shop is equipped to handle all your boating needs.",
+		},
+		{
+			icon: Snowflake,
+			title: "Winterization Services",
+			description: "Protect your investment during the off-season with our thorough winterization services. We offer several packages to fit your boat's needs, ensuring it's ready to launch when spring arrives.",
+		},
+		{
+			icon: Music,
+			title: "Audio & Lighting Installation",
+			description: "Upgrade your boat with the latest audio systems and LED lighting. Our technicians are skilled in installing and configuring a wide range of devices to enhance your boating experience.",
+		},
+		{
+			icon: Sun,
+			title: "Gel Coat & Fiberglass Repair",
+			description: "Keep your boat looking its best with our expert gel coat and fiberglass repair services. We restore damage and maintain the pristine appearance of your vessel.",
+		},
+		{
+			icon: Zap,
+			title: "Wake Boat Performance",
+			description: "We specialize in wake boat performance enhancements, including surf systems and ballast installation. Maximize your wake for the ultimate riding experience.",
+		},
+		{
+			icon: Users,
+			title: "On-Dock Lake Service",
+			description: "We offer on-dock lake service for inboard and I/O boats. We also provide free pickup from nearby ramps and storage locations for your convenience.",
+		},
+		{
+			icon: Shield,
+			title: "Parts & Accessories",
+			description: "Access our complete catalog of marine supplies, parts, and accessories. From ropes and bumpers to cleaners and waxes, we likely have what you need with next-day delivery for orders placed before 4 PM.",
+		},
+	];
 
-        <section className="mb-20">
-          <h2 className="text-3xl font-semibold text-blue-700 mb-8 text-center">Our Process</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <ProcessStep
-              number={1}
-              title="Consultation"
-              description="Meet with our experts to discuss your boating needs and dreams."
-            />
-            <ProcessStep
-              number={2}
-              title="Personalized Solution"
-              description="We'll craft a tailored plan, whether it's finding your perfect boat or creating a maintenance schedule."
-            />
-            <ProcessStep
-              number={3}
-              title="Smooth Sailing"
-              description="Enjoy the water with confidence, backed by our ongoing support and services."
-            />
-          </div>
-        </section>
+	return (
+		<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+			<main className="container mx-auto px-4 py-8">
+				<section className="text-center mb-12">
+					<h1 className="text-4xl font-bold text-black mb-4">Impact Marine Group Service Center</h1>
+					<p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">Expert marine services on Lake Lanier and beyond. We&apos;re boaters too, and we know how important it is to have your boat running right while keeping it affordable.</p>
+					<Button size="lg" className="bg-black hover:bg-gray-800 text-white">
+						<Phone className="mr-2 h-5 w-5" />
+						Call Now: {phoneNumber}
+					</Button>
+				</section>
 
-        <section className="bg-blue-600 text-white rounded-lg p-8 mb-20">
-          <h2 className="text-3xl font-semibold mb-4">Ready to Set Sail?</h2>
-          <p className="text-xl mb-6">
-            Embark on your nautical journey with Ocean Dreams. Our team of experienced professionals is ready to assist you in finding the perfect boat or service to match your needs.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-white text-blue-600 py-3 px-8 rounded-full text-lg font-semibold hover:bg-blue-100 transition duration-300"
-          >
-            Contact Us Today
-          </Link>
-        </section>
-      </main>
+				<section className="mb-12">
+					<h2 className="text-3xl font-semibold text-black mb-8 text-center">Our Comprehensive Services</h2>
+					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{services.map((service, index) => (
+							<div key={index} className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+								<service.icon className="h-12 w-12 text-black mb-4" />
+								<h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+								<p className="text-gray-600">{service.description}</p>
+							</div>
+						))}
+					</div>
+				</section>
 
-      {/* Schema markup for rich snippets */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: `
-        {
-          "@context": "https://schema.org",
-          "@type": "BoatDealership",
-          "name": "Ocean Dreams Boat Dealership",
-          "description": "Premium boat sales, maintenance, and services for nautical enthusiasts.",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "123 Harbor Drive",
-            "addressLocality": "Seaside",
-            "addressRegion": "CA",
-            "postalCode": "12345",
-            "addressCountry": "US"
-          },
-          "telephone": "+1-234-567-8900",
-          "openingHours": "Mo-Sa 09:00-17:00",
-          "url": "https://www.oceandreamsboats.com",
-          "sameAs": [
-            "https://www.facebook.com/oceandreamsboats",
-            "https://www.instagram.com/oceandreamsboats"
-          ]
-        }
-      `}} />
-    </div>
-  )
-}
+				<section className="bg-gray-100 rounded-lg p-8 mb-12">
+					<h2 className="text-3xl font-semibold text-black mb-6 text-center">Why Choose Impact Marine Group?</h2>
+					<div className="grid md:grid-cols-2 gap-6">
+						<ul className="space-y-4">
+							<li className="flex items-center">
+								<Anchor className="h-5 w-5 text-black mr-2" />
+								<span>Over 10,000 sq ft of fully equipped shop space</span>
+							</li>
+							<li className="flex items-center">
+								<Anchor className="h-5 w-5 text-black mr-2" />
+								<span>Certified technicians with extensive experience</span>
+							</li>
+							<li className="flex items-center">
+								<Anchor className="h-5 w-5 text-black mr-2" />
+								<span>Authorized Indmar and Yamaha Outboards service center</span>
+							</li>
+							<li className="flex items-center">
+								<Anchor className="h-5 w-5 text-black mr-2" />
+								<span>Serving Lake Lanier, Lake Allatoona, Lake Burton, and more</span>
+							</li>
+							<li className="flex items-center">
+								<Anchor className="h-5 w-5 text-black mr-2" />
+								<span>On-dock lake service and free local pickup available</span>
+							</li>
+							<li className="flex items-center">
+								<Anchor className="h-5 w-5 text-black mr-2" />
+								<span>Comprehensive parts catalog with quick delivery</span>
+							</li>
+						</ul>
+						<div className="relative h-[300px] rounded-lg overflow-hidden">
+							<Image src="/service-department.webp" alt="Impact Marine Group Service Center" layout="fill" objectFit="cover" />
+						</div>
+					</div>
+				</section>
 
-function ServiceCard({ icon, title, description, href }: { icon: React.ReactNode; title: string; description: string; href: string }) {
-  return (
-    <Link href={href} className="block">
-      <div className="bg-white rounded-lg shadow-lg p-6 transition duration-300 hover:shadow-xl border border-blue-100 h-full">
-        <div className="flex items-center mb-4">
-          {icon}
-          <h3 className="text-xl font-semibold ml-4 text-blue-700">{title}</h3>
-        </div>
-        <p className="text-gray-600">{description}</p>
-      </div>
-    </Link>
-  )
-}
+				<section className="mb-12">
+					<h2 className="text-3xl font-semibold text-black mb-6 text-center">2024 Boat Winterization Specials</h2>
+					<p className="text-center text-gray-600 mb-6">Save Time, Save Money, And Protect Your Investment.</p>
+					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+						<div className="border border-gray-200 rounded-lg p-6">
+							<h3 className="text-xl font-semibold mb-2">Winterization Station</h3>
+							<p className="text-gray-600 mb-4">While You Wait or Same Day Pick Up – Complete Protection with the convenience of Same Day Service</p>
+							<ul className="list-disc list-inside text-gray-600 mb-4">
+								<li>Draining Water</li>
+								<li>Anti-Freeze throughout system</li>
+								<li>Fogging Oil</li>
+								<li>Fuel Stabilizer</li>
+							</ul>
+							<p className="font-semibold text-2xl mb-2">$229</p>
+							<p className="text-sm text-gray-500">Up to 3 gallons of anti-freeze – additional may incur additional fee</p>
+						</div>
+						<div className="border border-gray-200 rounded-lg p-6">
+							<h3 className="text-xl font-semibold mb-2">Winterization - Drop Off Only</h3>
+							<p className="text-gray-600 mb-4">Complete Protection – Your boat will be ready to go in the spring</p>
+							<ul className="list-disc list-inside text-gray-600 mb-4">
+								<li>Draining Water</li>
+								<li>Anti-Freeze throughout engine</li>
+								<li>Fogging Oil</li>
+								<li>Fuel Stabilizer</li>
+							</ul>
+							<p className="font-semibold text-2xl mb-2">$199</p>
+							<p className="text-sm text-gray-500">Up to 3 gallons of anti-freeze – additional may incur additional fee</p>
+						</div>
+						<div className="border border-gray-200 rounded-lg p-6">
+							<h3 className="text-xl font-semibold mb-2">Winterize and Oil Change Special</h3>
+							<p className="text-gray-600 mb-4">Protect for the winter and be ready for spring!</p>
+							<ul className="list-disc list-inside text-gray-600 mb-4">
+								<li>Complete winterization</li>
+								<li>Complete Oil Change</li>
+							</ul>
+							<p className="font-semibold text-2xl mb-2">$399</p>
+							<p className="text-sm text-gray-500">Up to 6 quarts of standard oil and filter – additional may incur additional fee</p>
+						</div>
+					</div>
+				</section>
 
-function ListItem({ icon, text }: { icon: React.ReactNode; text: string }) {
-  return (
-    <li className="flex items-center space-x-3">
-      <div className="flex-shrink-0 w-5 h-5 text-blue-500">
-        {icon}
-      </div>
-      <span>{text}</span>
-    </li>
-  )
-}
+				<section className="text-center mb-12">
+					<h2 className="text-3xl font-semibold text-black mb-4">Ready to Schedule Your Service?</h2>
+					<p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">Our team is standing by to assist you with all your boating service needs. Don&apos;t wait, call now to speak with a service advisor!</p>
+					<Button size="lg" className="bg-black hover:bg-gray-800 text-white">
+						<Phone className="mr-2 h-5 w-5" />
+						Schedule Now: {phoneNumber}
+					</Button>
+				</section>
 
-function ProcessStep({ number, title, description }: { number: number; title: string; description: string }) {
-  return (
-    <div className="text-center">
-      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 text-2xl font-bold mb-4">
-        {number}
-      </div>
-      <h3 className="text-xl font-semibold mb-2 text-blue-700">{title}</h3>
-      <p className="text-gray-600">{description}</p>
-    </div>
-  )
+				<section className="bg-gray-100 rounded-lg p-8">
+					<h2 className="text-2xl font-semibold text-black mb-4">Important Service Policies</h2>
+					<ul className="list-disc list-inside space-y-2 text-gray-600">
+						<li>Leave your keys in the ignition</li>
+						<li>Provide us with your current engine hours</li>
+						<li>Cover your boat or we&apos;ll assume you prefer it uncovered</li>
+						<li>Remove personal items to keep labor costs down</li>
+						<li>Invoices must be paid before boat can be released</li>
+						<li>Pick up vessels within 3 days of completion to avoid storage fees</li>
+						<li>Parts over $300 or non-returnable parts require a deposit</li>
+						<li>Remote services must be paid for in advance</li>
+					</ul>
+				</section>
+			</main>
+		</div>
+	);
 }
