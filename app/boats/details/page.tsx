@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Printer, ChevronRight, Phone } from "lucide-react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Link from "next/link"
 import { useState } from "react"
 

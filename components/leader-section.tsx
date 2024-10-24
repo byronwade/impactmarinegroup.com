@@ -3,7 +3,7 @@
 import { Anchor, Award, Waves, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
+import Image from "next/legacy/image"
 
 export function LeaderSection() {
   return (

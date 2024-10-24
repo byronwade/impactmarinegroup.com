@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, Anchor, Waves, Wind } from "lucide-react"
 import { Button } from "@/components/ui/button"

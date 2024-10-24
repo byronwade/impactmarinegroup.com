@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -175,9 +175,9 @@ export function ImprovedBoatSales() {
 							</Card>
 
 							<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
-								<div className="md:flex">
+								<div className="md:flex h-full">
 									<div className="md:w-2/5 relative h-full">
-										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/service-department.webp" layout="fill" objectFit="cover" className="absolute inset-0" />
+										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/service-department.webp" width={0} height={0} sizes="100vw" className="w-full h-full absolute object-cover" />
 									</div>
 									<div className="md:w-3/5">
 										<CardHeader className="bg-muted">

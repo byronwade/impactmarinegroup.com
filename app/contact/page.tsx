@@ -5,7 +5,7 @@ import { MapPin, Clock, Phone, Mail } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import Image from 'next/image'
+import Image from "next/legacy/image"
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({

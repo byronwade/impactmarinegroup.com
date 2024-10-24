@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import { Phone, Wrench, Anchor, Zap, Users, Shield, Snowflake, Music, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
