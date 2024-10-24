@@ -5,6 +5,7 @@ import Image from "next/legacy/image";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Link from "next/link";
 
 type Boat = {
 	"Stock Number": string;
@@ -219,9 +220,12 @@ export default function BoatInventoryShowcase() {
 									<p className="text-sm font-medium">Status: {boat.Status}</p>
 									<p className="text-sm font-medium">Price: ${parseInt(boat.Retail).toLocaleString()}</p>
 								</div>
-								<Button size="sm" className="bg-white text-black hover:bg-gray-200 transition-colors duration-300 shadow-md">
-									Details <ChevronRight className="w-4 h-4 ml-1" />
-								</Button>
+
+								<Link href="/boat/details/" passHref>
+									<Button size="sm" className="bg-white text-black hover:bg-gray-200 transition-colors duration-300 shadow-md">
+										Details <ChevronRight className="w-4 h-4 ml-1" />
+									</Button>
+								</Link>
 							</div>
 						</div>
 					</div>

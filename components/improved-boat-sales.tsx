@@ -152,7 +152,7 @@ export function ImprovedBoatSales() {
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
 							<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 								<div className="md:flex">
-									<div className="md:w-2/5 relative h-full">
+									<div className="md:w-2/5 relative">
 										<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="/service-department.webp" layout="fill" objectFit="cover" className="absolute inset-0" />
 									</div>
 									<div className="md:w-3/5">
@@ -176,8 +176,8 @@ export function ImprovedBoatSales() {
 
 							<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 								<div className="md:flex h-full">
-									<div className="md:w-2/5 relative h-full">
-										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/service-department.webp" width={0} height={0} sizes="100vw" className="w-full h-full absolute object-cover" />
+									<div className="md:w-2/5 relative">
+										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/service-department.webp" layout="fill" objectFit="cover" className="absolute inset-0" />
 									</div>
 									<div className="md:w-3/5">
 										<CardHeader className="bg-muted">
@@ -282,7 +282,7 @@ export function ImprovedBoatSales() {
 						</div>
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 							{postStats.map((stats, index) => (
-								<Card key={index} className="overflow-hidden border-2 border-muted hover:border-primary transition-colors duration-300 shadow-lg h-[500px]">
+								<Card key={index} className="overflow-hidden border-2 border-muted hover:border-primary transition-colors duration-300 shadow-lg border-gray-200">
 									<CardContent className="p-4 bg-muted">
 										<div className="flex items-center space-x-4">
 											<span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
