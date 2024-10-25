@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Head from 'next/head'
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,22 +27,24 @@ export default function ImprovedBoatSales() {
 		);
 	}, []);
 
+	// Update the boats array with blob URLs
 	const boats = [
-		{ name: "Luxury Yacht 2024", price: "1,200,000", image: "/service-department.webp" },
-		{ name: "Speedboat Deluxe", price: "500,000", image: "/service-department.webp" },
-		{ name: "Family Cruiser", price: "800,000", image: "/service-department.webp" },
+		{ name: "Luxury Yacht 2024", price: "1,200,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
+		{ name: "Speedboat Deluxe", price: "500,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
+		{ name: "Family Cruiser", price: "800,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
 	];
 
 	const nextBoat = () => setCurrentBoat((prev) => (prev + 1) % boats.length);
 	const prevBoat = () => setCurrentBoat((prev) => (prev - 1 + boats.length) % boats.length);
 
+	// Update the brands array with blob URLs
 	const brands = [
-		{ name: "Godfrey", logo: "/godfrey.svg", width: 100, height: 32 },
-		{ name: "Tige", logo: "/tige.svg", width: 100, height: 32 },
-		{ name: "Lund", logo: "/lund.svg", width: 100, height: 32 },
-		{ name: "Sea Ray", logo: "/sea-ray.svg", width: 100, height: 32 },
-		{ name: "Bayliner", logo: "/bayliner.svg", width: 100, height: 32 },
-		{ name: "Boston Whaler", logo: "/boston-whaler.svg", width: 100, height: 32 },
+		{ name: "Godfrey", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/godfrey-Pbhgg20suUwC4blf8bWW4txkchPNhK.svg", width: 100, height: 32 },
+		{ name: "Tige", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/tige-avcIP20wxoKTaOh3pS0efp3XRQzH0Z.svg", width: 100, height: 32 },
+		{ name: "Lund", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/lund-KUC0wH7IhwrOEoDpPEOHl2JFWhADCi.svg", width: 100, height: 32 },
+		{ name: "Sea Ray", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/sea-ray-5UIgiYv4Aorg9xkclwUcnwvWqoIsnE.svg", width: 100, height: 32 },
+		{ name: "Bayliner", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/bayliner-LPgHiBHT9YSHPN04O74rHdPDHr7qC0.svg", width: 100, height: 32 },
+		{ name: "Boston Whaler", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boston-whaler-xk9g4z2BvtJ82xVCOk6R4jVY3lql5N.svg", width: 100, height: 32 },
 	];
 
 	const testimonials = [
@@ -54,18 +55,13 @@ export default function ImprovedBoatSales() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			<Head>
-				<title>Impact Marine Group | Premium Boat Sales & Services in Georgia</title>
-				<meta name="description" content="Experience luxury and adventure with Impact Marine Group. We offer premium boat sales, charters, and marine services in Georgia. Explore our fleet of yachts, speedboats, and cruisers." />
-			</Head>
-
 			<main>
 				<section aria-label="Featured Brands" className="bg-muted py-6 overflow-hidden hidden md:block">
 					<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 						<div className="flex flex-wrap justify-center gap-8 sm:gap-12 md:gap-16">
 							{brands.map((brand, index) => (
 								<div key={index} className="flex items-center justify-center w-1/2 sm:w-1/3 md:w-1/4 lg:w-auto">
-									<Image className={`w-auto h-[24px] sm:h-[28px] md:h-[32px] grayscale hover:grayscale-0 transition-all duration-300 ${brand.name === "Bayliner" ? "invert" : ""}`} src={brand.logo} alt={`${brand.name} logo`} width={brand.width} height={brand.height} />
+									{brand.logo && <Image className={`w-auto h-[24px] sm:h-[28px] md:h-[32px] grayscale hover:grayscale-0 transition-all duration-300 ${brand.name === "Bayliner" ? "invert" : ""}`} src={brand.logo} alt={`${brand.name} logo`} width={brand.width} height={brand.height} />}
 								</div>
 							))}
 						</div>
@@ -80,7 +76,7 @@ export default function ImprovedBoatSales() {
 						<div className="flex flex-col lg:flex-row items-center justify-between gap-12">
 							<div className="w-full lg:w-3/5 relative">
 								<div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl">
-									<Image alt={`${boats[currentBoat].name} - Luxury boat by Impact Marine Group`} src={boats[currentBoat].image} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority />
+									{boats[currentBoat].image && <Image alt={`${boats[currentBoat].name} - Luxury boat by Impact Marine Group`} src={boats[currentBoat].image} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority />}
 									<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 									<div className="absolute bottom-4 left-4 right-4 text-white">
 										<h3 className="text-2xl font-bold mb-2">{boats[currentBoat].name}</h3>
@@ -124,9 +120,7 @@ export default function ImprovedBoatSales() {
 								{boats.map((boat, index) => (
 									<Card key={index} className={`cursor-pointer transition-all duration-300 ${index === currentBoat ? "ring-2 ring-primary shadow-lg" : "shadow hover:shadow-md"}`}>
 										<CardContent className="p-2">
-											<div className="aspect-video relative overflow-hidden rounded-md">
-												<Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.image} className="object-cover w-full h-full" width={500} height={300} />
-											</div>
+											<div className="aspect-video relative overflow-hidden rounded-md">{boat.image && <Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.image} className="object-cover w-full h-full" width={500} height={300} />}</div>
 											<p className="mt-2 text-sm font-medium truncate">{boat.name}</p>
 										</CardContent>
 									</Card>
@@ -153,7 +147,7 @@ export default function ImprovedBoatSales() {
 							<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 								<div className="md:flex">
 									<div className="md:w-2/5 relative">
-										<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="/service-department.webp" width={500} height={300} className="absolute inset-0 object-cover" />
+										<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" width={500} height={300} className="absolute inset-0 object-cover" />
 									</div>
 									<div className="md:w-3/5">
 										<CardHeader className="bg-muted">
@@ -177,7 +171,7 @@ export default function ImprovedBoatSales() {
 							<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 								<div className="md:flex h-full">
 									<div className="md:w-2/5 relative">
-										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/service-department.webp" width={500} height={300} className="absolute inset-0 object-cover" />
+										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" width={500} height={300} className="absolute inset-0 object-cover" />
 									</div>
 									<div className="md:w-3/5">
 										<CardHeader className="bg-muted">
@@ -295,15 +289,7 @@ export default function ImprovedBoatSales() {
 										</div>
 									</CardContent>
 									<div className="relative group">
-										<Image
-											src={["/service-department.webp", "/service-department.webp", "/service-department.webp", "/service-department.webp", "/service-department.webp", "/service-department.webp"][index % 6]}
-											alt={`Beautiful boat showcased by Impact Marine Group on Instagram`}
-											width={400}
-											height={400}
-											className="transition-transform duration-300 group-hover:scale-105 object-cover"
-											placeholder="blur"
-											blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg=="
-										/>
+										<Image src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" alt={`Beautiful boat showcased by Impact Marine Group on Instagram`} width={400} height={400} className="transition-transform duration-300 group-hover:scale-105 object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg==" />
 										<div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
 											<Button variant="secondary" size="sm" className="text-xs bg-background/80 hover:bg-background">
 												<Heart className="h-4 w-4 mr-1 text-red-500" />

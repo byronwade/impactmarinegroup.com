@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev --turbopack --turbo",
+		"dev": "next dev --turbo",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
@@ -27,6 +27,7 @@
 		"@radix-ui/react-toast": "^1.2.2",
 		"@sanity/client": "^6.22.1",
 		"@sanity/image-url": "^1.0.2",
+		"@vercel/blob": "^0.25.1",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"formik": "^2.4.6",

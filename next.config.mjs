@@ -10,6 +10,12 @@ const nextConfig = {
 				hostname: "**",
 			},
 			{
+				hostname: "*.public.blob.vercel-storage.com",
+			},
+			{
+				hostname: "impactmarinegroup.com",
+			},
+			{
 				hostname: "placehold.co",
 			},
 			{
@@ -19,11 +25,8 @@ const nextConfig = {
 		dangerouslyAllowSVG: true,
 		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
 	},
-	webpack: (config, { dev }) => {
-		if (dev) {
-			config.devtool = "eval";
-		}
-		return config;
+	env: {
+		BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
 	},
 };
 

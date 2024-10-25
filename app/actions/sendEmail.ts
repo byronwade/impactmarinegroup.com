@@ -1,10 +1,5 @@
-/**
- * @typedef {Object} FormData
- * @property {string} name
- * @property {string} email
- */
-
 "use server";
+export const runtime = "edge";
 
 import { Resend } from "resend";
 

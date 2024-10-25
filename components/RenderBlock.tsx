@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from "react";
-import Image from "next/legacy/image";
+import React, { useRef, useState, useEffect } from "react";
 import { PortableText } from "@portabletext/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,7 +53,8 @@ export function RenderBlock({ block }: { block: Block }) {
 
 	switch (block._type) {
 		case "image":
-			return <Image src={block.asset.url} alt={block.alt || ""} width={block.asset.metadata.dimensions.width} height={block.asset.metadata.dimensions.height} className="my-8" />;
+			//return block.asset.url ? <Image src={getBlobUrl("/" + block.asset.url.split("/").pop())} alt={block.alt || ""} width={block.asset.metadata.dimensions.width} height={block.asset.metadata.dimensions.height} className="my-8" /> : null;
+			return null;
 		case "callToAction":
 			return (
 				<div className="bg-blue-100 p-6 my-8 rounded-lg">
@@ -72,9 +72,9 @@ export function RenderBlock({ block }: { block: Block }) {
 						<h2 className="text-2xl font-bold mb-4">{block.heading}</h2>
 						<p>{block.text}</p>
 					</div>
-					<div className="w-1/2">
-						<Image src={block.image.asset.url} alt={block.image.alt || ""} width={block.image.asset.metadata.dimensions.width} height={block.image.asset.metadata.dimensions.height} className="object-cover w-full h-full" />
-					</div>
+					{/* <div className="w-1/2">
+						<Image src={getBlobUrl("/" + block.image.asset.url.split("/").pop())} alt={block.image.alt || ""} width={block.image.asset.metadata.dimensions.width} height={block.image.asset.metadata.dimensions.height} className="object-cover w-full h-full" />
+					</div> */}
 				</div>
 			);
 		case "customComponent":
@@ -94,8 +94,8 @@ export function RenderBlock({ block }: { block: Block }) {
 
 			return (
 				<section className="relative h-screen flex items-center justify-center overflow-hidden">
-					<video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" playsInline muted loop preload="metadata" poster="/boat.webp">
-						<source src="/impactlogo.mp4" type="video/mp4" />
+					<video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" playsInline muted loop preload="metadata" poster="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boat-WpdgiqdkSASGXYJVptrk77IVfslKyO.webp">
+						<source src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/impactlogo-HV2Dx0Ahlp1CxDNLc9mT81i3QKal3X.mp4" type="video/mp4" />
 						Your browser does not support the video tag.
 					</video>
 					<div className="relative container mx-auto px-4 py-12 sm:py-24 lg:py-32">
