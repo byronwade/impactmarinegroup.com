@@ -1,18 +1,18 @@
 import { getHomePage, getPageContent } from "@/lib/sanity";
 import { Block, RenderBlock } from "@/components/RenderBlock";
 import { Metadata } from "next";
-import { Suspense, lazy } from "react";
+import dynamic from "next/dynamic";
 
-const ImprovedBoatSales = lazy(() => import("@/components/improved-boat-sales"));
+const DynamicImprovedBoatSales = dynamic(() => import("@/components/DynamicImprovedBoatSales"), {
+	loading: () => <div>Loading boat sales...</div>,
+});
 
-export const experimental_ppr = true;
+export const runtime = "edge";
 
 export async function generateMetadata(): Promise<Metadata> {
-	console.log("[generateMetadata] Starting");
 	const homePage = await getHomePage();
 
 	if (!homePage) {
-		console.error("[generateMetadata] No home page found");
 		return {
 			title: "Impact Marine Group",
 			description: "Welcome to Impact Marine Group",
@@ -38,14 +38,10 @@ export default async function Home() {
 	}
 
 	return (
-		<div>
-			<Suspense fallback={<div>Loading content...</div>}>
-				<HomePageContent id={homePage._id} />
-			</Suspense>
-			<Suspense fallback={<div>Loading boat sales...</div>}>
-				<ImprovedBoatSales />
-			</Suspense>
-		</div>
+		<>
+			<HomePageContent id={homePage._id} />
+			<DynamicImprovedBoatSales />
+		</>
 	);
 }
 
@@ -53,12 +49,9 @@ async function HomePageContent({ id }: { id: string }) {
 	const content = await getPageContent(id);
 	return (
 		<>
-			{content &&
-				content.map((block: Block, index: number) => (
-					<Suspense key={index} fallback={<div>Loading block...</div>}>
-						<RenderBlock block={block} />
-					</Suspense>
-				))}
+			{content?.map((block: Block, index: number) => (
+				<RenderBlock key={index} block={block} />
+			))}
 		</>
 	);
 }

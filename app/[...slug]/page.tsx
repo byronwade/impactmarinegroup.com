@@ -4,6 +4,7 @@ import { Block, RenderBlock } from "@/components/RenderBlock";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Metadata } from "next";
+export const runtime = "edge";
 
 // Define the parameter type explicitly
 interface Params {

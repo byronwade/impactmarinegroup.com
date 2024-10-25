@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeProvider } from "@/components/theme-provider";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import Header from "@/components/header";
+export const runtime = "edge";
 
 const inter = Inter({ subsets: ["latin"] });
 
