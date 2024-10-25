@@ -52,12 +52,12 @@ export default function BoatDetails() {
 				<div className="grid lg:grid-cols-12 gap-6">
 					<div className="lg:col-span-7 space-y-3">
 						<div className="relative w-full aspect-square">
-							<Image src={mainImage.src} alt="2022 Boatmate Inboard trailer" layout="fill" className="rounded-lg object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+							<Image src={mainImage.src} alt="2022 Boatmate Inboard trailer" width={mainImage.width} height={mainImage.height} className="rounded-lg object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
 						</div>
 						<div className="flex space-x-2 overflow-x-auto py-2">
 							{thumbnails.map((thumb, index) => (
 								<div key={index} className="relative w-20 h-20 flex-shrink-0">
-									<Image src={thumb.src} alt={`Thumbnail ${index + 1}`} layout="fill" className="rounded cursor-pointer hover:opacity-75 object-cover" sizes="80px" onClick={() => setMainImage(thumb)} />
+									<Image src={thumb.src} alt={`Thumbnail ${index + 1}`} width={thumb.width} height={thumb.height} className="rounded cursor-pointer hover:opacity-75 object-cover" sizes="80px" onClick={() => setMainImage(thumb)} />
 								</div>
 							))}
 						</div>

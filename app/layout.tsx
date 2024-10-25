@@ -4,16 +4,17 @@ import Link from 'next/link'
 import { Facebook, Instagram, Twitter, Anchor, Phone, Mail, MapPin } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { ThemeProvider } from "@/components/theme-provider";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import Header from "@/components/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default async function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
+	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={inter.className}>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -109,7 +110,9 @@ export default async function RootLayout({
 						</footer>
 					</div>
 				</ThemeProvider>
+				<GoogleTagManager gtmId="GTM-5K833333" />
+				<GoogleAnalytics gaId="G-5K833333" />
 			</body>
 		</html>
-  );
+	);
 }

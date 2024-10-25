@@ -94,7 +94,7 @@ export function RenderBlock({ block }: { block: Block }) {
 
 			return (
 				<section className="relative h-screen flex items-center justify-center overflow-hidden">
-					<video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" playsInline muted loop preload="metadata" poster="/impact-logo.webp">
+					<video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" playsInline muted loop preload="metadata" poster="/boat.webp">
 						<source src="/impactlogo.mp4" type="video/mp4" />
 						Your browser does not support the video tag.
 					</video>
@@ -118,6 +118,14 @@ export function RenderBlock({ block }: { block: Block }) {
 									<PhoneCall className="h-6 w-6 mr-2" />
 									<span className="text-xl font-semibold">Call Now: (555) 123-4567</span>
 								</div>
+								<div>
+									<Badge variant="secondary" className="text-lg px-3 py-1">
+										<svg className="h-5 w-5 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+											<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+										</svg>
+										<span className="font-bold">4.9 Star Rated</span>
+									</Badge>
+								</div>
 							</div>
 
 							<Card className="w-full max-w-sm bg-white border-none shadow-xl">
@@ -125,7 +133,7 @@ export function RenderBlock({ block }: { block: Block }) {
 									<CardTitle className="text-xl font-semibold text-foreground/90">Get in Touch</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<form onSubmit={handleSubmit} className="space-y-3">
+									<form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
 										<div className="grid grid-cols-2 gap-3">
 											<div className="space-y-1">
 												<Label htmlFor="name" className="text-xs font-medium text-foreground/75">
@@ -170,19 +178,6 @@ export function RenderBlock({ block }: { block: Block }) {
 									</form>
 								</CardContent>
 							</Card>
-						</div>
-					</div>
-
-					<div className="absolute bottom-0 left-0 right-0 flex justify-center p-4 bg-background/30 backdrop-blur-sm">
-						<div className="flex flex-wrap items-center justify-center gap-4">
-							<Image src="https://placehold.co/120x40" alt="Mercury Certified" width={120} height={40} />
-							<Image src="https://placehold.co/120x40" alt="Yamaha Authorized" width={120} height={40} />
-							<Badge variant="secondary" className="text-lg px-3 py-1">
-								<svg className="h-5 w-5 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-									<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-								</svg>
-								<span className="font-bold">4.9 Star Rated</span>
-							</Badge>
 						</div>
 					</div>
 				</section>

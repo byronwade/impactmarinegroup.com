@@ -38,12 +38,12 @@ export default function ImprovedBoatSales() {
 	const prevBoat = () => setCurrentBoat((prev) => (prev - 1 + boats.length) % boats.length);
 
 	const brands = [
-		{ name: "Godfrey", logo: "/service-department.webp", width: 100, height: 32 },
-		{ name: "Tige", logo: "/service-department.webp", width: 100, height: 32 },
-		{ name: "Yamaha", logo: "/service-department.webp", width: 100, height: 32 },
-		{ name: "Sea Ray", logo: "/service-department.webp", width: 100, height: 32 },
-		{ name: "Bayliner", logo: "/service-department.webp", width: 100, height: 32 },
-		{ name: "Boston Whaler", logo: "/service-department.webp", width: 100, height: 32 },
+		{ name: "Godfrey", logo: "/godfrey.svg", width: 100, height: 32 },
+		{ name: "Tige", logo: "/tige.svg", width: 100, height: 32 },
+		{ name: "Lund", logo: "/lund.svg", width: 100, height: 32 },
+		{ name: "Sea Ray", logo: "/sea-ray.svg", width: 100, height: 32 },
+		{ name: "Bayliner", logo: "/bayliner.svg", width: 100, height: 32 },
+		{ name: "Boston Whaler", logo: "/boston-whaler.svg", width: 100, height: 32 },
 	];
 
 	const testimonials = [
@@ -60,12 +60,12 @@ export default function ImprovedBoatSales() {
 			</Head>
 
 			<main>
-				<section aria-label="Featured Brands" className="bg-muted py-6">
-					<div className="container mx-auto max-w-7xl">
-						<div className="flex items-center justify-between space-x-8 overflow-x-auto">
+				<section aria-label="Featured Brands" className="bg-muted py-6 overflow-hidden hidden md:block">
+					<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+						<div className="flex flex-wrap justify-center gap-8 sm:gap-12 md:gap-16">
 							{brands.map((brand, index) => (
-								<div key={index} className="flex-shrink-0">
-									<Image src={brand.logo} alt={`${brand.name} logo`} width={brand.width} height={brand.height} />
+								<div key={index} className="flex items-center justify-center w-1/2 sm:w-1/3 md:w-1/4 lg:w-auto">
+									<Image className={`w-auto h-[24px] sm:h-[28px] md:h-[32px] grayscale hover:grayscale-0 transition-all duration-300 ${brand.name === "Bayliner" ? "invert" : ""}`} src={brand.logo} alt={`${brand.name} logo`} width={brand.width} height={brand.height} />
 								</div>
 							))}
 						</div>
@@ -125,7 +125,7 @@ export default function ImprovedBoatSales() {
 									<Card key={index} className={`cursor-pointer transition-all duration-300 ${index === currentBoat ? "ring-2 ring-primary shadow-lg" : "shadow hover:shadow-md"}`}>
 										<CardContent className="p-2">
 											<div className="aspect-video relative overflow-hidden rounded-md">
-												<Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.image} className="object-cover w-full h-full" width={500} height={300} layout="responsive" />
+												<Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.image} className="object-cover w-full h-full" width={500} height={300} />
 											</div>
 											<p className="mt-2 text-sm font-medium truncate">{boat.name}</p>
 										</CardContent>
@@ -153,7 +153,7 @@ export default function ImprovedBoatSales() {
 							<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 								<div className="md:flex">
 									<div className="md:w-2/5 relative">
-										<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="/service-department.webp" layout="fill" objectFit="cover" className="absolute inset-0" />
+										<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="/service-department.webp" width={500} height={300} className="absolute inset-0 object-cover" />
 									</div>
 									<div className="md:w-3/5">
 										<CardHeader className="bg-muted">
@@ -177,7 +177,7 @@ export default function ImprovedBoatSales() {
 							<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 								<div className="md:flex h-full">
 									<div className="md:w-2/5 relative">
-										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/service-department.webp" layout="fill" objectFit="cover" className="absolute inset-0" />
+										<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/service-department.webp" width={500} height={300} className="absolute inset-0 object-cover" />
 									</div>
 									<div className="md:w-3/5">
 										<CardHeader className="bg-muted">

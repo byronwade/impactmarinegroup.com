@@ -1,9 +1,11 @@
-import { getHomePage } from "@/lib/sanity";
+import { getHomePage, getPageContent } from "@/lib/sanity";
 import { Block, RenderBlock } from "@/components/RenderBlock";
 import { Metadata } from "next";
 import { Suspense, lazy } from "react";
 
 const ImprovedBoatSales = lazy(() => import("@/components/improved-boat-sales"));
+
+export const experimental_ppr = true;
 
 export async function generateMetadata(): Promise<Metadata> {
 	console.log("[generateMetadata] Starting");
@@ -37,15 +39,26 @@ export default async function Home() {
 
 	return (
 		<div>
-			{homePage.content &&
-				homePage.content.map((block: Block, index: number) => (
-					<Suspense key={index} fallback={<div>Loading block...</div>}>
-						<RenderBlock block={block as Block} />
-					</Suspense>
-				))}
+			<Suspense fallback={<div>Loading content...</div>}>
+				<HomePageContent id={homePage._id} />
+			</Suspense>
 			<Suspense fallback={<div>Loading boat sales...</div>}>
 				<ImprovedBoatSales />
 			</Suspense>
 		</div>
+	);
+}
+
+async function HomePageContent({ id }: { id: string }) {
+	const content = await getPageContent(id);
+	return (
+		<>
+			{content &&
+				content.map((block: Block, index: number) => (
+					<Suspense key={index} fallback={<div>Loading block...</div>}>
+						<RenderBlock block={block} />
+					</Suspense>
+				))}
+		</>
 	);
 }

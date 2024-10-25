@@ -104,7 +104,7 @@ export default function ServiceCenterLanding() {
 							</li>
 						</ul>
 						<div className="relative h-[300px] rounded-lg overflow-hidden">
-							<Image src="/service-department.webp" alt="Impact Marine Group Service Center" layout="fill" objectFit="cover" />
+							<Image src="/service-department.webp" alt="Impact Marine Group Service Center" width={500} height={300} className="object-cover" />
 						</div>
 					</div>
 				</section>

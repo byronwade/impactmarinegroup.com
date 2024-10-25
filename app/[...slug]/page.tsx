@@ -1,5 +1,5 @@
 // @ts-expect-error - This is a bug in Next.js
-import { getPageBySlug } from "@/lib/sanity";
+import { getPageBySlug, getPageContent } from "@/lib/sanity";
 import { Block, RenderBlock } from "@/components/RenderBlock";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -16,6 +16,8 @@ interface PageProps {
 }
 
 // Correct the type for the generateMetadata function
+export const experimental_ppr = true;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
 	const slug = params.slug.join("/");
 	const page = await getPageBySlug(slug);
@@ -44,7 +46,23 @@ export default async function Page({ params }: PageProps) {
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<h1 className="text-3xl font-bold mb-6">{page.title}</h1>
-			<Suspense fallback={<div>Loading content...</div>}>{page.content && page.content.map((block: Block, index: number) => <RenderBlock key={index} block={block} />)}</Suspense>
+			<Suspense fallback={<div>Loading content...</div>}>
+				<PageContent id={page._id} />
+			</Suspense>
 		</div>
+	);
+}
+
+async function PageContent({ id }: { id: string }) {
+	const content = await getPageContent(id);
+	return (
+		<>
+			{content &&
+				content.map((block: Block, index: number) => (
+					<Suspense key={index} fallback={<div>Loading block...</div>}>
+						<RenderBlock block={block} />
+					</Suspense>
+				))}
+		</>
 	);
 }

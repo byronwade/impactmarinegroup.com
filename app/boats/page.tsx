@@ -204,7 +204,7 @@ export default function BoatInventoryShowcase() {
 				{displayedBoats.map((boat) => (
 					<div key={boat["Stock Number"]} className="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
 						<div className="aspect-w-4 aspect-h-3">
-							<Image width={1000} height={1000} src="/service-department.webp" alt={`${boat.Manufacturer} ${boat.Model}`} objectFit="cover" className="transition-transform duration-300 group-hover:scale-105" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg==" />
+							<Image width={1000} height={1000} src="/service-department.webp" alt={`${boat.Manufacturer} ${boat.Model}`} className="transition-transform duration-300 group-hover:scale-105 object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg==" />
 						</div>
 						<div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" />
 						<div className="absolute inset-0 flex flex-col justify-between p-6 text-white">

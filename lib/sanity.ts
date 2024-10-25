@@ -1,6 +1,7 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { cache } from 'react';
 
 export const client = createClient({
 	projectId: "f9jkdh97",
@@ -30,13 +31,17 @@ export interface StructuredPage {
 	seo: SEOMetadata;
 }
 
-export async function getStructuredPages(): Promise<StructuredPage[]> {
+// Cache the getStructuredPages function
+export const getStructuredPages = cache(async (): Promise<StructuredPage[]> => {
 	const query = `*[_type == "page"] {
 	_id,
 	title,
 	"slug": slug.current,
-	content,
-	seo,
+	"path": select(
+		slug.current == "home" => "/",
+		"/" + slug.current
+	),
+	"isHomePage": slug.current == "home",
 	order
 	} | order(order asc)`;
 	const pages = await client.fetch(query);
@@ -46,28 +51,38 @@ export async function getStructuredPages(): Promise<StructuredPage[]> {
 		path: page.slug === "home" ? "/" : `/${page.slug}`,
 		isHomePage: page.slug === "home",
 	}));
-}
+});
 
-export async function getPageBySlug(slug: string) {
+// Cache the getPageBySlug function
+export const getPageBySlug = cache(async (slug: string) => {
 	const query = `*[_type in ["page", "landingPage"] && slug.current == $slug][0] {
 		_type,
 		_id,
 		title,
 		"slug": slug.current,
-		content,
-		sections,
-		seo,
-		isHomePage,
-		isLandingPage
+		"path": select(
+			slug.current == "home" => "/",
+			"/" + slug.current
+		),
+		"isHomePage": slug.current == "home",
+		"isLandingPage": _type == "landingPage",
+		seo
 	}`;
 	return await client.fetch(query, { slug });
-}
+});
 
-export async function getHomePage() {
+// Cache the getHomePage function
+export const getHomePage = cache(async () => {
 	const query = `*[_type == "page" && isHomePage == true][0] {
+		_id,
 		title,
-		content,
 		seo
 	}`;
 	return client.fetch(query);
+});
+
+// Add a new function to fetch content separately
+export async function getPageContent(id: string) {
+	const query = `*[_id == $id][0].content`;
+	return client.fetch(query, { id });
 }

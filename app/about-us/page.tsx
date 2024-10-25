@@ -19,7 +19,7 @@ export default function SinglePageDealership() {
 							</div>
 							<div className="space-y-6">
 								<div className="relative h-64 md:h-80">
-									<Image src="https://placehold.co/400x600" alt="Impact Marine Group Showroom" width={500} height={300} objectFit="cover" className="rounded-lg" />
+									<Image src="https://placehold.co/400x600" alt="Impact Marine Group Showroom" width={500} height={300} className="rounded-lg object-cover" />
 								</div>
 								<div className="grid grid-cols-2 gap-4">
 									<div className="bg-white p-4 rounded-lg">
@@ -59,7 +59,7 @@ export default function SinglePageDealership() {
 								</div>
 								<div className="space-y-4">
 									<div className="relative h-64">
-										<Image src="https://placehold.co/400x600" alt="Sea Fox Boat" layout="fill" objectFit="cover" className="rounded-lg" />
+										<Image src="https://placehold.co/400x600" alt="Sea Fox Boat" width={500} height={300} className="rounded-lg object-cover" />
 									</div>
 									<div className="bg-gray-100 p-4 rounded-lg">
 										<h3 className="font-semibold mb-2">Popular Models</h3>
@@ -186,7 +186,7 @@ export default function SinglePageDealership() {
 							</div>
 							<div className="space-y-6">
 								<div className="relative h-64 md:h-80">
-									<Image src="https://placehold.co/400x600" alt="Map to Impact Marine Group" layout="fill" objectFit="cover" className="rounded-lg" />
+									<Image src="https://placehold.co/400x600" alt="Map to Impact Marine Group" width={500} height={300} className="rounded-lg object-cover" />
 								</div>
 								<div className="bg-gray-100 p-4 rounded-lg">
 									<h3 className="font-semibold mb-2">Get in Touch</h3>
