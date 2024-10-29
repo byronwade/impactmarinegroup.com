@@ -1,34 +1,36 @@
 import { headers } from "next/headers";
 import Image from "next/image";
-import ClientVideo from "./ClientVideo";
+import { ClientVideo } from "@/components/ClientVideo";
 
 export default async function HeroBackground() {
 	const viewport = (await headers()).get("x-viewport") ?? "desktop";
-	const poster = "/boat.webp";
-	const videoSrc = "/impactlogo.mp4";
 
 	const imageProps = {
-		src: poster,
+		src: "/boat.webp",
 		alt: "Impact Marine Group boat on water",
 		fill: true,
 		priority: true,
-		sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 50vw",
+		sizes: "100vw",
 		className: "object-cover",
-		quality: 60,
+		quality: 75,
 		loading: "eager",
 		fetchPriority: "high",
-		width: 1920,
-		height: 1080,
+		width: 1200,
+		height: 675,
 	};
 
 	if (viewport === "mobile") {
-		return <Image {...imageProps} />;
+		return (
+			<>
+				<Image {...imageProps} />
+			</>
+		);
 	}
 
 	return (
 		<>
 			<Image {...imageProps} />
-			<ClientVideo videoSrc={videoSrc} />
+			<ClientVideo videoSrc="/impactlogo.mp4" />
 		</>
 	);
 }
