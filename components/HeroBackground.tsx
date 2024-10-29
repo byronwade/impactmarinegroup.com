@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export default async function HeroBackground() {
 	const viewport = (await headers()).get("x-viewport") ?? "desktop";
-	const poster = "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boat-WpdgiqdkSASGXYJVptrk77IVfslKyO.webp";
-	const videoSrc = "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/impactlogo-HV2Dx0Ahlp1CxDNLc9mT81i3QKal3X.mp4";
+	const poster = "/boat.webp";
+	const videoSrc = "/impactlogo.mp4";
 
 	// Base64 blur placeholder
 	const blurDataURL =
