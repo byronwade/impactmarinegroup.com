@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import Image from "next/image";
+import ClientVideo from "./ClientVideo";
 
 export default async function HeroBackground() {
 	const viewport = (await headers()).get("x-viewport") ?? "desktop";
@@ -18,8 +19,6 @@ export default async function HeroBackground() {
 		fetchPriority: "high",
 		width: 1920,
 		height: 1080,
-		placeholder: "blur",
-		blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRg...",
 	};
 
 	if (viewport === "mobile") {
@@ -29,19 +28,7 @@ export default async function HeroBackground() {
 	return (
 		<>
 			<Image {...imageProps} />
-			<video
-				className="absolute top-0 left-0 w-full h-full object-cover opacity-0 transition-opacity duration-300"
-				playsInline
-				muted
-				loop
-				autoPlay
-				preload="none"
-				onLoadedData={(e) => {
-					e.currentTarget.classList.remove("opacity-0");
-				}}
-			>
-				<source src={videoSrc} type="video/mp4" />
-			</video>
+			<ClientVideo videoSrc={videoSrc} />
 		</>
 	);
 }
