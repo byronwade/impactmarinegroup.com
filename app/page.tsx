@@ -1,10 +1,9 @@
-import { getHomePage, getPageContent } from "@/lib/sanity";
-import { Block } from "@/components/RenderBlock";
+import { getHomePage } from "@/lib/sanity";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
-const DynamicRenderBlock = dynamic(() => import("@/components/RenderBlock"), {
+const DynamicHero = dynamic(() => import("@/components/hero"), {
 	loading: () => <div>Loading page content...</div>,
 });
 
@@ -44,21 +43,12 @@ export default async function Home() {
 
 	return (
 		<Suspense fallback={<div>Loading page content...</div>}>
-			<HomePageContent id={homePage._id} />
+			<Suspense fallback={<div>Loading hero...</div>}>
+				<DynamicHero />
+			</Suspense>
 			<Suspense fallback={<div>Loading boat sales...</div>}>
 				<DynamicImprovedBoatSales />
 			</Suspense>
 		</Suspense>
-	);
-}
-
-async function HomePageContent({ id }: { id: string }) {
-	const content = await getPageContent(id);
-	return (
-		<>
-			{content?.map((block: Block, index: number) => (
-				<DynamicRenderBlock key={index} block={block} />
-			))}
-		</>
 	);
 }
