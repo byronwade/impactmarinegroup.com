@@ -1,4 +1,3 @@
-// @ts-expect-error - This is a bug in Next.js
 import { getPageBySlug, getPageContent } from "@/lib/sanity";
 import { Block, RenderBlock } from "@/components/RenderBlock";
 import { notFound } from "next/navigation";

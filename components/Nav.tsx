@@ -4,24 +4,27 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, PhoneCall } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
-
-const navItems = [
-	{ href: "/", label: "Home" },
-	{ href: "/about-us", label: "About Us" },
-	{ href: "/boats", label: "Boats" },
-	{ href: "/services", label: "Services" },
-	{ href: "/financing", label: "Financing" },
-	{ href: "/contact", label: "Contact" },
-];
 
 export default function Nav() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-	const handleNavClick = (label: string) => {
+	const navItems = useMemo(
+		() => [
+			{ href: "/", label: "Home" },
+			{ href: "/about-us", label: "About Us" },
+			{ href: "/boats", label: "Boats" },
+			{ href: "/services", label: "Services" },
+			{ href: "/financing", label: "Financing" },
+			{ href: "/contact", label: "Contact" },
+		],
+		[]
+	);
+
+	const handleNavClick = useCallback((label: string) => {
 		sendGTMEvent({ event: "navClick", value: label });
-	};
+	}, []);
 
 	const handlePhoneClick = () => {
 		sendGTMEvent({ event: "phoneButtonClicked", value: "header" });

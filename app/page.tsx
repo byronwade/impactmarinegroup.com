@@ -2,6 +2,7 @@ import { getHomePage, getPageContent } from "@/lib/sanity";
 import { Block, RenderBlock } from "@/components/RenderBlock";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 const DynamicImprovedBoatSales = dynamic(() => import("@/components/DynamicImprovedBoatSales"), {
 	loading: () => <div>Loading boat sales...</div>,
@@ -38,10 +39,12 @@ export default async function Home() {
 	}
 
 	return (
-		<>
+		<Suspense fallback={<div>Loading page content...</div>}>
 			<HomePageContent id={homePage._id} />
-			<DynamicImprovedBoatSales />
-		</>
+			<Suspense fallback={<div>Loading boat sales...</div>}>
+				<DynamicImprovedBoatSales />
+			</Suspense>
+		</Suspense>
 	);
 }
 

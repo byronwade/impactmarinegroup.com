@@ -1,34 +1,44 @@
 'use client'
 
-import { useState, useCallback } from "react";
+import React from "react";
+import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Anchor, Waves, Wind, ChevronRight, ChevronLeft, Heart, MessageCircle, Instagram, Star, Award, Wrench, Users, Quote } from "lucide-react";
 
-const boats = [
-	{ name: "Luxury Yacht 2024", price: "1,200,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
-	{ name: "Speedboat Deluxe", price: "500,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
-	{ name: "Family Cruiser", price: "800,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
-];
-
-const brands = [
-	{ name: "Godfrey", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/godfrey-Pbhgg20suUwC4blf8bWW4txkchPNhK.svg", width: 100, height: 32 },
-	{ name: "Tige", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/tige-avcIP20wxoKTaOh3pS0efp3XRQzH0Z.svg", width: 100, height: 32 },
-	{ name: "Lund", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/lund-KUC0wH7IhwrOEoDpPEOHl2JFWhADCi.svg", width: 100, height: 32 },
-	{ name: "Sea Ray", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/sea-ray-5UIgiYv4Aorg9xkclwUcnwvWqoIsnE.svg", width: 100, height: 32 },
-	{ name: "Bayliner", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/bayliner-LPgHiBHT9YSHPN04O74rHdPDHr7qC0.svg", width: 100, height: 32 },
-	{ name: "Boston Whaler", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boston-whaler-xk9g4z2BvtJ82xVCOk6R4jVY3lql5N.svg", width: 100, height: 32 },
-];
-
-const testimonials = [
-	{ name: "John D.", text: "The team at Impact Marine Group made buying my first yacht a breeze. Their expertise and customer service are unmatched!", rating: 5 },
-	{ name: "Sarah M.", text: "I've been a loyal customer for years. Their maintenance services keep my boat in top shape season after season.", rating: 5 },
-	{ name: "Mike R.", text: "The selection of boats is impressive. I found exactly what I was looking for at a great price.", rating: 4 },
-];
-
 export default function ImprovedBoatSales() {
+	const boats = useMemo(
+		() => [
+			{ name: "Luxury Yacht 2024", price: "1,200,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
+			{ name: "Speedboat Deluxe", price: "500,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
+			{ name: "Family Cruiser", price: "800,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
+		],
+		[]
+	);
+
+	const brands = useMemo(
+		() => [
+			{ name: "Godfrey", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/godfrey-Pbhgg20suUwC4blf8bWW4txkchPNhK.svg", width: 100, height: 32 },
+			{ name: "Tige", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/tige-avcIP20wxoKTaOh3pS0efp3XRQzH0Z.svg", width: 100, height: 32 },
+			{ name: "Lund", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/lund-KUC0wH7IhwrOEoDpPEOHl2JFWhADCi.svg", width: 100, height: 32 },
+			{ name: "Sea Ray", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/sea-ray-5UIgiYv4Aorg9xkclwUcnwvWqoIsnE.svg", width: 100, height: 32 },
+			{ name: "Bayliner", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/bayliner-LPgHiBHT9YSHPN04O74rHdPDHr7qC0.svg", width: 100, height: 32 },
+			{ name: "Boston Whaler", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boston-whaler-xk9g4z2BvtJ82xVCOk6R4jVY3lql5N.svg", width: 100, height: 32 },
+		],
+		[]
+	);
+
+	const testimonials = useMemo(
+		() => [
+			{ name: "John D.", text: "The team at Impact Marine Group made buying my first yacht a breeze. Their expertise and customer service are unmatched!", rating: 5 },
+			{ name: "Sarah M.", text: "I've been a loyal customer for years. Their maintenance services keep my boat in top shape season after season.", rating: 5 },
+			{ name: "Mike R.", text: "The selection of boats is impressive. I found exactly what I was looking for at a great price.", rating: 4 },
+		],
+		[]
+	);
+
 	const [currentBoat, setCurrentBoat] = useState(0);
 
 	const nextBoat = useCallback(() => setCurrentBoat((prev) => (prev + 1) % boats.length), []);
@@ -38,7 +48,7 @@ export default function ImprovedBoatSales() {
 		<div className="bg-background">
 			<main>
 				<FeaturedBrands brands={brands} />
-				<FleetSection currentBoat={currentBoat} nextBoat={nextBoat} prevBoat={prevBoat} />
+				<FleetSection currentBoat={currentBoat} nextBoat={nextBoat} prevBoat={prevBoat} boats={boats} />
 				<ServicesSection />
 				<TestimonialsSection testimonials={testimonials} />
 				<SocialSection />
@@ -54,7 +64,7 @@ interface Brand {
 	height: number;
 }
 
-function FeaturedBrands({ brands }: { brands: Brand[] }) {
+const FeaturedBrands = React.memo(function FeaturedBrands({ brands }: { brands: Brand[] }) {
 	return (
 		<section aria-label="Featured Brands" className="bg-muted py-6 overflow-hidden hidden md:block">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -68,9 +78,9 @@ function FeaturedBrands({ brands }: { brands: Brand[] }) {
 			</div>
 		</section>
 	);
-}
+});
 
-function FleetSection({ currentBoat, nextBoat, prevBoat }: { currentBoat: number; nextBoat: () => void; prevBoat: () => void }) {
+const FleetSection = React.memo(function FleetSection({ currentBoat, nextBoat, prevBoat, boats }: { currentBoat: number; nextBoat: () => void; prevBoat: () => void; boats: Array<{ name: string; price: string; image: string }> }) {
 	return (
 		<section id="fleet" aria-labelledby="fleet-heading" className="py-16">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
@@ -134,7 +144,7 @@ function FleetSection({ currentBoat, nextBoat, prevBoat }: { currentBoat: number
 			</div>
 		</section>
 	);
-}
+});
 
 function ServicesSection() {
 	return (
