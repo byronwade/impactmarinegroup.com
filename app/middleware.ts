@@ -14,6 +14,12 @@ export default function middleware(request: NextRequest) {
 	// Add the viewport type to headers
 	requestHeaders.set("x-viewport", viewport);
 
+	// Add preconnect for image CDN
+	//requestHeaders.set('Link', '<https://your-image-cdn.com>; rel=preconnect');
+
+	// Add priority hints for LCP image
+	requestHeaders.set("Priority-Hints", "high");
+
 	// Return response with modified headers
 	return NextResponse.next({
 		request: {

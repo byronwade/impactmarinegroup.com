@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 export const runtime = "edge";
@@ -25,7 +25,7 @@ export default async function RootLayout({
 						<Footer />
 					</div>
 				</ThemeProvider>
-				<GoogleTagManager gtmId="GTM-5K833333" />
+				{/* <GoogleTagManager gtmId="GTM-5K833333" /> */}
 				<GoogleAnalytics gaId="G-5K833333" />
 			</body>
 		</html>
