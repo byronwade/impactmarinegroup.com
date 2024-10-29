@@ -10,21 +10,21 @@ import React, { useCallback, useMemo, useState } from "react";
 export default function ImprovedBoatSales() {
 	const boats = useMemo(
 		() => [
-			{ name: "Luxury Yacht 2024", price: "1,200,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
-			{ name: "Speedboat Deluxe", price: "500,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
-			{ name: "Family Cruiser", price: "800,000", image: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" },
+			{ name: "Luxury Yacht 2024", price: "1,200,000", image: "/service-department.webp" },
+			{ name: "Speedboat Deluxe", price: "500,000", image: "/service-department.webp" },
+			{ name: "Family Cruiser", price: "800,000", image: "/service-department.webp" },
 		],
 		[]
 	);
 
 	const brands = useMemo(
 		() => [
-			{ name: "Godfrey", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/godfrey-Pbhgg20suUwC4blf8bWW4txkchPNhK.svg", width: 100, height: 32 },
-			{ name: "Tige", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/tige-avcIP20wxoKTaOh3pS0efp3XRQzH0Z.svg", width: 100, height: 32 },
-			{ name: "Lund", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/lund-KUC0wH7IhwrOEoDpPEOHl2JFWhADCi.svg", width: 100, height: 32 },
-			{ name: "Sea Ray", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/sea-ray-5UIgiYv4Aorg9xkclwUcnwvWqoIsnE.svg", width: 100, height: 32 },
-			{ name: "Bayliner", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/bayliner-LPgHiBHT9YSHPN04O74rHdPDHr7qC0.svg", width: 100, height: 32 },
-			{ name: "Boston Whaler", logo: "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boston-whaler-xk9g4z2BvtJ82xVCOk6R4jVY3lql5N.svg", width: 100, height: 32 },
+			{ name: "Godfrey", logo: "/godfrey.svg", width: 100, height: 32 },
+			{ name: "Tige", logo: "/tige.svg", width: 100, height: 32 },
+			{ name: "Lund", logo: "/lund.svg", width: 100, height: 32 },
+			{ name: "Sea Ray", logo: "/sea-ray.svg", width: 100, height: 32 },
+			{ name: "Bayliner", logo: "/bayliner.svg", width: 100, height: 32 },
+			{ name: "Boston Whaler", logo: "/boston-whaler.svg", width: 100, height: 32 },
 		],
 		[]
 	);
