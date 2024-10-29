@@ -19,6 +19,9 @@ export default function middleware(request: NextRequest) {
 
 	// Add priority hints for LCP image
 	requestHeaders.set("Priority-Hints", "high");
+	requestHeaders.set("X-DNS-Prefetch-Control", "on");
+	requestHeaders.set("Cache-Control", "public, max-age=31536000, immutable");
+
 
 	// Return response with modified headers
 	return NextResponse.next({
