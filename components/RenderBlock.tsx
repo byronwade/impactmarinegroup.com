@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import { PortableText } from "@portabletext/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,17 +39,21 @@ export type Block = {
 	};
 };
 
-export function RenderBlock({ block }: { block: Block }) {
+export default function RenderBlock({ block }: { block: Block }) {
 	const [isSubmitting] = useState(false);
+	const isMobile = useMemo(() => {
+		if (typeof window === "undefined") return false;
+		return /mobile/i.test(window.navigator.userAgent);
+	}, []);
 	const videoRef = useRef<HTMLVideoElement>(null);
 
 	useEffect(() => {
-		if (videoRef.current) {
+		if (videoRef.current && !isMobile) {
 			videoRef.current.play().catch((error) => {
 				console.error("Error attempting to play video:", error);
 			});
 		}
-	}, []);
+	}, [isMobile]);
 
 	switch (block._type) {
 		case "image":
@@ -94,10 +98,19 @@ export function RenderBlock({ block }: { block: Block }) {
 
 			return (
 				<section className="relative h-screen flex items-center justify-center overflow-hidden">
-					<video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" playsInline muted loop preload="none" poster="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boat-WpdgiqdkSASGXYJVptrk77IVfslKyO.webp">
-						<source src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/impactlogo-HV2Dx0Ahlp1CxDNLc9mT81i3QKal3X.mp4" type="video/mp4" />
-						Your browser does not support the video tag.
-					</video>
+					{!isMobile ? (
+						<video ref={videoRef} className="absolute top-0 left-0 w-full h-full object-cover" playsInline muted loop preload="none" poster="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boat-WpdgiqdkSASGXYJVptrk77IVfslKyO.webp">
+							<source src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/impactlogo-HV2Dx0Ahlp1CxDNLc9mT81i3QKal3X.mp4" type="video/mp4" />
+							Your browser does not support the video tag.
+						</video>
+					) : (
+						<div
+							className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+							style={{
+								backgroundImage: `url('https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/boat-WpdgiqdkSASGXYJVptrk77IVfslKyO.webp')`,
+							}}
+						/>
+					)}
 					<div className="relative container mx-auto px-4 py-12 sm:py-24 lg:py-32">
 						<div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
 							<div className="lg:col-span-2 space-y-8">

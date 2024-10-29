@@ -1,5 +1,5 @@
 import { getPageBySlug, getPageContent } from "@/lib/sanity";
-import { Block, RenderBlock } from "@/components/RenderBlock";
+import RenderBlock, { Block } from "@/components/RenderBlock";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Metadata } from "next";

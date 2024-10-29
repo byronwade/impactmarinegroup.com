@@ -1,8 +1,12 @@
 import { getHomePage, getPageContent } from "@/lib/sanity";
-import { Block, RenderBlock } from "@/components/RenderBlock";
+import { Block } from "@/components/RenderBlock";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+
+const DynamicRenderBlock = dynamic(() => import("@/components/RenderBlock"), {
+	loading: () => <div>Loading page content...</div>,
+});
 
 const DynamicImprovedBoatSales = dynamic(() => import("@/components/DynamicImprovedBoatSales"), {
 	loading: () => <div>Loading boat sales...</div>,
@@ -53,7 +57,7 @@ async function HomePageContent({ id }: { id: string }) {
 	return (
 		<>
 			{content?.map((block: Block, index: number) => (
-				<RenderBlock key={index} block={block} />
+				<DynamicRenderBlock key={index} block={block} />
 			))}
 		</>
 	);
