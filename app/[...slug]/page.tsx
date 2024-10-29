@@ -12,38 +12,40 @@ interface Params {
 
 // Use the correct type for the props passed to the Page component
 interface PageProps {
-	params: Params;
+	params: Promise<Params>;
 }
 
 // Correct the type for the generateMetadata function
 export const experimental_ppr = true;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-	const slug = params.slug.join("/");
-	const page = await getPageBySlug(slug);
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+    const params = await props.params;
+    const slug = params.slug.join("/");
+    const page = await getPageBySlug(slug);
 
-	if (!page) {
+    if (!page) {
 		return {
 			title: "Page Not Found",
 		};
 	}
 
-	return {
+    return {
 		title: page.seo?.ogTitle || page.title || "Impact Marine Group",
 		description: page.seo?.metaDescription || "Welcome to Impact Marine Group",
 	};
 }
 
 // Update the type for the Page function's props
-export default async function Page({ params }: PageProps) {
-	const slug = params.slug.join("/");
-	const page = await getPageBySlug(slug);
+export default async function Page(props: PageProps) {
+    const params = await props.params;
+    const slug = params.slug.join("/");
+    const page = await getPageBySlug(slug);
 
-	if (!page) {
+    if (!page) {
 		notFound();
 	}
 
-	return (
+    return (
 		<div className="container mx-auto px-4 py-8">
 			<h1 className="text-3xl font-bold mb-6">{page.title}</h1>
 			<Suspense fallback={<div>Loading content...</div>}>

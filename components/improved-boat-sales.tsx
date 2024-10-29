@@ -1,12 +1,11 @@
 'use client'
 
-import React from "react";
-import { useState, useCallback, useMemo } from "react";
-import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Anchor, Waves, Wind, ChevronRight, ChevronLeft, Heart, MessageCircle, Instagram, Star, Award, Wrench, Users, Quote } from "lucide-react";
+import { Anchor, Award, ChevronLeft, ChevronRight, Heart, Instagram, MessageCircle, Quote, Star, Users, Waves, Wind, Wrench } from "lucide-react";
+import Image from "next/image";
+import React, { useCallback, useMemo, useState } from "react";
 
 export default function ImprovedBoatSales() {
 	const boats = useMemo(
@@ -41,8 +40,8 @@ export default function ImprovedBoatSales() {
 
 	const [currentBoat, setCurrentBoat] = useState(0);
 
-	const nextBoat = useCallback(() => setCurrentBoat((prev) => (prev + 1) % boats.length), []);
-	const prevBoat = useCallback(() => setCurrentBoat((prev) => (prev - 1 + boats.length) % boats.length), []);
+	const nextBoat = useCallback(() => setCurrentBoat((prev) => (prev + 1) % boats.length), [boats.length]);
+	const prevBoat = useCallback(() => setCurrentBoat((prev) => (prev - 1 + boats.length) % boats.length), [boats.length]);
 
 	return (
 		<div className="bg-background">

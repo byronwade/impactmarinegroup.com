@@ -1,7 +1,7 @@
-import Image from "next/legacy/image"
-import { Phone, Wrench, Anchor, Zap, Users, Shield, Snowflake, Music, Sun } from "lucide-react";
-
+import Image from "next/image";
+import { Wrench, Anchor, Zap, Users, Shield, Snowflake, Music, Sun, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function ServiceCenterLanding() {
 	const phoneNumber = "770-881-7808";
@@ -10,7 +10,7 @@ export default function ServiceCenterLanding() {
 		{
 			icon: Wrench,
 			title: "Comprehensive Engine Service",
-			description: "Our Lead Techs have extensive experience with I/O, Inboard, and PWC engines. We&apos;re certified by leading manufacturers including Yamaha and Indmar Marine Engines, supporting our Tige boater community.",
+			description: "Our Lead Techs have extensive experience with I/O, Inboard, and PWC engines. We're certified by leading manufacturers including Yamaha and Indmar Marine Engines, supporting our Tige boater community.",
 		},
 		{
 			icon: Anchor,
@@ -51,117 +51,112 @@ export default function ServiceCenterLanding() {
 
 	return (
 		<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-			<main className="container mx-auto px-4 py-8">
-				<section className="text-center mb-12">
-					<h1 className="text-4xl font-bold text-black mb-4">Impact Marine Group Service Center</h1>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">Expert marine services on Lake Lanier and beyond. We&apos;re boaters too, and we know how important it is to have your boat running right while keeping it affordable.</p>
-					<Button size="lg" className="bg-black hover:bg-gray-800 text-white">
-						<Phone className="mr-2 h-5 w-5" />
-						Call Now: {phoneNumber}
+			<main className="space-y-16">
+				<section className="text-center">
+					<h1 className="text-4xl font-bold mb-4">Impact Marine Group Service Center</h1>
+					<p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">Expert marine services on Lake Lanier and beyond. We&apos;re boaters too, and we know how important it is to have your boat running right while keeping it affordable.</p>
+					<Button asChild className="inline-flex">
+						<a href={`tel:+1${phoneNumber.replace(/-/g, "")}`} className="hidden md:inline-flex items-center text-xs" aria-label="Call us">
+							<PhoneCall className="h-3 w-3 mr-2" />
+							{phoneNumber}
+						</a>
 					</Button>
 				</section>
 
-				<section className="mb-12">
-					<h2 className="text-3xl font-semibold text-black mb-8 text-center">Our Comprehensive Services</h2>
-					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<section>
+					<h2 className="text-3xl font-semibold mb-8 text-center">Our Comprehensive Services</h2>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 						{services.map((service, index) => (
-							<div key={index} className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-								<service.icon className="h-12 w-12 text-black mb-4" />
-								<h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-								<p className="text-gray-600">{service.description}</p>
-							</div>
+							<Card key={index} className="hover:shadow-lg transition-shadow">
+								<CardHeader>
+									<service.icon className="h-12 w-12 mb-4" />
+									<CardTitle>{service.title}</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<p className="text-muted-foreground">{service.description}</p>
+								</CardContent>
+							</Card>
 						))}
 					</div>
 				</section>
 
-				<section className="bg-gray-100 rounded-lg p-8 mb-12">
-					<h2 className="text-3xl font-semibold text-black mb-6 text-center">Why Choose Impact Marine Group?</h2>
-					<div className="grid md:grid-cols-2 gap-6">
+				<section className="bg-secondary rounded-lg p-8">
+					<h2 className="text-3xl font-semibold text-secondary-foreground mb-6 text-center">Why Choose Impact Marine Group?</h2>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 						<ul className="space-y-4">
-							<li className="flex items-center">
-								<Anchor className="h-5 w-5 text-black mr-2" />
-								<span>Over 10,000 sq ft of fully equipped shop space</span>
-							</li>
-							<li className="flex items-center">
-								<Anchor className="h-5 w-5 text-black mr-2" />
-								<span>Certified technicians with extensive experience</span>
-							</li>
-							<li className="flex items-center">
-								<Anchor className="h-5 w-5 text-black mr-2" />
-								<span>Authorized Indmar and Yamaha Outboards service center</span>
-							</li>
-							<li className="flex items-center">
-								<Anchor className="h-5 w-5 text-black mr-2" />
-								<span>Serving Lake Lanier, Lake Allatoona, Lake Burton, and more</span>
-							</li>
-							<li className="flex items-center">
-								<Anchor className="h-5 w-5 text-black mr-2" />
-								<span>On-dock lake service and free local pickup available</span>
-							</li>
-							<li className="flex items-center">
-								<Anchor className="h-5 w-5 text-black mr-2" />
-								<span>Comprehensive parts catalog with quick delivery</span>
-							</li>
+							{["Over 10,000 sq ft of fully equipped shop space", "Certified technicians with extensive experience", "Authorized Indmar and Yamaha Outboards service center", "Serving Lake Lanier, Lake Allatoona, Lake Burton, and more", "On-dock lake service and free local pickup available", "Comprehensive parts catalog with quick delivery"].map((item, index) => (
+								<li key={index} className="flex items-center">
+									<Anchor className="h-5 w-5 mr-2" />
+									<span className="text-secondary-foreground">{item}</span>
+								</li>
+							))}
 						</ul>
-						<div className="relative h-[300px] rounded-lg overflow-hidden">
-							<Image src="/service-department.webp" alt="Impact Marine Group Service Center" width={500} height={300} className="object-cover" />
+						<div className="relative w-full h-64 md:h-full rounded-lg overflow-hidden">
+							<Image src="/service-department.webp" alt="Impact Marine Group Service Center" layout="fill" objectFit="cover" />
 						</div>
 					</div>
 				</section>
 
-				<section className="mb-12">
-					<h2 className="text-3xl font-semibold text-black mb-6 text-center">2024 Boat Winterization Specials</h2>
-					<p className="text-center text-gray-600 mb-6">Save Time, Save Money, And Protect Your Investment.</p>
-					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-						<div className="border border-gray-200 rounded-lg p-6">
-							<h3 className="text-xl font-semibold mb-2">Winterization Station</h3>
-							<p className="text-gray-600 mb-4">While You Wait or Same Day Pick Up – Complete Protection with the convenience of Same Day Service</p>
-							<ul className="list-disc list-inside text-gray-600 mb-4">
-								<li>Draining Water</li>
-								<li>Anti-Freeze throughout system</li>
-								<li>Fogging Oil</li>
-								<li>Fuel Stabilizer</li>
-							</ul>
-							<p className="font-semibold text-2xl mb-2">$229</p>
-							<p className="text-sm text-gray-500">Up to 3 gallons of anti-freeze – additional may incur additional fee</p>
-						</div>
-						<div className="border border-gray-200 rounded-lg p-6">
-							<h3 className="text-xl font-semibold mb-2">Winterization - Drop Off Only</h3>
-							<p className="text-gray-600 mb-4">Complete Protection – Your boat will be ready to go in the spring</p>
-							<ul className="list-disc list-inside text-gray-600 mb-4">
-								<li>Draining Water</li>
-								<li>Anti-Freeze throughout engine</li>
-								<li>Fogging Oil</li>
-								<li>Fuel Stabilizer</li>
-							</ul>
-							<p className="font-semibold text-2xl mb-2">$199</p>
-							<p className="text-sm text-gray-500">Up to 3 gallons of anti-freeze – additional may incur additional fee</p>
-						</div>
-						<div className="border border-gray-200 rounded-lg p-6">
-							<h3 className="text-xl font-semibold mb-2">Winterize and Oil Change Special</h3>
-							<p className="text-gray-600 mb-4">Protect for the winter and be ready for spring!</p>
-							<ul className="list-disc list-inside text-gray-600 mb-4">
-								<li>Complete winterization</li>
-								<li>Complete Oil Change</li>
-							</ul>
-							<p className="font-semibold text-2xl mb-2">$399</p>
-							<p className="text-sm text-gray-500">Up to 6 quarts of standard oil and filter – additional may incur additional fee</p>
-						</div>
+				<section>
+					<h2 className="text-3xl font-semibold mb-6 text-center">2024 Boat Winterization Specials</h2>
+					<p className="text-center text-muted-foreground mb-8">Save Time, Save Money, And Protect Your Investment.</p>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+						{[
+							{
+								title: "Winterization Station",
+								description: "While You Wait or Same Day Pick Up – Complete Protection with the convenience of Same Day Service",
+								features: ["Draining Water", "Anti-Freeze throughout system", "Fogging Oil", "Fuel Stabilizer"],
+								price: "$229",
+								note: "Up to 3 gallons of anti-freeze – additional may incur additional fee",
+							},
+							{
+								title: "Winterization - Drop Off Only",
+								description: "Complete Protection – Your boat will be ready to go in the spring",
+								features: ["Draining Water", "Anti-Freeze throughout engine", "Fogging Oil", "Fuel Stabilizer"],
+								price: "$199",
+								note: "Up to 3 gallons of anti-freeze – additional may incur additional fee",
+							},
+							{
+								title: "Winterize and Oil Change Special",
+								description: "Protect for the winter and be ready for spring!",
+								features: ["Complete winterization", "Complete Oil Change"],
+								price: "$399",
+								note: "Up to 6 quarts of standard oil and filter – additional may incur additional fee",
+							},
+						].map((plan, index) => (
+							<Card key={index}>
+								<CardHeader>
+									<CardTitle>{plan.title}</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<p className="text-muted-foreground mb-4">{plan.description}</p>
+									<ul className="list-disc list-inside text-muted-foreground mb-4">
+										{plan.features.map((feature, i) => (
+											<li key={i}>{feature}</li>
+										))}
+									</ul>
+									<p className="font-semibold text-2xl mb-2 text-primary">{plan.price}</p>
+									<p className="text-sm text-muted-foreground">{plan.note}</p>
+								</CardContent>
+							</Card>
+						))}
 					</div>
 				</section>
 
-				<section className="text-center mb-12">
-					<h2 className="text-3xl font-semibold text-black mb-4">Ready to Schedule Your Service?</h2>
-					<p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">Our team is standing by to assist you with all your boating service needs. Don&apos;t wait, call now to speak with a service advisor!</p>
-					<Button size="lg" className="bg-black hover:bg-gray-800 text-white">
-						<Phone className="mr-2 h-5 w-5" />
-						Schedule Now: {phoneNumber}
+				<section className="text-center">
+					<h2 className="text-3xl font-semibold mb-4">Ready to Schedule Your Service?</h2>
+					<p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">Our team is standing by to assist you with all your boating service needs. Don&apos;t wait, call now to speak with a service advisor!</p>
+					<Button asChild className="inline-flex">
+						<a href={`tel:+1${phoneNumber.replace(/-/g, "")}`} className="hidden md:inline-flex items-center text-xs" aria-label="Call us">
+							<PhoneCall className="h-3 w-3 mr-2" />
+							{phoneNumber}
+						</a>
 					</Button>
 				</section>
 
-				<section className="bg-gray-100 rounded-lg p-8">
-					<h2 className="text-2xl font-semibold text-black mb-4">Important Service Policies</h2>
-					<ul className="list-disc list-inside space-y-2 text-gray-600">
+				<section className="bg-muted rounded-lg p-8">
+					<h2 className="text-2xl font-semibold mb-4">Important Service Policies</h2>
+					<ul className="list-disc list-inside space-y-2 text-muted-foreground">
 						<li>Leave your keys in the ignition</li>
 						<li>Provide us with your current engine hours</li>
 						<li>Cover your boat or we&apos;ll assume you prefer it uncovered</li>
