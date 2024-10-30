@@ -106,17 +106,17 @@ const FleetSection = React.memo(function FleetSection({ currentBoat, nextBoat, p
 					<div className="w-full lg:w-2/5 space-y-6">
 						<div>
 							<h3 className="text-3xl font-bold mb-2">{boats[currentBoat].name}</h3>
-							<p className="text-lg text-muted-foreground mb-4">Experience unparalleled luxury on the high seas with our latest yacht model.</p>
+							<p className="text-lg text-foreground mb-4">Experience unparalleled luxury on the high seas with our latest yacht model.</p>
 							<div className="flex flex-wrap gap-4 mb-6">
-								<Badge variant="secondary" className="text-sm">
+								<Badge variant="outline" className="text-sm font-medium">
 									<Waves className="w-4 h-4 mr-1" />
 									Length: 120 ft
 								</Badge>
-								<Badge variant="secondary" className="text-sm">
+								<Badge variant="outline" className="text-sm font-medium">
 									<Anchor className="w-4 h-4 mr-1" />
 									Capacity: 12 guests
 								</Badge>
-								<Badge variant="secondary" className="text-sm">
+								<Badge variant="outline" className="text-sm font-medium">
 									<Wind className="w-4 h-4 mr-1" />
 									Speed: 25 knots
 								</Badge>
@@ -150,14 +150,14 @@ function ServicesSection() {
 		<section id="services" aria-labelledby="services-heading" className="py-24 bg-muted">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
 				<div className="text-center mb-16">
-					<Badge variant="secondary" className="mb-4">
+					<Badge variant="outline" className="mb-4 text-foreground font-medium">
 						<Award className="w-4 h-4 mr-2" />
 						Premier Boat Dealer
 					</Badge>
 					<h2 id="services-heading" className="text-4xl md:text-5xl font-bold mb-6">
-						Georgia&apos;s Leader in Boat Sales & Marine Service
+						Georgia's Leader in Boat Sales & Marine Service
 					</h2>
-					<p className="text-xl text-muted-foreground max-w-3xl mx-auto">Offering active boaters the best brands at the best prices, we&apos;re proud to be Lake Lanier&apos;s premier dealer for top boat manufacturers.</p>
+					<p className="text-xl text-foreground max-w-3xl mx-auto">Offering active boaters the best brands at the best prices, we're proud to be Lake Lanier's premier dealer for top boat manufacturers.</p>
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
@@ -172,10 +172,10 @@ function ServicesSection() {
 										<Anchor className="w-6 h-6 mr-3" />
 										Godfrey Pontoons
 									</CardTitle>
-									<p className="text-lg text-muted-foreground">Sweetwater, Aqua Patio, San Pan</p>
+									<p className="text-lg text-foreground">Sweetwater, Aqua Patio, San Pan</p>
 								</CardHeader>
 								<CardContent className="p-6">
-									<p className="text-muted-foreground mb-6">For over 60 years, Godfrey has been building quality boats with innovative layouts and top-performing materials. Powered by Yamaha Outboards, we bring performance and features to you at an affordable price.</p>
+									<p className="text-foreground mb-6">For over 60 years, Godfrey has been building quality boats with innovative layouts and top-performing materials. Powered by Yamaha Outboards, we bring performance and features to you at an affordable price.</p>
 									<Button className="w-full sm:w-auto">
 										Learn More About Godfrey
 										<ChevronRight className="ml-2 h-5 w-5" />
@@ -196,10 +196,10 @@ function ServicesSection() {
 										<Waves className="w-6 h-6 mr-3" />
 										Tige Boats
 									</CardTitle>
-									<p className="text-lg text-muted-foreground">Premium Wakesurfing Experience</p>
+									<p className="text-lg text-foreground">Premium Wakesurfing Experience</p>
 								</CardHeader>
 								<CardContent className="p-6">
-									<p className="text-muted-foreground mb-6">We were blown away by the shape and quality of the wave behind a Tige RZ2. The style, quality, and performance of Tige impressed us so much that our Pro Shop business expanded to become a Tige dealer.</p>
+									<p className="text-foreground mb-6">We were blown away by the shape and quality of the wave behind a Tige RZ2. The style, quality, and performance of Tige impressed us so much that our Pro Shop business expanded to become a Tige dealer.</p>
 									<Button className="w-full sm:w-auto">
 										Explore Tige Boats
 										<ChevronRight className="ml-2 h-5 w-5" />
@@ -214,8 +214,8 @@ function ServicesSection() {
 					<CardContent className="p-8 md:p-12">
 						<div className="flex flex-col md:flex-row items-center justify-between gap-8">
 							<div className="text-center md:text-left md:w-2/3">
-								<h3 className="text-3xl md:text-4xl font-bold mb-4">We Don&apos;t Just Sell Stuff - We Live It!</h3>
-								<p className="text-xl md:text-2xl">Our passion for boating goes beyond sales. We&apos;re active boaters ourselves, ensuring we provide you with the best advice and service based on real-world experience.</p>
+								<h3 className="text-3xl md:text-4xl font-bold mb-4">We Don't Just Sell Stuff - We Live It!</h3>
+								<p className="text-xl md:text-2xl">Our passion for boating goes beyond sales. We're active boaters ourselves, ensuring we provide you with the best advice and service based on real-world experience.</p>
 							</div>
 							<div className="flex flex-wrap justify-center gap-6 md:w-1/3">
 								<div className="flex flex-col items-center">
@@ -226,7 +226,7 @@ function ServicesSection() {
 								</div>
 								<div className="flex flex-col items-center">
 									<div className="bg-primary-foreground/20 rounded-full p-4 mb-2">
-										<Wrench className="w-8 h-8" />
+										<Wrench className="w-8  h-8" />
 									</div>
 									<span className="text-sm font-medium">Quality Service</span>
 								</div>
@@ -264,9 +264,9 @@ function TestimonialsSection({ testimonials }: { testimonials: Array<{ name: str
 								</div>
 								<div className="text-center">
 									<p className="text-lg italic mb-4 relative">
-										<span className="absolute -top-4 -left-2 text-4xl text-muted">&quot;</span>
+										<span className="absolute -top-4 -left-2 text-4xl text-muted">"</span>
 										{testimonial.text}
-										<span className="absolute -bottom-4 -right-2 text-4xl text-muted">&quot;</span>
+										<span className="absolute -bottom-4 -right-2 text-4xl text-muted">"</span>
 									</p>
 									<p className="font-semibold">{testimonial.name}</p>
 									<div className="flex items-center justify-center mt-2">
@@ -309,7 +309,7 @@ function SocialSection() {
 									</span>
 									<div>
 										<p className="text-sm font-medium">Impact Marine Group</p>
-										<p className="text-xs text-muted-foreground">@impactmarinegroup</p>
+										<p className="text-xs text-foreground">@impactmarinegroup</p>
 									</div>
 								</div>
 							</CardContent>
@@ -329,7 +329,7 @@ function SocialSection() {
 							<CardContent className="p-4">
 								<p className="text-sm">
 									<span className="font-medium">impactmarinegroup</span>{" "}
-									<span className="text-muted-foreground">
+									<span className="text-foreground">
 										{["Cruising into the weekend with our latest model! 🚤 #BoatLife", "Perfect day for a test drive on the water. Who wants to join? 🌊", "Just arrived: The all-new SpeedMaster 3000. Come see it in person! 😍", "Summer is calling, and so are our boats! ☀️🛥️ #SummerAdventures", "Sunset cruise on our luxury yacht. This could be you! 🌅 #YachtLife", "New fishing boats in stock! Perfect for your next catch 🎣 #FishingLife"][index]}
 									</span>
 								</p>

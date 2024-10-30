@@ -9,7 +9,6 @@ export default async function HeroBackground() {
 	const imageProps = {
 		src: "/boat.webp",
 		alt: "Impact Marine Group boat on water",
-		fill: true,
 		priority: true,
 		sizes: "100vw",
 		className: "object-cover",
@@ -30,7 +29,6 @@ export default async function HeroBackground() {
 
 	return (
 		<>
-			<Image {...imageProps} />
 			<ClientVideo videoSrc={videoUrl} />
 		</>
 	);
