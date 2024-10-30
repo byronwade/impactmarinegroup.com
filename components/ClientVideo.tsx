@@ -7,7 +7,10 @@ export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 	const [hasError, setHasError] = useState(false);
 
 	const handleLoad = useCallback(() => setIsLoaded(true), []);
-	const handleError = useCallback(() => setHasError(true), []);
+	const handleError = useCallback(() => {
+		setHasError(true);
+		console.warn = function () {}; // Temporarily disable console warnings
+	}, []);
 
 	const videoProps = useMemo(
 		() => ({
@@ -25,6 +28,13 @@ export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 	);
 
 	useEffect(() => {
+		const originalConsoleError = console.error;
+		console.error = (...args) => {
+			if (!args[0]?.includes?.(videoSrc)) {
+				originalConsoleError.apply(console, args);
+			}
+		};
+
 		const preloadVideo = new Promise((resolve, reject) => {
 			const video = document.createElement("video");
 			video.src = videoSrc;
@@ -35,6 +45,7 @@ export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 		preloadVideo.catch(() => setHasError(true));
 
 		return () => {
+			console.error = originalConsoleError; // Restore original console
 			setIsLoaded(false);
 			setHasError(false);
 		};
