@@ -22,7 +22,9 @@ export default async function RootLayout({
 			<body className={inter.className}>
 				<div className="flex flex-col min-h-screen">
 					<Header />
-					<main className="flex-grow">{children}</main>
+					<main role="main" aria-label="Main content" className="flex-grow">
+						{children}
+					</main>
 					<Footer />
 				</div>
 				{/* Move analytics to load after page load */}
