@@ -5,7 +5,7 @@ const nextConfig = {
 		ignoreBuildErrors: true,
 	},
 	experimental: {
-		optimizePackageImports: ['lucide-react'],
+		optimizePackageImports: ["lucide-react"],
 	},
 	compiler: {
 		removeConsole: process.env.NODE_ENV === "production",
@@ -17,9 +17,9 @@ const nextConfig = {
 		minimumCacheTTL: 60,
 		remotePatterns: [
 			{
-				protocol: 'https',
-				hostname: '**',
-			}
+				protocol: "https",
+				hostname: "**",
+			},
 		],
 		dangerouslyAllowSVG: true,
 		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",

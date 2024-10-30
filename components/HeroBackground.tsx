@@ -4,6 +4,7 @@ import { ClientVideo } from "@/components/ClientVideo";
 
 export default async function HeroBackground() {
 	const viewport = (await headers()).get("x-viewport") ?? "desktop";
+	const videoUrl = "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/impactlogo-HV2Dx0Ahlp1CxDNLc9mT81i3QKal3X.mp4";
 
 	const imageProps = {
 		src: "/boat.webp",
@@ -30,7 +31,7 @@ export default async function HeroBackground() {
 	return (
 		<>
 			<Image {...imageProps} />
-			<ClientVideo videoSrc="/impactlogo.mp4" />
+			<ClientVideo videoSrc={videoUrl} />
 		</>
 	);
 }
