@@ -1,8 +1,11 @@
-import { Anchor, Phone, Mail, MapPin, Facebook, Instagram, Twitter } from "lucide-react";
+import { Anchor, Mail, MapPin, Facebook, Instagram, Twitter, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function Footer() {
+	const phoneNumber = "(770) 881-7808";
+	const phoneNumberRaw = "+17708817808";
+
 	return (
 		<footer className="bg-gray-900 text-white">
 			<div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -46,8 +49,10 @@ export default function Footer() {
 						<h4 className="text-lg font-semibold mb-4">Contact Us</h4>
 						<ul className="space-y-2 text-sm sm:text-base">
 							<li className="flex items-center">
-								<Phone className="h-5 w-5 mr-2 flex-shrink-0" />
-								<span>(555) 123-4567</span>
+								<PhoneCall className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
+								<a href={`tel:${phoneNumberRaw}`} className="hover:text-blue-400 transition-colors">
+									{phoneNumber}
+								</a>
 							</li>
 							<li className="flex items-center">
 								<Mail className="h-5 w-5 mr-2 flex-shrink-0" />

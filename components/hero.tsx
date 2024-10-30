@@ -5,6 +5,9 @@ import { PhoneCall, ChevronRight } from "lucide-react";
 import HeroBackground from "./HeroBackground";
 
 export default function Hero() {
+	const phoneNumber = "(770) 881-7808";
+	const phoneNumberRaw = "+17708817808";
+
 	return (
 		<section className="relative w-full h-screen flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
 			<HeroBackground />
@@ -25,8 +28,11 @@ export default function Hero() {
 							</Button>
 						</div>
 						<div className="flex items-center text-white">
-							<PhoneCall className="h-6 w-6 mr-2" />
-							<span className="text-xl font-semibold">Call Now: (555) 123-4567</span>
+							<PhoneCall className="h-6 w-6 mr-2" aria-hidden="true" />
+							<a href={`tel:${phoneNumberRaw}`} className="text-xl font-semibold hover:text-primary transition-colors">
+								<span>Call Now: </span>
+								<span>{phoneNumber}</span>
+							</a>
 						</div>
 						<div>
 							<Badge variant="secondary" className="text-lg px-3 py-1 bg-primary text-white">
