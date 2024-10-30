@@ -1,28 +1,40 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 export function ClientVideo({ videoSrc }: { videoSrc: string }) {
-	console.log("Video URL:", videoSrc);
+	const [isLoaded, setIsLoaded] = useState(false);
+	const [hasError, setHasError] = useState(false);
+
+	useEffect(() => {
+		// Preload the video
+		const video = document.createElement("video");
+		video.src = videoSrc;
+		video.onloadeddata = () => setIsLoaded(true);
+		video.onerror = () => setHasError(true);
+	}, [videoSrc]);
+
+	if (hasError) return null;
 
 	return (
 		<div className="absolute inset-0 w-full h-full">
 			<video
-				className="w-full h-full object-cover opacity-0 transition-opacity duration-300"
+				className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
 				playsInline
 				muted
 				loop
 				autoPlay
-				preload="none"
+				preload="auto"
 				onLoadedData={(e) => {
-					console.log("Video loaded");
-					e.currentTarget.classList.remove("opacity-0");
+					setIsLoaded(true);
+					e.currentTarget.play().catch(console.error);
 				}}
 				onError={(e) => {
 					console.error("Video failed to load:", e);
-					e.currentTarget.style.display = "none";
-					e.currentTarget.innerHTML = "Your browser does not support the video tag.";
+					setHasError(true);
 				}}
 			>
-				<source src={videoSrc} type="video/mp4" />
+				<source src={videoSrc} type="video/mp4" onError={() => setHasError(true)} />
 			</video>
 		</div>
 	);
