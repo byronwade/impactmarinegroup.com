@@ -4,19 +4,7 @@ import { ClientVideo } from "@/components/ClientVideo";
 
 export default async function HeroBackground() {
 	const viewport = (await headers()).get("x-viewport") ?? "desktop";
-	// Use a working video URL - make sure this URL is accessible
-	const videoUrl = "/impactlogo.mp4";
-
-	// Test the video URL before passing it
-	const testVideoAvailability = async (url: string) => {
-		try {
-			const response = await fetch(url, { method: "HEAD" });
-			return response.ok;
-		} catch (error) {
-			console.error("Error testing video availability:", error);
-			return false;
-		}
-	};
+	const videoUrl = "/impactlogo.mp4"; // Local video path
 
 	const imageProps = {
 		src: "/boat.webp",
@@ -39,12 +27,10 @@ export default async function HeroBackground() {
 		);
 	}
 
-	const isVideoAvailable = await testVideoAvailability(videoUrl);
-
 	return (
 		<div className="absolute inset-0 w-full h-full">
 			<Image {...imageProps} />
-			{isVideoAvailable && <ClientVideo videoSrc={videoUrl} />}
+			<ClientVideo videoSrc={videoUrl} />
 		</div>
 	);
 }
