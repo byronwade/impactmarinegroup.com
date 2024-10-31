@@ -5,7 +5,7 @@ import { ClientVideo } from "@/components/ClientVideo";
 export default async function HeroBackground() {
 	const viewport = (await headers()).get("x-viewport") ?? "desktop";
 	// Use a working video URL - make sure this URL is accessible
-	const videoUrl = "https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/impactlogo-HV2Dx0Ahlp1CxDNLc9mT81i3QKal3X.mp4";
+	const videoUrl = "/impactlogo.mp4";
 
 	// Test the video URL before passing it
 	const testVideoAvailability = async (url: string) => {

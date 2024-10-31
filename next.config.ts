@@ -23,7 +23,6 @@ const nextConfig = {
 		],
 		dangerouslyAllowSVG: true,
 		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-		domains: ["2gqfqtxkmitzixum.public.blob.vercel-storage.com"],
 	},
 	env: {
 		BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
