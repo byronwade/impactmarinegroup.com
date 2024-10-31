@@ -1,7 +1,11 @@
 // schemas/index.js
 import {defineType} from 'sanity'
+import siteConfig from './siteConfig' // Import the siteConfig schema
 
 export const schemaTypes = [
+  // Existing schemas...
+
+  siteConfig, // Add siteConfig to the schemaTypes array
   // Boat Listings Schema
   defineType({
     name: 'boat',
@@ -182,7 +186,7 @@ export const schemaTypes = [
     type: 'document',
     fields: [
       {
-        name: 'menuName',
+        name: 'title',
         title: 'Menu Name',
         type: 'string',
       },
@@ -193,11 +197,33 @@ export const schemaTypes = [
         of: [
           {
             type: 'reference',
-            to: [{ type: 'page' }]
-          }
+            to: [{type: 'page'}, {type: 'boat'}, {type: 'service'}],
+          },
+          {
+            type: 'object',
+            name: 'customLink',
+            title: 'Custom Link',
+            fields: [
+              {
+                name: 'title',
+                title: 'Title',
+                type: 'string',
+              },
+              {
+                name: 'href',
+                title: 'URL',
+                type: 'url',
+              },
+            ],
+          },
         ],
       },
     ],
+    preview: {
+      select: {
+        title: 'title',
+      },
+    },
   }),
   // Block Content Schema
   defineType({

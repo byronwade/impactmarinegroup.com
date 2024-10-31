@@ -160,12 +160,9 @@ function ServicesSection() {
 					<p className="text-xl text-foreground max-w-3xl mx-auto">Offering active boaters the best brands at the best prices, we're proud to be Lake Lanier's premier dealer for top boat manufacturers.</p>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+				<div className="grid grid-cols-1 gap-12 mb-16">
 					<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 						<div className="md:flex">
-							<div className="md:w-2/5 relative">
-								<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" width={500} height={300} className="absolute inset-0 object-cover" loading="lazy" />
-							</div>
 							<div className="md:w-3/5">
 								<CardHeader className="bg-muted">
 									<CardTitle className="text-2xl font-bold flex items-center">
@@ -182,13 +179,17 @@ function ServicesSection() {
 									</Button>
 								</CardContent>
 							</div>
+
+							<div className="md:w-2/5 relative">
+								<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="/godfrey-boat.webp" width={500} height={300} className="absolute inset-0 object-cover w-full h-full" loading="lazy" />
+							</div>
 						</div>
 					</Card>
 
 					<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
 						<div className="md:flex h-full">
 							<div className="md:w-2/5 relative">
-								<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" width={500} height={300} className="absolute inset-0 object-cover" loading="lazy" />
+								<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/tige-boat.webp" width={500} height={300} className="absolute inset-0 object-cover w-full h-full" loading="lazy" />
 							</div>
 							<div className="md:w-3/5">
 								<CardHeader className="bg-muted">

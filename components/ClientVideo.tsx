@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -9,12 +9,21 @@ export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 	const handleLoad = useCallback(() => setIsLoaded(true), []);
 	const handleError = useCallback(() => {
 		setHasError(true);
-		console.warn = function () {}; // Temporarily disable console warnings
+		console.warn = function () {};
 	}, []);
 
 	const videoProps = useMemo(
 		() => ({
-			className: `w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`,
+			className: `absolute transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`,
+			style: {
+				position: "absolute",
+				right: "-300px",
+				width: "calc(100vw + 400px)",
+				height: "100%",
+				objectFit: "cover",
+				objectPosition: "center left",
+				transform: "scale(1.1)",
+			},
 			playsInline: true,
 			muted: true,
 			loop: true,
@@ -27,35 +36,17 @@ export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 		[videoSrc, isLoaded, handleLoad, handleError]
 	);
 
-	useEffect(() => {
-		const originalConsoleError = console.error;
-		console.error = (...args) => {
-			if (!args[0]?.includes?.(videoSrc)) {
-				originalConsoleError.apply(console, args);
-			}
-		};
-
-		const preloadVideo = new Promise((resolve, reject) => {
-			const video = document.createElement("video");
-			video.src = videoSrc;
-			video.onloadeddata = resolve;
-			video.onerror = reject;
-		});
-
-		preloadVideo.catch(() => setHasError(true));
-
-		return () => {
-			console.error = originalConsoleError; // Restore original console
-			setIsLoaded(false);
-			setHasError(false);
-		};
-	}, [videoSrc]);
-
 	if (hasError) return null;
 
 	return (
-		<div className="absolute inset-0 w-full h-full">
+		<div className="absolute inset-0 w-full h-full overflow-hidden hidden md:block">
 			<video {...videoProps} />
+			<div
+				className="absolute inset-y-0 left-0 w-[50%] z-10"
+				style={{
+					background: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 70%, transparent 100%)",
+				}}
+			/>
 		</div>
 	);
 }
