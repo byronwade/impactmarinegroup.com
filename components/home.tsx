@@ -1,23 +1,12 @@
 "use client";
 
-import { useMemo, useCallback, useState } from "react";
-import dynamic from "next/dynamic";
+import { useMemo, useCallback, useState, lazy, Suspense } from "react";
 
-const FeaturedBrands = dynamic(() => import("./sections/featured-brands"), {
-	loading: () => <div>Loading featured brands...</div>,
-});
-const FleetSection = dynamic(() => import("./sections/fleet"), {
-	loading: () => <div>Loading fleet...</div>,
-});
-const ServicesSection = dynamic(() => import("./sections/service"), {
-	loading: () => <div>Loading services...</div>,
-});
-const TestimonialsSection = dynamic(() => import("./sections/testimonials"), {
-	loading: () => <div>Loading testimonials...</div>,
-});
-const SocialSection = dynamic(() => import("./sections/instagram"), {
-	loading: () => <div>Loading social...</div>,
-});
+const FeaturedBrands = lazy(() => import("./sections/featured-brands"));
+const FleetSection = lazy(() => import("./sections/fleet"));
+const ServicesSection = lazy(() => import("./sections/service"));
+const TestimonialsSection = lazy(() => import("./sections/testimonials"));
+const SocialSection = lazy(() => import("./sections/instagram"));
 
 export default function Home() {
 	const boats = useMemo(
@@ -58,11 +47,21 @@ export default function Home() {
 	return (
 		<div className="bg-background">
 			<main>
-				<FeaturedBrands brands={brands} />
-				<FleetSection currentBoat={currentBoat} nextBoat={nextBoat} prevBoat={prevBoat} boats={boats} />
-				<ServicesSection />
-				<TestimonialsSection testimonials={testimonials} />
-				<SocialSection />
+				<Suspense fallback={<div>Loading featured brands...</div>}>
+					<FeaturedBrands brands={brands} />
+				</Suspense>
+				<Suspense fallback={<div>Loading fleet...</div>}>
+					<FleetSection currentBoat={currentBoat} nextBoat={nextBoat} prevBoat={prevBoat} boats={boats} />
+				</Suspense>
+				<Suspense fallback={<div>Loading services...</div>}>
+					<ServicesSection />
+				</Suspense>
+				<Suspense fallback={<div>Loading testimonials...</div>}>
+					<TestimonialsSection testimonials={testimonials} />
+				</Suspense>
+				<Suspense fallback={<div>Loading social...</div>}>
+					<SocialSection />
+				</Suspense>
 			</main>
 		</div>
 	);

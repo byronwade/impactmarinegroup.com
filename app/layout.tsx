@@ -2,11 +2,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 //import { GoogleAnalytics } from "@next/third-parties/google";
 
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 
-const Header = dynamic(() => import("@/components/header"));
-const Footer = dynamic(() => import("@/components/footer"));
+const Header = lazy(() => import("@/components/header"));
+const Footer = lazy(() => import("@/components/footer"));
 
 // Optimize font loading
 const inter = Inter({
