@@ -1,27 +1,37 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Mail, Printer, ChevronRight, Phone } from "lucide-react"
-import Image from "next/legacy/image"
-import Link from "next/link"
-import { useState } from "react"
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Mail, Printer, ChevronRight, Phone } from "lucide-react";
+import Image from "next/legacy/image";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { useParams } from "next/navigation";
 
 export default function BoatDetails() {
-  const [mainImage, setMainImage] = useState({
-    src: "https://placehold.co/600x600",
-    width: 600,
-    height: 600
-  });
+	const params = useParams();
+	const slug = params?.slug;
 
-  const thumbnails = [
-    { src: "https://placehold.co/100x100", width: 100, height: 100 },
-    { src: "https://placehold.co/100x100", width: 100, height: 100 },
-    { src: "https://placehold.co/100x100", width: 100, height: 100 },
-    { src: "https://placehold.co/100x100", width: 100, height: 100 },
-  ];
+	const [mainImage, setMainImage] = useState({
+		src: "https://placehold.co/600x600",
+		width: 600,
+		height: 600,
+	});
 
-  return (
+	const thumbnails = useMemo(
+		() => [
+			{ src: "https://placehold.co/100x100", width: 100, height: 100 },
+			{ src: "https://placehold.co/100x100", width: 100, height: 100 },
+			{ src: "https://placehold.co/100x100", width: 100, height: 100 },
+			{ src: "https://placehold.co/100x100", width: 100, height: 100 },
+		],
+		[]
+	);
+
+	// Log the slug for debugging
+	console.log("Boat slug:", slug);
+
+	return (
 		<div className="min-h-screen bg-gray-50">
 			<header className="bg-gray-800 text-white py-2">
 				<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -135,5 +145,5 @@ export default function BoatDetails() {
 				</section>
 			</main>
 		</div>
-  );
+	);
 }

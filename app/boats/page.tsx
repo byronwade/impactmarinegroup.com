@@ -204,7 +204,16 @@ export default function Component() {
 								Request Info
 							</Button>
 							<Button asChild size="sm">
-								<Link href={`/boats/details/${boat["Stock Number"]}`}>
+								<Link
+									href={{
+										pathname: `/boats/${encodeURIComponent(boat["Stock Number"])}`,
+										query: {
+											manufacturer: boat.Manufacturer,
+											model: boat.Model,
+											year: boat["Model Year"],
+										},
+									}}
+								>
 									View Details <ChevronRight className="ml-2 h-4 w-4" />
 								</Link>
 							</Button>
