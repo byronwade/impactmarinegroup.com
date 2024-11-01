@@ -38,7 +38,15 @@ export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 
 	return (
 		<div className="absolute inset-0 w-full h-full overflow-hidden hidden md:block">
-			<video {...videoProps}>
+			<video
+				{...videoProps}
+				onError={(e) => {
+					if (process.env.NODE_ENV === "production") {
+						e.preventDefault();
+						return;
+					}
+				}}
+			>
 				<source src={videoSrc} type="video/mp4" />
 				Your browser does not support the video tag.
 			</video>
