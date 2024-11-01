@@ -127,7 +127,7 @@ const FleetSection = React.memo(function FleetSection({ currentBoat, nextBoat, p
 						</div>
 					</div>
 				</div>
-				<div className="mt-12">
+				{/* <div className="mt-12">
 					<h4 className="text-xl font-semibold mb-4">More from Our Fleet</h4>
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 						{boats.map((boat, index) => (
@@ -139,7 +139,7 @@ const FleetSection = React.memo(function FleetSection({ currentBoat, nextBoat, p
 							</Card>
 						))}
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</section>
 	);
