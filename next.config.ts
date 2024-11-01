@@ -4,8 +4,10 @@ const nextConfig = {
 	typescript: {
 		ignoreBuildErrors: true,
 	},
+	optimizePackageImports: ["lucide-react"],
 	experimental: {
-		optimizePackageImports: ["lucide-react"],
+		optimizeCss: true,
+		optimizeServerComponents: true,
 	},
 	compiler: {
 		removeConsole: process.env.NODE_ENV === "production",
@@ -26,41 +28,6 @@ const nextConfig = {
 	},
 	env: {
 		BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
-	},
-	async headers() {
-		return [
-			{
-				source: "/:path*",
-				headers: [
-					{
-						key: "Access-Control-Allow-Origin",
-						value: "*",
-					},
-					{
-						key: "Access-Control-Allow-Methods",
-						value: "GET, OPTIONS",
-					},
-					{
-						key: "Access-Control-Allow-Headers",
-						value: "Content-Type, Authorization",
-					},
-				],
-			},
-		];
-	},
-	webpack(config: { module: { rules: { test: RegExp; use: { loader: string; options: { publicPath: string; outputPath: string; name: string } } }[] } }) {
-		config.module.rules.push({
-			test: /\.(mp4|webm)$/,
-			use: {
-				loader: "file-loader",
-				options: {
-					publicPath: "/_next/static/videos/",
-					outputPath: "static/videos/",
-					name: "[name].[hash].[ext]",
-				},
-			},
-		});
-		return config;
 	},
 };
 

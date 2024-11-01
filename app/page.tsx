@@ -43,7 +43,6 @@ export default async function Home() {
 
 	return (
 		<>
-			<link rel="preload" href="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/impact-logo-wMN1HDw8zbOwJfRPpBZXCYOsKrjfVI.webp" as="image" type="image/webp" />
 			<div role="region" aria-label="Home page content">
 				<Suspense fallback={<div>Loading page content...</div>}>
 					<DynamicHero />

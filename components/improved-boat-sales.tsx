@@ -312,7 +312,7 @@ function SocialSection() {
 								</div>
 							</CardContent>
 							<div className="relative group">
-								<Image src="https://2gqfqtxkmitzixum.public.blob.vercel-storage.com/service-department-64nOGoKYBK1mgMV0VLU49TnYFlbuw6.webp" alt={`Beautiful boat showcased by Impact Marine Group on Instagram`} width={400} height={400} className="transition-transform duration-300 group-hover:scale-105 object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg==" loading="lazy" />
+								<Image src="/service-department.webp" alt={`Beautiful boat showcased by Impact Marine Group on Instagram`} width={400} height={400} className="transition-transform duration-300 group-hover:scale-105 object-cover" placeholder="blur" blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+F9PQAI8wNPvd7POQAAAABJRU5ErkJggg==" loading="lazy" />
 								<div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
 									<Button variant="secondary" size="sm" className="text-xs bg-background/80 hover:bg-background">
 										<Heart className="h-4 w-4 mr-1 text-red-500" />
