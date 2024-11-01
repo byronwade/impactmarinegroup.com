@@ -79,17 +79,8 @@ const FeaturedBrands = React.memo(function FeaturedBrands({ brands }: { brands: 
 	);
 });
 
-const BoatImage = memo(function BoatImage({ boat, priority }: { boat: unknown; priority?: boolean }) {
-	return (
-		<div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl">
-			{boat.image && <Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.image} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px" priority={priority} quality={85} />}
-			<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-			<div className="absolute bottom-4 left-4 right-4 text-white">
-				<h3 className="text-2xl font-bold mb-2">{boat.name}</h3>
-				<p className="text-lg font-semibold">${boat.price}</p>
-			</div>
-		</div>
-	);
+const BoatImage = memo(function BoatImage({ boat, priority }: { boat: { image: string; name: string }; priority?: boolean }) {
+	return <div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl">{boat.image && <Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.image} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={priority} quality={75} loading={priority ? "eager" : "lazy"} />}</div>;
 });
 
 const FleetSection = React.memo(function FleetSection({ currentBoat, nextBoat, prevBoat, boats }: { currentBoat: number; nextBoat: () => void; prevBoat: () => void; boats: Array<{ name: string; price: string; image: string }> }) {

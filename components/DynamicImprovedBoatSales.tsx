@@ -4,13 +4,21 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 const ImprovedBoatSales = dynamic(() => import("@/components/improved-boat-sales"), {
-	loading: () => <div className="w-full h-[600px] animate-pulse bg-muted/50 rounded-xl" />,
+	loading: () => <LoadingSkeleton />,
 	ssr: false,
 });
 
+function LoadingSkeleton() {
+	return (
+		<div className="w-full">
+			<div className="w-full h-[600px] animate-pulse bg-muted/50 rounded-xl" />
+		</div>
+	);
+}
+
 export default function DynamicImprovedBoatSales() {
 	return (
-		<Suspense fallback={<div className="w-full h-[600px] animate-pulse bg-muted/50 rounded-xl" />}>
+		<Suspense fallback={<LoadingSkeleton />}>
 			<ImprovedBoatSales />
 		</Suspense>
 	);
