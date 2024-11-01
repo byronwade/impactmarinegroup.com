@@ -1,8 +1,11 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+
+import dynamic from "next/dynamic";
+
+const Header = dynamic(() => import("@/components/header"));
+const Footer = dynamic(() => import("@/components/footer"));
 
 // Optimize font loading
 const inter = Inter({
@@ -10,7 +13,6 @@ const inter = Inter({
 	display: "swap", // Add display swap for better font loading
 });
 
-export const runtime = "edge";
 
 export default async function RootLayout({
 	children,

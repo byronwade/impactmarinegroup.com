@@ -7,8 +7,8 @@ export default function Footer() {
 	const phoneNumberRaw = "+17708817808";
 
 	return (
-		<footer className="bg-gray-900 text-white">
-			<div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+		<footer className="bg-gray-900 text-white min-h-[400px] w-full flex-shrink-0">
+			<div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 h-full">
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 					<div className="mb-8 sm:mb-0">
 						<Anchor className="h-8 w-8 mb-4" />
