@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Anchor, Award, ChevronLeft, ChevronRight, Heart, Instagram, MessageCircle, Quote, Star, Users, Waves, Wind, Wrench } from "lucide-react";
 import Image from "next/image";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, memo } from "react";
 
 export default function ImprovedBoatSales() {
 	const boats = useMemo(
@@ -79,6 +79,19 @@ const FeaturedBrands = React.memo(function FeaturedBrands({ brands }: { brands: 
 	);
 });
 
+const BoatImage = memo(function BoatImage({ boat, priority }: { boat: unknown; priority?: boolean }) {
+	return (
+		<div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl">
+			{boat.image && <Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.image} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px" priority={priority} quality={85} />}
+			<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+			<div className="absolute bottom-4 left-4 right-4 text-white">
+				<h3 className="text-2xl font-bold mb-2">{boat.name}</h3>
+				<p className="text-lg font-semibold">${boat.price}</p>
+			</div>
+		</div>
+	);
+});
+
 const FleetSection = React.memo(function FleetSection({ currentBoat, nextBoat, prevBoat, boats }: { currentBoat: number; nextBoat: () => void; prevBoat: () => void; boats: Array<{ name: string; price: string; image: string }> }) {
 	return (
 		<section id="fleet" aria-labelledby="fleet-heading" className="py-16">
@@ -88,14 +101,7 @@ const FleetSection = React.memo(function FleetSection({ currentBoat, nextBoat, p
 				</h2>
 				<div className="flex flex-col lg:flex-row items-center justify-between gap-12">
 					<div className="w-full lg:w-3/5 relative">
-						<div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl">
-							{boats[currentBoat].image && <Image alt={`${boats[currentBoat].name} - Luxury boat by Impact Marine Group`} src={boats[currentBoat].image} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority />}
-							<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-							<div className="absolute bottom-4 left-4 right-4 text-white">
-								<h3 className="text-2xl font-bold mb-2">{boats[currentBoat].name}</h3>
-								<p className="text-lg font-semibold">${boats[currentBoat].price}</p>
-							</div>
-						</div>
+						<BoatImage boat={boats[currentBoat]} priority />
 						<Button variant="outline" size="icon" className="absolute top-1/2 left-4 -translate-y-1/2 bg-background/80 hover:bg-background" onClick={prevBoat} aria-label="Previous boat">
 							<ChevronLeft className="h-6 w-6" />
 						</Button>

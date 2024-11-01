@@ -4,7 +4,7 @@ import { ClientVideo } from "@/components/ClientVideo";
 
 export default async function HeroBackground() {
 	const viewport = (await headers()).get("x-viewport") ?? "desktop";
-	const videoUrl = "/impactlogo.mp4"; // Local video path
+	const videoUrl = "/impactlogo.mp4";
 
 	const imageProps = {
 		src: "/boat.webp",
