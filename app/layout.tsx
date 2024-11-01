@@ -3,7 +3,6 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import dynamic from "next/dynamic";
-import "@/app/scripts/disableConsole";
 
 const Header = dynamic(() => import("@/components/header"));
 const Footer = dynamic(() => import("@/components/footer"));

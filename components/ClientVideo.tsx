@@ -1,36 +1,13 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 
-export function ClientVideo({ videoSrc }: { videoSrc: string }) {
+export default function ClientVideo() {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [hasError, setHasError] = useState(false);
 
 	const handleLoad = useCallback(() => setIsLoaded(true), []);
 	const handleError = useCallback(() => setHasError(true), []);
-
-	const videoProps = useMemo(
-		() => ({
-			className: `absolute transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`,
-			style: {
-				position: "absolute",
-				right: "-300px",
-				width: "calc(100vw + 400px)",
-				height: "100%",
-				objectFit: "cover" as const,
-				objectPosition: "center left",
-				transform: "scale(1.1)",
-			},
-			playsInline: true,
-			muted: true,
-			loop: true,
-			autoPlay: true,
-			preload: "auto" as const,
-			onLoadedData: handleLoad,
-			onError: handleError,
-		}),
-		[isLoaded, handleLoad, handleError]
-	);
 
 	if (hasError) {
 		return null;
@@ -39,15 +16,25 @@ export function ClientVideo({ videoSrc }: { videoSrc: string }) {
 	return (
 		<div className="absolute inset-0 w-full h-full overflow-hidden hidden md:block">
 			<video
-				{...videoProps}
-				onError={(e) => {
-					if (process.env.NODE_ENV === "production") {
-						e.preventDefault();
-						return;
-					}
+				className={`absolute transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+				style={{
+					position: "absolute",
+					right: "-300px",
+					width: "calc(100vw + 400px)",
+					height: "100%",
+					objectFit: "cover" as const,
+					objectPosition: "center left",
+					transform: "scale(1.1)",
 				}}
+				playsInline
+				muted
+				loop
+				autoPlay
+				preload="auto"
+				onLoadedData={handleLoad}
+				onError={handleError}
 			>
-				<source src={videoSrc} type="video/mp4" />
+				<source src="/impactlogo.mp4" type="video/mp4" />
 				Your browser does not support the video tag.
 			</video>
 
