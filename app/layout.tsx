@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { GoogleAnalytics } from "@next/third-parties/google";
+//import { GoogleAnalytics } from "@next/third-parties/google";
 
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -34,7 +34,7 @@ export default async function RootLayout({
 					</Suspense>
 				</div>
 				{/* Move analytics to load after page load */}
-				<GoogleAnalytics gaId="G-5K833333" />
+				{/* <GoogleAnalytics gaId="G-5K833333" /> */}
 			</body>
 		</html>
 	);
