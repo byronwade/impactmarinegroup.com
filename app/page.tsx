@@ -7,8 +7,8 @@ const DynamicHero = dynamic(() => import("@/components/hero"), {
 	loading: () => <div>Loading page content...</div>,
 });
 
-const DynamicImprovedBoatSales = dynamic(() => import("@/components/DynamicImprovedBoatSales"), {
-	loading: () => <div>Loading boat sales...</div>,
+const DynamicHome = dynamic(() => import("@/components/home"), {
+	loading: () => <div>Loading page content...</div>,
 });
 
 export const runtime = "edge";
@@ -46,7 +46,9 @@ export default async function Home() {
 			<div role="region" aria-label="Home page content">
 				<Suspense fallback={<div>Loading page content...</div>}>
 					<DynamicHero />
-					<DynamicImprovedBoatSales />
+				</Suspense>
+				<Suspense fallback={<div>Loading page content...</div>}>
+					<DynamicHome />
 				</Suspense>
 			</div>
 		</>
