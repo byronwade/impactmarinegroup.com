@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Search } from "lucide-react";
@@ -9,128 +9,53 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { SanityBoat, getAllInventoryBoats } from "@/app/actions/sanity";
 
-type Boat = {
-	"Stock Number": string;
-	Location: string;
-	Condition: string;
-	Status: string;
-	"Model Year": string;
-	Manufacturer: string;
-	Model: string;
-	Trim: string;
-	Retail: string;
-	Sales: string;
-	Web: string;
-	Discount: string;
-};
-
-const fakeBoats: Boat[] = [
-	{
-		"Stock Number": "10192803367",
-		Location: "Impact Marine Group",
-		Condition: "NEW",
-		Status: "Available",
-		"Model Year": "2023",
-		Manufacturer: "Sea Fox",
-		Model: "288 Commander",
-		Trim: "Center Console",
-		Retail: "189000",
-		Sales: "2023-10-15",
-		Web: "2023-09-01",
-		Discount: "",
-	},
-	{
-		"Stock Number": "10192803368",
-		Location: "Impact Marine Group",
-		Condition: "USED",
-		Status: "Available",
-		"Model Year": "2021",
-		Manufacturer: "Sweetwater",
-		Model: "2286 SB",
-		Trim: "Pontoon",
-		Retail: "45000",
-		Sales: "2023-10-20",
-		Web: "2023-09-05",
-		Discount: "5%",
-	},
-	{
-		"Stock Number": "10192803369",
-		Location: "Impact Marine Group",
-		Condition: "NEW",
-		Status: "On Order",
-		"Model Year": "2024",
-		Manufacturer: "Sea Fox",
-		Model: "328 Commander",
-		Trim: "Center Console",
-		Retail: "259000",
-		Sales: "",
-		Web: "2023-09-10",
-		Discount: "",
-	},
-	{
-		"Stock Number": "10192803370",
-		Location: "Impact Marine Group",
-		Condition: "USED",
-		Status: "Sold",
-		"Model Year": "2020",
-		Manufacturer: "Sweetwater",
-		Model: "2486 SB",
-		Trim: "Pontoon",
-		Retail: "55000",
-		Sales: "2023-10-25",
-		Web: "2023-09-15",
-		Discount: "SOLD",
-	},
-	{
-		"Stock Number": "10192803371",
-		Location: "Impact Marine Group",
-		Condition: "NEW",
-		Status: "Available",
-		"Model Year": "2023",
-		Manufacturer: "Sea Fox",
-		Model: "268 Commander",
-		Trim: "Center Console",
-		Retail: "159000",
-		Sales: "",
-		Web: "2023-09-20",
-		Discount: "",
-	},
-	{
-		"Stock Number": "10192803372",
-		Location: "Impact Marine Group",
-		Condition: "USED",
-		Status: "Available",
-		"Model Year": "2022",
-		Manufacturer: "Sweetwater",
-		Model: "2386 SB",
-		Trim: "Pontoon",
-		Retail: "50000",
-		Sales: "",
-		Web: "2023-09-25",
-		Discount: "3%",
-	},
-];
-
-export default function Component() {
+export default function BoatsPage() {
+	const [boats, setBoats] = useState<SanityBoat[]>([]);
 	const [displayCount, setDisplayCount] = useState(6);
 	const [selectedManufacturer, setSelectedManufacturer] = useState("All Manufacturers");
 	const [selectedCondition, setSelectedCondition] = useState("All Conditions");
 	const [searchQuery, setSearchQuery] = useState("");
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const loadBoats = async () => {
+			try {
+				const boatData = await getAllInventoryBoats();
+				setBoats(boatData);
+			} catch (error) {
+				console.error("Error loading boats:", error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+		loadBoats();
+	}, []);
 
 	const manufacturers = useMemo(() => {
-		const allManufacturers = new Set(fakeBoats.map((boat) => boat.Manufacturer));
+		const allManufacturers = new Set(boats.map((boat) => boat.manufacturer));
 		return ["All Manufacturers", ...Array.from(allManufacturers)];
-	}, []);
+	}, [boats]);
 
 	const conditions = useMemo(() => {
-		const allConditions = new Set(fakeBoats.map((boat) => boat.Condition));
+		const allConditions = new Set(boats.map((boat) => boat.condition));
 		return ["All Conditions", ...Array.from(allConditions)];
-	}, []);
+	}, [boats]);
 
 	const filteredBoats = useMemo(() => {
-		return fakeBoats.filter((boat) => (selectedManufacturer === "All Manufacturers" || boat.Manufacturer === selectedManufacturer) && (selectedCondition === "All Conditions" || boat.Condition === selectedCondition) && (boat.Manufacturer.toLowerCase().includes(searchQuery.toLowerCase()) || boat.Model.toLowerCase().includes(searchQuery.toLowerCase()) || boat.Trim.toLowerCase().includes(searchQuery.toLowerCase())));
-	}, [selectedManufacturer, selectedCondition, searchQuery]);
+		return boats.filter((boat) => {
+			if (!boat) return false;
+
+			const manufacturerMatch = selectedManufacturer === "All Manufacturers" || (boat.manufacturer && boat.manufacturer === selectedManufacturer);
+
+			const conditionMatch = selectedCondition === "All Conditions" || (boat.condition && boat.condition === selectedCondition);
+
+			const searchMatch = !searchQuery || [boat.manufacturer, boat.model, boat.trim].some((field) => field?.toLowerCase().includes(searchQuery.toLowerCase()));
+
+			return manufacturerMatch && conditionMatch && searchMatch;
+		});
+	}, [boats, selectedManufacturer, selectedCondition, searchQuery]);
 
 	const displayedBoats = useMemo(() => {
 		return filteredBoats.slice(0, displayCount);
@@ -139,6 +64,10 @@ export default function Component() {
 	const loadMore = () => {
 		setDisplayCount((prevCount) => Math.min(prevCount + 6, filteredBoats.length));
 	};
+
+	if (isLoading) {
+		return <div>Loading...</div>; // Consider adding a proper loading skeleton here
+	}
 
 	return (
 		<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
@@ -179,41 +108,39 @@ export default function Component() {
 
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 				{displayedBoats.map((boat) => (
-					<Card key={boat["Stock Number"]} className="overflow-hidden">
+					<Card key={boat._id} className="overflow-hidden">
 						<div className="relative aspect-w-16 aspect-h-9">
-							<Image src="/service-department.webp" alt={`${boat.Manufacturer} ${boat.Model}`} width={600} height={400} className="object-cover transition-transform duration-300 hover:scale-105" />
+							<Image src={boat.mainImage?.asset?.url || "/service-department.webp"} alt={`${boat.manufacturer} ${boat.model}`} width={600} height={400} className="object-cover transition-transform duration-300 hover:scale-105" />
 							<div className="absolute top-2 right-2">
-								<Badge variant={boat.Condition === "NEW" ? "default" : "secondary"}>{boat.Condition}</Badge>
+								<Badge variant={boat.condition === "NEW" ? "default" : "secondary"}>{boat.condition}</Badge>
 							</div>
 						</div>
 						<CardHeader>
 							<CardTitle className="flex justify-between items-center">
 								<span>
-									{boat.Manufacturer} {boat.Model}
+									{boat.manufacturer} {boat.model}
 								</span>
-								<Badge variant="outline">{boat["Model Year"]}</Badge>
+								<Badge variant="outline">{boat.modelYear}</Badge>
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<p className="text-muted-foreground mb-2">{boat.Trim}</p>
-							<p className="font-semibold text-lg">${parseInt(boat.Retail).toLocaleString()}</p>
-							<p className="text-sm text-muted-foreground">Status: {boat.Status}</p>
+							<p className="text-muted-foreground mb-2">{boat.trim}</p>
+							<p className="font-semibold text-lg">
+								{boat.price
+									? new Intl.NumberFormat("en-US", {
+											style: "currency",
+											currency: "USD",
+									  }).format(boat.price)
+									: "Price on request"}
+							</p>
+							<p className="text-sm text-muted-foreground">Status: {boat.status}</p>
 						</CardContent>
 						<CardFooter className="flex justify-between">
 							<Button variant="outline" size="sm">
 								Request Info
 							</Button>
 							<Button asChild size="sm">
-								<Link
-									href={{
-										pathname: `/boats/${encodeURIComponent(boat["Stock Number"])}`,
-										query: {
-											manufacturer: boat.Manufacturer,
-											model: boat.Model,
-											year: boat["Model Year"],
-										},
-									}}
-								>
+								<Link href={`/boats/${boat.slug}`}>
 									View Details <ChevronRight className="ml-2 h-4 w-4" />
 								</Link>
 							</Button>

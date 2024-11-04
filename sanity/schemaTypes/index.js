@@ -1,71 +1,12 @@
 // schemas/index.js
 import {defineType} from 'sanity'
 import siteConfig from './siteConfig' // Import the siteConfig schema
-
+import boat from './boat'
 export const schemaTypes = [
   // Existing schemas...
 
   siteConfig, // Add siteConfig to the schemaTypes array
-  // Boat Listings Schema
-  defineType({
-    name: 'boat',
-    title: 'Boat Listing',
-    type: 'document',
-    fields: [
-      {
-        name: 'name',
-        title: 'Boat Name',
-        type: 'string',
-      },
-      {
-        name: 'description',
-        title: 'Description',
-        type: 'text',
-      },
-      {
-        name: 'price',
-        title: 'Price',
-        type: 'number',
-      },
-      {
-        name: 'image',
-        title: 'Image',
-        type: 'image',
-        options: {
-          hotspot: true, // allows image cropping
-        },
-      },
-      {
-        name: 'available',
-        title: 'Available',
-        type: 'boolean',
-        initialValue: true,
-      },
-      {
-        name: 'seo',
-        title: 'SEO',
-        type: 'object',
-        fields: [
-          {
-            name: 'metaTitle',
-            title: 'Meta Title',
-            type: 'string',
-          },
-          {
-            name: 'metaDescription',
-            title: 'Meta Description',
-            type: 'text',
-          },
-          {
-            name: 'keywords',
-            title: 'Keywords',
-            type: 'array',
-            of: [{type: 'string'}],
-          },
-        ],
-      },
-    ],
-  }),
+  boat,
 
   // Services Schema
   defineType({

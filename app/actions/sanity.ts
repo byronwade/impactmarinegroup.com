@@ -139,8 +139,36 @@ export const getAllBoats = cache(async (): Promise<Boat[]> => {
 	return await client.fetch(query);
 });
 
-export const getBoatBySlug = cache(async (slug: string): Promise<Boat> => {
-	const query = `*[_type == "boat" && slug.current == $slug][0]`;
+export const getBoatBySlug = cache(async (slug: string): Promise<SanityBoat | null> => {
+	const query = `*[_type == "boat" && slug.current == $slug][0] {
+		_id,
+		slug,
+		name,
+		manufacturer,
+		model,
+		trim,
+		modelYear,
+		stockNumber,
+		condition,
+		status,
+		price,
+		listPrice,
+		category,
+		description,
+		specs,
+		"mainImage": {
+			"asset": {
+				"url": mainImage.asset->url
+			}
+		},
+		"gallery": gallery[]{
+			"asset": {
+				"url": asset->url
+			}
+		},
+		available
+	}`;
+
 	return await client.fetch(query, { slug });
 });
 
@@ -311,4 +339,119 @@ export const getPageContent = cache(async (id: string): Promise<Block[]> => {
 		console.error("Error fetching page content:", error);
 		return [];
 	}
+});
+
+// Add this to your existing types
+export interface SanityBoat {
+	_id: string;
+	slug: string;
+	name: string;
+	manufacturer: string;
+	model: string;
+	trim?: string;
+	modelYear: string;
+	condition: string;
+	status: string;
+	price: number;
+	listPrice?: number;
+	shortDescription?: string;
+	description: string;
+	mainImage: {
+		asset: {
+			url: string;
+		};
+	};
+	gallery?: Array<{
+		asset: {
+			url: string;
+		};
+	}>;
+	specs?: {
+		length?: string;
+		capacity?: string;
+		speed?: string;
+	};
+	available: boolean;
+}
+
+// Add this function to fetch featured boats
+export const getFeaturedBoats = cache(async (): Promise<SanityBoat[]> => {
+	const query = `*[_type == "boat" && available == true] | order(_createdAt desc)[0...5] {
+		_id,
+		name,
+		price,
+		description,
+		"mainImage": {
+			"asset": {
+				"url": mainImage.asset->url
+			}
+		},
+		specs,
+		available
+	}`;
+
+	return await client.fetch(query);
+});
+
+export const getAllInventoryBoats = cache(async (): Promise<SanityBoat[]> => {
+	const query = `*[_type == "boat"] {
+		_id,
+		"slug": slug.current,
+		manufacturer,
+		model,
+		trim,
+		modelYear,
+		condition,
+		status,
+		price,
+		listPrice,
+		shortDescription,
+		description,
+		"mainImage": {
+			"asset": {
+				"url": mainImage.asset->url
+			}
+		},
+		"gallery": gallery[]{
+			"asset": {
+				"url": asset->url
+			}
+		},
+		specs,
+		available
+	}`;
+
+	return await client.fetch(query);
+});
+
+export const getBoatById = cache(async (id: string): Promise<SanityBoat | null> => {
+	const query = `*[_type == "boat" && _id == $id][0] {
+		_id,
+		name,
+		manufacturer,
+		model,
+		trim,
+		modelYear,
+		stockNumber,
+		condition,
+		status,
+		price,
+		listPrice,
+		category,
+		description,
+		specs,
+		"mainImage": {
+			"asset": {
+				"url": mainImage.asset->url
+			}
+		},
+		"gallery": gallery[]{
+			"asset": {
+				"url": asset->url
+			}
+		},
+		available
+	}`;
+
+	return await client.fetch(query, { id });
 });

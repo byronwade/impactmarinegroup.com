@@ -98,7 +98,7 @@ export default async function ServiceCenterLanding() {
 					</div>
 				</section>
 
-				<section>
+				{/* <section>
 					<h2 className="text-3xl font-semibold mb-6 text-center">2024 Boat Winterization Specials</h2>
 					<p className="text-center text-muted-foreground mb-8">Save Time, Save Money, And Protect Your Investment.</p>
 					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -142,7 +142,7 @@ export default async function ServiceCenterLanding() {
 							</Card>
 						))}
 					</div>
-				</section>
+				</section> */}
 
 				<section className="text-center">
 					<h2 className="text-3xl font-semibold mb-4">Ready to Schedule Your Service?</h2>

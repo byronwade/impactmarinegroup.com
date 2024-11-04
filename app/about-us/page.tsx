@@ -1,5 +1,5 @@
 import Image from "next/legacy/image"
-import { MapPin, Clock, Phone, Mail, Ship, Wrench, Compass, Star, DollarSign, Users, LifeBuoy, Zap, Shield, Award } from 'lucide-react'
+import { MapPin, Clock, Phone, Mail, Ship, Wrench, Compass, DollarSign, Users, LifeBuoy, Zap, Shield, Award } from "lucide-react";
 import { Button } from "@/components/ui/button"
 import { getSiteConfig } from "@/app/actions/sanity";
 
@@ -105,31 +105,6 @@ export default async function SinglePageDealership() {
 									</div>
 								))}
 							</div>
-						</div>
-					</div>
-				</section>
-
-				{/* Testimonials Section */}
-				<section id="testimonials" className="space-y-8">
-					<div className="max-w-5xl mx-auto">
-						<h2 className="text-3xl font-bold mb-8">Customer Testimonials</h2>
-						<h3 className="text-xl font-semibold mb-4">Hear from our satisfied boating enthusiasts</h3>
-						<div className="grid md:grid-cols-2 gap-6">
-							{[
-								{ name: "John D.", location: "Lake Lanier", text: "Impact Marine Group provided exceptional service when I purchased my Sea Fox. Their knowledge and attention to detail made the process smooth and enjoyable. The team went above and beyond to ensure I found the perfect boat for my family's needs. Even after the sale, their support has been outstanding." },
-								{ name: "Sarah M.", location: "Lake Allatoona", text: "The maintenance team at Impact Marine is top-notch. They keep my boat running perfectly, and their winterization service gives me peace of mind during the off-season. I've been a customer for years, and the consistent quality of their work is why I keep coming back. They treat my boat as if it were their own." },
-								{ name: "Mike R.", location: "Lake Burton", text: "I took a boating class with Impact Marine, and it was incredibly informative. The instructors were knowledgeable and patient, perfect for a newcomer like me. They covered everything from basic navigation to advanced safety techniques. I feel much more confident on the water now, thanks to their excellent training program." },
-								{ name: "Lisa K.", location: "Lake Sinclair", text: "The financing options offered by Impact Marine helped me get the boat of my dreams. Their team worked hard to find a plan that fit my budget. They  explained every detail of the process, making it stress-free. I appreciate  their transparency and commitment to customer satisfaction. I wouldn't hesitate to recommend them to anyone looking to finance a boat." },
-								{ name: "David W.", location: "Lake Hartwell", text: "The customization services at Impact Marine are second to none. They helped me upgrade my boat with a new sound system and fishing equipment. The attention to detail in the installation was impressive, and the result exceeded my expectations. It's like having a brand new  boat tailored exactly to my preferences." },
-								{ name: "Emily T.", location: "Atlanta", text: "As a first-time boat owner, I was nervous about maintenance, but Impact Marine's service team has been incredible. They're always willing to explain procedures and offer advice on keeping my boat in top shape. Their preventative maintenance program has saved me from potential issues and given me confidence in my boat's reliability." },
-							].map((testimonial, index) => (
-								<div key={index} className="bg-gray-100 p-6 rounded-lg">
-									<Star className="w-8 h-8 mb-4 text-yellow-400" />
-									<p className="mb-4 italic">&quot;{testimonial.text}&quot;</p>
-									<p className="font-semibold">{testimonial.name}</p>
-									<p className="text-sm text-gray-600">{testimonial.location}</p>
-								</div>
-							))}
 						</div>
 					</div>
 				</section>

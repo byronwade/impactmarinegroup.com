@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useCallback, useState } from "react";
+import { useMemo, useCallback, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { SanityBoat, getFeaturedBoats } from "@/app/actions/sanity";
 
 const FeaturedBrands = dynamic(() => import("./sections/featured-brands"), {
 	loading: () => <div>Loading featured brands...</div>,
@@ -20,14 +21,17 @@ const SocialSection = dynamic(() => import("./sections/instagram"), {
 });
 
 export default function Home() {
-	const boats = useMemo(
-		() => [
-			{ name: "Luxury Yacht 2024", price: "1,200,000", image: "/service-department.webp" },
-			{ name: "Speedboat Deluxe", price: "500,000", image: "/service-department.webp" },
-			{ name: "Family Cruiser", price: "800,000", image: "/service-department.webp" },
-		],
-		[]
-	);
+	const [currentBoat, setCurrentBoat] = useState(0);
+	const [boats, setBoats] = useState<SanityBoat[]>([]);
+
+	// Fetch boats from Sanity
+	useEffect(() => {
+		const fetchBoats = async () => {
+			const boats = await getFeaturedBoats();
+			setBoats(boats);
+		};
+		fetchBoats();
+	}, []);
 
 	const brands = useMemo(
 		() => [
@@ -50,16 +54,15 @@ export default function Home() {
 		[]
 	);
 
-	const [currentBoat, setCurrentBoat] = useState(0);
-
 	const nextBoat = useCallback(() => setCurrentBoat((prev) => (prev + 1) % boats.length), [boats.length]);
+
 	const prevBoat = useCallback(() => setCurrentBoat((prev) => (prev - 1 + boats.length) % boats.length), [boats.length]);
 
 	return (
 		<div className="bg-background">
 			<main>
 				<FeaturedBrands brands={brands} />
-				<FleetSection currentBoat={currentBoat} nextBoat={nextBoat} prevBoat={prevBoat} boats={boats} />
+				{boats.length > 0 && <FleetSection currentBoat={currentBoat} nextBoat={nextBoat} prevBoat={prevBoat} boats={boats} />}
 				<ServicesSection />
 				<TestimonialsSection testimonials={testimonials} />
 				<SocialSection />

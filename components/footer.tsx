@@ -1,9 +1,10 @@
 "use client";
 
-import { Anchor, Mail, MapPin, Facebook, Instagram, Twitter, PhoneCall } from "lucide-react";
+import { Mail, MapPin, Facebook, Instagram, Twitter, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useConfig } from "@/hooks/useConfig";
+import Image from "next/image";
 
 export default function Footer() {
 	const { config, loading } = useConfig();
@@ -21,7 +22,7 @@ export default function Footer() {
 			<div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 h-full">
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 					<div className="mb-8 sm:mb-0">
-						<Anchor className="h-8 w-8 mb-4" />
+						<Image src="/impact-logo.webp" alt={config.siteName} width={150} height={150} className="p-4 mb-2 bg-white rounded-lg" />
 						<h3 className="text-xl font-bold mb-4">{config.siteName}</h3>
 						<p className="text-gray-400 text-sm sm:text-base">Your premier destination for quality boats and exceptional marine experiences.</p>
 					</div>
