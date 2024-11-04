@@ -3,13 +3,20 @@ import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
+if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+	throw new Error("Missing NEXT_PUBLIC_SANITY_PROJECT_ID");
+}
+
+if (!process.env.NEXT_PUBLIC_SANITY_DATASET) {
+	throw new Error("Missing NEXT_PUBLIC_SANITY_DATASET");
+}
+
 // Client Configuration
 export const client = createClient({
-	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
 	apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-03-21",
-	useCdn: false,
-	perspective: "published",
+	useCdn: process.env.NODE_ENV === "production",
 });
 
 // Image Builder Configuration

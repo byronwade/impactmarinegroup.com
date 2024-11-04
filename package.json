@@ -3,10 +3,12 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev --turbo",
+		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"sanity": "cd sanity && sanity start",
+		"sanity-deploy": "cd sanity && sanity deploy"
 	},
 	"dependencies": {
 		"@emailjs/browser": "^4.4.1",
@@ -25,12 +27,13 @@
 		"@radix-ui/react-select": "^2.1.2",
 		"@radix-ui/react-slot": "^1.1.0",
 		"@radix-ui/react-toast": "^1.2.2",
-		"@sanity/client": "^6.22.1",
-		"@sanity/image-url": "^1.0.2",
+		"@sanity/client": "^6.22.2",
+		"@sanity/image-url": "^1.1.0",
 		"@types/lodash": "^4.17.12",
 		"@vercel/blob": "^0.25.1",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
+		"critters": "^0.0.25",
 		"formik": "^2.4.6",
 		"framer-motion": "^11.11.8",
 		"lucide-react": "^0.451.0",
