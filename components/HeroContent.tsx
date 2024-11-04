@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, ChevronRight, PhoneCall } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
+import { useConfig } from "@/hooks/useConfig";
 
 const AnimatedElement = ({ delay, children }: { delay: number; children: React.ReactNode }) => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -20,8 +21,14 @@ const AnimatedElement = ({ delay, children }: { delay: number; children: React.R
 };
 
 export default function HeroContent() {
-	const phoneNumber = "(770) 881-7808";
-	const phoneNumberRaw = "+17708817808";
+	const { config, loading } = useConfig();
+
+	if (loading) return <div>Loading...</div>;
+	if (!config) return null;
+
+	// Format phone number for tel: link
+	const phoneNumberRaw = config.phoneNumber.replace(/[^0-9+]/g, "");
+
 	return (
 		<div className="relative container max-w-7xl mx-auto px-4 py-12 sm:py-24 lg:py-32 z-10">
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
@@ -50,7 +57,7 @@ export default function HeroContent() {
 							<PhoneCall className="h-6 w-6 mr-2" aria-hidden="true" />
 							<a href={`tel:${phoneNumberRaw}`} className="text-xl font-semibold hover:text-primary transition-colors">
 								<span>Call Now: </span>
-								<span>{phoneNumber}</span>
+								<span>{config.phoneNumber}</span>
 							</a>
 						</div>
 					</AnimatedElement>

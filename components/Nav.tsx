@@ -6,11 +6,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, PhoneCall } from "lucide-react";
 import { useState, useMemo, useCallback } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { useConfig } from "@/hooks/useConfig";
 
 export default function Nav() {
+	const { config } = useConfig();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const phoneNumber = "(770) 881-7808";
-	const phoneNumberRaw = "+17708817808";
+	const phoneNumber = config?.phoneNumber || "(770) 881-7808";
+	const phoneNumberRaw = config?.phoneNumber?.replace(/[^0-9+]/g, "") || "+17708817808";
 
 	const navItems = useMemo(
 		() => [

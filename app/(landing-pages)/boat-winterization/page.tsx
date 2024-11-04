@@ -2,8 +2,11 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Snowflake, Shield, Calendar, Wrench, Check, Star, Clock, Phone } from "lucide-react";
+import { getSiteConfig } from "@/app/actions/sanity";
 
-export default function WinterizationLanding() {
+export default async function WinterizationLanding() {
+	const config = await getSiteConfig();
+
 	return (
 		<div className="min-h-screen bg-white text-black">
 			{/* Hero Section */}
@@ -16,7 +19,7 @@ export default function WinterizationLanding() {
 							<p className="mb-8 max-w-xl text-gray-700 lg:text-xl">Protect your investment with our comprehensive winterization services. Don&apos;t let the cold catch you off guard - prepare your boat for the off-season today.</p>
 							<Button className="w-full sm:w-auto bg-black text-white hover:bg-gray-800">
 								<Phone className="mr-2 size-4" />
-								Call (770) 881-7808
+								Call {config.phoneNumber}
 							</Button>
 						</div>
 						<Image src="/winterize-a-boat.webp" alt="Boat winterization" width={600} height={400} className="size-full object-cover" />
@@ -63,7 +66,7 @@ export default function WinterizationLanding() {
 							</ul>
 							<Button className="mt-6 bg-white text-black hover:bg-gray-200">
 								<Phone className="mr-2 h-5 w-5" />
-								Call (770) 881-7808
+								Call {config.phoneNumber}
 							</Button>
 						</div>
 						<div className="md:w-1/2 md:pl-8">
@@ -131,7 +134,7 @@ export default function WinterizationLanding() {
 							{ question: "How long does the winterization process take?", answer: "The process usually takes 2-4 hours, depending on the size and type of your boat. Contact us for a more accurate estimate for your specific vessel." },
 							{ question: "Can I winterize my boat myself?", answer: "While some aspects can be DIY, professional winterization ensures comprehensive protection and peace of mind. Call us to learn about the benefits of professional service." },
 							{ question: "What's included in your winterization service?", answer: "Our service includes engine winterization, fuel system treatment, freshwater system winterization, hull inspection and protection, and proper storage preparation. Call for a detailed breakdown." },
-							{ question: "How do I get a quote for winterization?", answer: "For accurate pricing tailored to your boat, please call us at (770) 881-7808. We'll be happy to provide a detailed quote based on your specific needs." },
+							{ question: "How do I get a quote for winterization?", answer: "For accurate pricing tailored to your boat, please call us at {config.phoneNumber}. We'll be happy to provide a detailed quote based on your specific needs." },
 						].map((faq, index) => (
 							<Card key={index} className="bg-white border border-gray-200">
 								<CardHeader>
@@ -151,7 +154,7 @@ export default function WinterizationLanding() {
 					<p className="text-xl mb-8">Don&apos;t wait until it&apos;s too late. Call us today to schedule your winterization service and protect your investment.</p>
 					<Button size="lg" className="bg-white text-black hover:bg-gray-200">
 						<Phone className="mr-2 h-5 w-5" />
-						Call (770) 881-7808
+						Call {config.phoneNumber}
 					</Button>
 				</section>
 			</main>

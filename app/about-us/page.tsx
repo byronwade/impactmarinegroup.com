@@ -1,15 +1,18 @@
 import Image from "next/legacy/image"
 import { MapPin, Clock, Phone, Mail, Ship, Wrench, Compass, Star, DollarSign, Users, LifeBuoy, Zap, Shield, Award } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+import { getSiteConfig } from "@/app/actions/sanity";
 
-export default function SinglePageDealership() {
-  return (
+export default async function SinglePageDealership() {
+	const config = await getSiteConfig();
+
+	return (
 		<div className="min-h-screen bg-gray-50">
 			<main className="container mx-auto px-4 py-12 space-y-24 max-w-7xl">
 				{/* About Section */}
 				<section id="about" className="space-y-8">
 					<div className="max-w-5xl mx-auto">
-						<h2 className="text-3xl font-bold mb-8">About Impact Marine Group</h2>
+						<h2 className="text-3xl font-bold mb-8">About {config.companyName}</h2>
 						<div className="grid md:grid-cols-2 gap-8">
 							<div className="space-y-4">
 								<p>Impact Marine Group is more than just a boat dealership – we&apos;re your gateway to unforgettable aquatic adventures. Founded by passionate boating enthusiasts, our mission is to provide unparalleled service and top-quality marine products to both seasoned sailors and newcomers to the boating world.</p>
@@ -141,7 +144,9 @@ export default function SinglePageDealership() {
 								<div className="space-y-4">
 									<div className="flex items-center">
 										<MapPin className="w-6 h-6 mr-2 text-blue-600" />
-										<p>5185 Browns Bridge Rd, Cumming, GA 30041</p>
+										<p>
+											{config.address.street}, {config.address.city}, {config.address.state} {config.address.zip}
+										</p>
 									</div>
 									<div className="flex items-center">
 										<Clock className="w-6 h-6 mr-2 text-blue-600" />
@@ -163,11 +168,7 @@ export default function SinglePageDealership() {
 									</div>
 									<div className="flex items-center">
 										<Mail className="w-6 h-6 mr-2 text-blue-600" />
-										<p>
-											sales@impactmarinegroup.com
-											<br />
-											service@impactmarinegroup.com
-										</p>
+										<p>{config.email}</p>
 									</div>
 								</div>
 								<div className="space-y-4">
@@ -199,5 +200,5 @@ export default function SinglePageDealership() {
 				</section>
 			</main>
 		</div>
-  );
+	);
 }

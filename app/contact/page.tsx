@@ -2,8 +2,11 @@ import Link from "next/link";
 import { MessageCircle, Phone, MapPin, Ship, Wrench, DollarSign, Clock } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
+import { getSiteConfig } from "@/app/actions/sanity";
 
-export default function ContactPage() {
+export default async function ContactPage() {
+	const config = await getSiteConfig();
+
 	return (
 		<div className="flex min-h-screen flex-col">
 			<main className="flex-1">
@@ -21,8 +24,8 @@ export default function ContactPage() {
 									<MessageCircle className="h-6 w-6 text-blue-600" />
 									<h3 className="text-xl font-bold">Chat to sales</h3>
 									<p className="text-sm text-gray-500 dark:text-gray-400">Speak to our friendly team.</p>
-									<Link className="text-sm underline text-blue-600" href="mailto:sales@impactmarinegroup.com">
-										sales@impactmarinegroup.com
+									<Link className="text-sm underline text-blue-600" href={`mailto:${config.email}`}>
+										{config.email}
 									</Link>
 								</CardContent>
 							</Card>
@@ -40,8 +43,8 @@ export default function ContactPage() {
 								<CardContent className="flex flex-col items-center space-y-2 p-6">
 									<MapPin className="h-6 w-6 text-blue-600" />
 									<h3 className="text-xl font-bold">Visit us</h3>
-									<p className="text-sm text-gray-500 dark:text-gray-400">5185 Browns Bridge Rd</p>
-									<Link className="text-sm underline text-blue-600" href="https://maps.google.com/?q=5185+Browns+Bridge+Rd">
+									<p className="text-sm text-gray-500 dark:text-gray-400">{config.address.street}</p>
+									<Link className="text-sm underline text-blue-600" href={`https://maps.google.com/?q=${encodeURIComponent(`${config.address.street}, ${config.address.city}, ${config.address.state} ${config.address.zip}`)}`}>
 										View on Google Maps
 									</Link>
 								</CardContent>
@@ -51,11 +54,8 @@ export default function ContactPage() {
 									<Phone className="h-6 w-6 text-blue-600" />
 									<h3 className="text-xl font-bold">Call us</h3>
 									<p className="text-sm text-gray-500 dark:text-gray-400">Mon-Fri from 8am to 5pm.</p>
-									<Link className="text-sm underline text-blue-600" href="tel:+17708817808">
-										Sales: (770) 881-7808
-									</Link>
-									<Link className="text-sm underline text-blue-600" href="tel:+17708817809">
-										Service: (770) 881-7809
+									<Link className="text-sm underline text-blue-600" href={`tel:+1${config.phoneNumber.replace(/-/g, "")}`}>
+										Sales: {config.phoneNumber}
 									</Link>
 								</CardContent>
 							</Card>

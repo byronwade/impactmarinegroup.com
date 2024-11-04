@@ -1,10 +1,20 @@
+"use client";
+
 import { Anchor, Mail, MapPin, Facebook, Instagram, Twitter, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useConfig } from "@/hooks/useConfig";
 
 export default function Footer() {
-	const phoneNumber = "(770) 881-7808";
-	const phoneNumberRaw = "+17708817808";
+	const { config, loading } = useConfig();
+
+	if (loading) return <div>Loading...</div>;
+	if (!config) return null;
+
+	const socialLinks = config.socialMedia?.reduce((acc, social) => {
+		acc[social.platform.toLowerCase()] = social.url;
+		return acc;
+	}, {} as Record<string, string>);
 
 	return (
 		<footer className="bg-gray-900 text-white min-h-[400px] w-full flex-shrink-0">
@@ -12,7 +22,7 @@ export default function Footer() {
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 					<div className="mb-8 sm:mb-0">
 						<Anchor className="h-8 w-8 mb-4" />
-						<h3 className="text-xl font-bold mb-4">Ocean Dreams Boats</h3>
+						<h3 className="text-xl font-bold mb-4">{config.siteName}</h3>
 						<p className="text-gray-400 text-sm sm:text-base">Your premier destination for quality boats and exceptional marine experiences.</p>
 					</div>
 					<div>
@@ -50,42 +60,52 @@ export default function Footer() {
 						<ul className="space-y-2 text-sm sm:text-base">
 							<li className="flex items-center">
 								<PhoneCall className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
-								<a href={`tel:${phoneNumberRaw}`} className="hover:text-blue-400 transition-colors">
-									{phoneNumber}
+								<a href={`tel:${config.phoneNumber.replace(/[^0-9+]/g, "")}`} className="hover:text-blue-400 transition-colors">
+									{config.phoneNumber}
 								</a>
 							</li>
 							<li className="flex items-center">
 								<Mail className="h-5 w-5 mr-2 flex-shrink-0" />
-								<a href="mailto:info@oceandreamsboats.com" className="hover:text-blue-400 transition-colors break-all">
-									info@oceandreamsboats.com
+								<a href={`mailto:${config.email}`} className="hover:text-blue-400 transition-colors break-all">
+									{config.email}
 								</a>
 							</li>
 							<li className="flex items-start">
 								<MapPin className="h-5 w-5 mr-2 mt-1 flex-shrink-0" />
-								<span>123 Marina Way, Seaside, CA 90210</span>
+								<span>
+									{config.address.street}, {config.address.city}, {config.address.state} {config.address.zip}
+								</span>
 							</li>
 						</ul>
 					</div>
 					<div>
 						<h4 className="text-lg font-semibold mb-4">Follow Us</h4>
 						<div className="flex space-x-4">
-							<a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
-								<Facebook className="h-6 w-6" />
-								<span className="sr-only">Facebook</span>
-							</a>
-							<a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
-								<Instagram className="h-6 w-6" />
-								<span className="sr-only">Instagram</span>
-							</a>
-							<a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
-								<Twitter className="h-6 w-6" />
-								<span className="sr-only">Twitter</span>
-							</a>
+							{socialLinks?.facebook && (
+								<a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
+									<Facebook className="h-6 w-6" />
+									<span className="sr-only">Facebook</span>
+								</a>
+							)}
+							{socialLinks?.instagram && (
+								<a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
+									<Instagram className="h-6 w-6" />
+									<span className="sr-only">Instagram</span>
+								</a>
+							)}
+							{socialLinks?.twitter && (
+								<a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
+									<Twitter className="h-6 w-6" />
+									<span className="sr-only">Twitter</span>
+								</a>
+							)}
 						</div>
 					</div>
 				</div>
 				<div className="border-t border-gray-800 mt-8 pt-8 flex flex-col items-center">
-					<p className="text-sm text-gray-400 mb-4 text-center">© 2024 Ocean Dreams Boats. All rights reserved.</p>
+					<p className="text-sm text-gray-400 mb-4 text-center">
+						© {new Date().getFullYear()} {config.companyName}. All rights reserved.
+					</p>
 					<Button asChild variant="default" size="lg" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full shadow-lg transition-colors w-full sm:w-auto">
 						<a href="https://byronwade.com" target="_blank" rel="noopener noreferrer">
 							Designed by byronwade.com

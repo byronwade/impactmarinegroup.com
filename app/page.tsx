@@ -1,4 +1,4 @@
-import { getHomePage } from "@/lib/sanity";
+import { getHomePage } from "@/app/actions/sanity";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -10,8 +10,6 @@ const DynamicHero = dynamic(() => import("@/components/hero"), {
 const DynamicHome = dynamic(() => import("@/components/home"), {
 	loading: () => <div>Loading page content...</div>,
 });
-
-export const runtime = "edge";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const homePage = await getHomePage();

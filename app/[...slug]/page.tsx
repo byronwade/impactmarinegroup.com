@@ -1,9 +1,8 @@
-import { getPageBySlug, getPageContent } from "@/lib/sanity";
+import { getPageBySlug, getPageContent, getSiteConfig } from "@/app/actions/sanity";
 import RenderBlock, { Block } from "@/components/RenderBlock";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Metadata } from "next";
-export const runtime = "edge";
 
 // Define the parameter type explicitly
 interface Params {
@@ -19,17 +18,17 @@ interface PageProps {
 export const experimental_ppr = true;
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
-    const params = await props.params;
-    const slug = params.slug.join("/");
-    const page = await getPageBySlug(slug);
+	const params = await props.params;
+	const slug = params.slug.join("/");
+	const page = await getPageBySlug(slug);
 
-    if (!page) {
+	if (!page) {
 		return {
 			title: "Page Not Found",
 		};
 	}
 
-    return {
+	return {
 		title: page.seo?.ogTitle || page.title || "Impact Marine Group",
 		description: page.seo?.metaDescription || "Welcome to Impact Marine Group",
 	};
@@ -37,34 +36,32 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 // Update the type for the Page function's props
 export default async function Page(props: PageProps) {
-    const params = await props.params;
-    const slug = params.slug.join("/");
-    const page = await getPageBySlug(slug);
+	const params = await props.params;
+	console.log(params);
+	const slug = params.slug.join("/");
+	const page = await getPageBySlug(slug);
+	console.log(page);
+	const content = (await getPageContent(slug)) as unknown as Block[];
 
-    if (!page) {
+	const config = await getSiteConfig();
+	if (process.env.NODE_ENV === "development") {
+		console.log("Site Config:", config);
+	}
+
+	if (!page) {
 		notFound();
 	}
 
-    return (
+	return (
 		<div className="container mx-auto px-4 py-8">
 			<h1 className="text-3xl font-bold mb-6">{page.title}</h1>
 			<Suspense fallback={<div>Loading content...</div>}>
-				<PageContent id={page._id} />
-			</Suspense>
-		</div>
-	);
-}
-
-async function PageContent({ id }: { id: string }) {
-	const content = await getPageContent(id);
-	return (
-		<>
-			{content &&
-				content.map((block: Block, index: number) => (
+				{content?.map((block: Block, index: number) => (
 					<Suspense key={index} fallback={<div>Loading block...</div>}>
 						<RenderBlock block={block} />
 					</Suspense>
 				))}
-		</>
+			</Suspense>
+		</div>
 	);
 }

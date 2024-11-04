@@ -2,9 +2,10 @@ import Image from "next/image";
 import { Wrench, Anchor, Zap, Users, Shield, Snowflake, Music, Sun, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getPhoneNumber } from "@/lib/utils";
 
-export default function ServiceCenterLanding() {
-	const phoneNumber = "770-881-7808";
+export default async function ServiceCenterLanding() {
+	const phoneNumber = await getPhoneNumber();
 
 	const services = [
 		{
