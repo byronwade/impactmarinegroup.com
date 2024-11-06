@@ -1,80 +1,86 @@
-'use client';
+"use client";
 
-import React, { useRef, useEffect, useMemo } from "react";
-import { PortableText } from "@portabletext/react";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
-// Define an interface for the block prop
-export type Block = {
+// Dynamic imports for client components
+const CallToActionRenderer = dynamic(() => import("./client/BlockRenderers").then((mod) => mod.CallToActionRenderer), {
+	loading: () => <div>Loading call to action...</div>,
+});
+const VideoRenderer = dynamic(() => import("./client/BlockRenderers").then((mod) => mod.VideoRenderer), {
+	loading: () => <div>Loading video...</div>,
+});
+
+// Dynamic imports for sections
+const FeaturedBrands = dynamic(() => import("./sections/featured-brands"), {
+	loading: () => <div>Loading brands...</div>,
+});
+
+const FleetSection = dynamic(() => import("./sections/fleet"), {
+	loading: () => <div>Loading fleet...</div>,
+	ssr: false,
+});
+
+const ServicesSection = dynamic(() => import("./sections/service"), {
+	loading: () => <div>Loading services...</div>,
+});
+
+const TestimonialsSection = dynamic(() => import("./sections/testimonials"), {
+	loading: () => <div>Loading testimonials...</div>,
+});
+
+const SocialSection = dynamic(() => import("./sections/instagram"), {
+	loading: () => <div>Loading social...</div>,
+	ssr: false,
+});
+
+const Hero = dynamic(() => import("./Hero"), {
+	loading: () => <div>Loading hero...</div>,
+});
+
+const AccordionBlock = dynamic(() => import("./blocks/AccordionBlock"), {
+	loading: () => <div>Loading accordion...</div>,
+});
+
+export interface Block {
 	_type: string;
-	asset: {
-		url: string;
-		metadata: {
-			dimensions: { width: number; height: number };
-		};
-	};
-	alt?: string;
-	heading?: string;
-	text?: string;
-	buttonLink?: string;
-	buttonText?: string;
-	imagePosition?: string;
-	componentName?: string;
-	props?: Record<string, unknown>;
-	subheading?: string;
-	image: {
-		asset: {
-			url: string;
-			metadata: {
-				dimensions: { width: number; height: number };
-			};
-		};
-		alt?: string;
-	};
-};
+	_key: string;
+	brands?: any[];
+	services?: any[];
+	testimonials?: any[];
+	boats?: any[];
+	items?: any[];
+}
 
 export default function RenderBlock({ block }: { block: Block }) {
-	const isMobile = useMemo(() => {
-		if (typeof window === "undefined") return false;
-		return /mobile/i.test(window.navigator.userAgent);
-	}, []);
-	const videoRef = useRef<HTMLVideoElement>(null);
+	if (!block) return null;
 
-	useEffect(() => {
-		if (videoRef.current && !isMobile) {
-			videoRef.current.play().catch((error) => {
-				console.error("Error attempting to play video:", error);
-			});
-		}
-	}, [isMobile]);
-
-	switch (block._type) {
-		case "image":
-			//return block.asset.url ? <Image src={getBlobUrl("/" + block.asset.url.split("/").pop())} alt={block.alt || ""} width={block.asset.metadata.dimensions.width} height={block.asset.metadata.dimensions.height} className="my-8" /> : null;
-			return null;
-		case "callToAction":
-			return (
-				<div className="bg-blue-100 p-6 my-8 rounded-lg">
-					<h2 className="text-2xl font-bold mb-4">{block.heading}</h2>
-					<p className="mb-4">{block.text}</p>
-					<a href={block.buttonLink} className="bg-blue-500 text-white px-4 py-2 rounded">
-						{block.buttonText}
-					</a>
-				</div>
-			);
-		case "textWithImage":
-			return (
-				<div className={`flex my-8 ${block.imagePosition === "left" ? "flex-row-reverse" : "flex-row"}`}>
-					<div className="w-1/2 p-4">
-						<h2 className="text-2xl font-bold mb-4">{block.heading}</h2>
-						<p>{block.text}</p>
-					</div>
-					{/* <div className="w-1/2">
-						<Image src={getBlobUrl("/" + block.image.asset.url.split("/").pop())} alt={block.image.alt || ""} width={block.image.asset.metadata.dimensions.width} height={block.image.asset.metadata.dimensions.height} className="object-cover w-full h-full" />
-					</div> */}
-				</div>
-			);
-		case "customComponent":
-		default:
-			return <PortableText value={block} />;
-	}
+	return (
+		<Suspense fallback={<div>Loading block...</div>}>
+			{(() => {
+				switch (block._type) {
+					case "hero":
+						return <Hero {...block} />;
+					case "featuredBrands":
+						return <FeaturedBrands brands={block.brands} />;
+					case "fleet":
+						return <FleetSection boats={block.boats} />;
+					case "services":
+						return <ServicesSection services={block.services} />;
+					case "testimonials":
+						return <TestimonialsSection testimonials={block.testimonials} />;
+					case "instagram":
+						return <SocialSection />;
+					case "accordion":
+						return block.items?.length ? <AccordionBlock items={block.items} /> : null;
+					case "callToAction":
+						return <CallToActionRenderer block={block} />;
+					case "video":
+						return <VideoRenderer block={block} />;
+					default:
+						return null;
+				}
+			})()}
+		</Suspense>
+	);
 }

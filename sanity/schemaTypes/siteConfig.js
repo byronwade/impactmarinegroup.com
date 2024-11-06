@@ -9,15 +9,26 @@ export default {
     select: {
       title: 'siteName',
       subtitle: 'domain',
+      media: 'logo',
     },
-    prepare({title, subtitle}) {
+    prepare({title, subtitle, media}) {
       return {
         title: title || 'Site Configuration',
         subtitle: subtitle ? `Domain: ${subtitle}` : '',
+        media: media,
       }
     },
   },
   fields: [
+    {
+      name: 'logo',
+      title: 'Site Logo',
+      type: 'image',
+      description: 'Upload your site logo here. Recommended size: 150x150px',
+      options: {
+        hotspot: true,
+      },
+    },
     {
       name: 'siteName',
       title: 'Site Name',

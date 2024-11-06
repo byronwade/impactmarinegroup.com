@@ -1,0 +1,34 @@
+"use client";
+
+import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const ClientVideo = dynamic(() => import("./ClientVideo"), {
+	loading: () => null,
+	ssr: false,
+});
+
+interface HeroBackgroundProps {
+	viewport: string;
+}
+
+export default function HeroBackground({ viewport }: HeroBackgroundProps) {
+	const imageProps = {
+		src: "/boat.webp",
+		alt: "Impact Marine Group boat on water",
+		priority: true,
+		sizes: "(max-width: 768px) 100vw, 100vw",
+		className: "absolute inset-0 w-full h-full object-cover",
+		quality: 75,
+		loading: "eager" as const,
+		width: 1920,
+		height: 1080,
+	};
+
+	return (
+		<div className="absolute inset-0 w-full h-full">
+			<Image {...imageProps} />
+			{viewport !== "mobile" && <ClientVideo />}
+		</div>
+	);
+}

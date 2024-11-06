@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Anchor, ChevronRight, Users, Wrench, Waves } from "lucide-react";
 import Image from "next/image";
+import { SanityService } from "@/app/actions/sanity";
 
-export default function ServicesSection() {
+export default async function ServicesSection({ services }: { services: SanityService[] }) {
+	if (!services?.length) return null;
+
 	return (
 		<section id="services" aria-labelledby="services-heading" className="py-24 bg-muted">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
@@ -21,54 +24,32 @@ export default function ServicesSection() {
 				</div>
 
 				<div className="grid grid-cols-1 gap-12 mb-16">
-					<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
-						<div className="md:flex">
-							<div className="md:w-3/5">
-								<CardHeader className="bg-muted">
-									<CardTitle className="text-2xl font-bold flex items-center">
-										<Anchor className="w-6 h-6 mr-3" />
-										Godfrey Pontoons
-									</CardTitle>
-									<p className="text-lg text-foreground">Sweetwater, Aqua Patio, San Pan</p>
-								</CardHeader>
-								<CardContent className="p-6">
-									<p className="text-foreground mb-6">For over 60 years, Godfrey has been building quality boats with innovative layouts and top-performing materials. Powered by Yamaha Outboards, we bring performance and features to you at an affordable price.</p>
-									<Button className="w-full sm:w-auto">
-										Learn More About Godfrey
-										<ChevronRight className="ml-2 h-5 w-5" />
-									</Button>
-								</CardContent>
+					{services.map((service) => (
+						<Card key={service._id} className="overflow-hidden transition-all duration-300 hover:shadow-xl">
+							<div className="md:flex">
+								<div className="md:w-3/5">
+									<CardHeader className="bg-muted">
+										<CardTitle className="text-2xl font-bold flex items-center">
+											{service.icon && <span className="w-6 h-6 mr-3">{service.icon}</span>}
+											{service.title}
+										</CardTitle>
+									</CardHeader>
+									<CardContent className="p-6">
+										<p className="text-foreground mb-6">{service.description}</p>
+										<Button className="w-full sm:w-auto">
+											Learn More
+											<ChevronRight className="ml-2 h-5 w-5" />
+										</Button>
+									</CardContent>
+								</div>
+								{service.image?.asset?.url && (
+									<div className="md:w-2/5 relative">
+										<Image alt={`${service.title} - Impact Marine Group`} src={service.image.asset.url} width={service.image.asset.metadata.dimensions.width} height={service.image.asset.metadata.dimensions.height} className="absolute inset-0 object-cover w-full h-full" loading="lazy" />
+									</div>
+								)}
 							</div>
-
-							<div className="md:w-2/5 relative">
-								<Image alt="Godfrey Pontoon Boat - Luxury pontoon by Impact Marine Group" src="/godfrey-boat.webp" width={500} height={300} className="absolute inset-0 object-cover w-full h-full" loading="lazy" />
-							</div>
-						</div>
-					</Card>
-
-					<Card className="overflow-hidden transition-all duration-300 hover:shadow-xl">
-						<div className="md:flex h-full">
-							<div className="md:w-2/5 relative">
-								<Image alt="Tige Boat - Premium wakesurfing boat by Impact Marine Group" src="/tige-boat.webp" width={500} height={300} className="absolute inset-0 object-cover w-full h-full" loading="lazy" />
-							</div>
-							<div className="md:w-3/5">
-								<CardHeader className="bg-muted">
-									<CardTitle className="text-2xl font-bold flex items-center">
-										<Waves className="w-6 h-6 mr-3" />
-										Tige Boats
-									</CardTitle>
-									<p className="text-lg text-foreground">Premium Wakesurfing Experience</p>
-								</CardHeader>
-								<CardContent className="p-6">
-									<p className="text-foreground mb-6">We were blown away by the shape and quality of the wave behind a Tige RZ2. The style, quality, and performance of Tige impressed us so much that our Pro Shop business expanded to become a Tige dealer.</p>
-									<Button className="w-full sm:w-auto">
-										Explore Tige Boats
-										<ChevronRight className="ml-2 h-5 w-5" />
-									</Button>
-								</CardContent>
-							</div>
-						</div>
-					</Card>
+						</Card>
+					))}
 				</div>
 
 				<Card className="bg-primary text-primary-foreground overflow-hidden">

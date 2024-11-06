@@ -11,6 +11,11 @@ export interface SiteConfig {
 	companyName: string;
 	phoneNumber: string;
 	email: string;
+	logo: {
+		asset: {
+			url: string;
+		};
+	};
 	address: {
 		street: string;
 		city: string;
@@ -75,10 +80,10 @@ export interface BlogPost {
 }
 
 export interface MenuItem {
-	_type: "reference" | "customLink";
-	_ref?: string;
-	title?: string;
-	href?: string;
+	_id: string;
+	label: string;
+	link: string;
+	order: number;
 }
 
 export interface Menu {
@@ -103,6 +108,11 @@ export const getSiteConfig = cache(async (): Promise<SiteConfig> => {
 			companyName,
 			phoneNumber,
 			email,
+			"logo": {
+				"asset": {
+					"url": logo.asset->url
+				}
+			},
 			"address": {
 				"street": address.street,
 				"city": address.city,
@@ -250,7 +260,7 @@ export const getMenuByTitle = cache(async (title: string): Promise<Menu> => {
 });
 
 // Helper function to expand references in menu items
-export const expandMenuItems = async (menu: Menu) => {
+export const expandMenuItems = cache(async (menu: Menu) => {
 	const expandedItems = await Promise.all(
 		menu.items.map(async (item) => {
 			if (item._type === "reference" && item._ref) {
@@ -267,7 +277,7 @@ export const expandMenuItems = async (menu: Menu) => {
 		...menu,
 		items: expandedItems,
 	};
-};
+});
 
 // Search functionality
 export const searchContent = cache(async (query: string): Promise<SearchResults> => {
@@ -303,20 +313,122 @@ export const getStructuredPages = cache(async (): Promise<StructuredPage[]> => {
 
 // Cache the getPageBySlug function
 export const getPageBySlug = cache(async (slug: string) => {
-	const query = `*[_type in ["page", "landingPage"] && slug.current == $slug][0] {
-		_type,
+	const query = `*[_type == "page" && (slug.current == $slug || (isHomePage == true && $slug == "home"))][0] {
 		_id,
+		_type,
 		title,
-		"slug": slug.current,
-		"path": select(
-			slug.current == "home" => "/",
-			"/" + slug.current
-		),
-		"isHomePage": slug.current == "home",
-		"isLandingPage": _type == "landingPage",
-		seo
+		slug,
+		isHomePage,
+		seo,
+		content[] {
+			_type,
+			_key,
+			...,
+			mainImage {
+				asset-> {
+					url,
+					metadata {
+						dimensions {
+							width,
+							height,
+							aspectRatio
+						}
+					}
+				}
+			},
+			image {
+				asset-> {
+					url,
+					metadata {
+						dimensions {
+							width,
+							height,
+							aspectRatio
+						}
+					}
+				}
+			},
+			"asset": asset-> {
+				url,
+				metadata {
+					dimensions {
+						width,
+						height,
+						aspectRatio
+					}
+				}
+			},
+			boats[]-> {
+				...,
+				mainImage {
+					asset-> {
+						url,
+						metadata {
+							dimensions {
+								width,
+								height,
+								aspectRatio
+							}
+						}
+					}
+				}
+			},
+			services[]-> {
+				...,
+				image {
+					asset-> {
+						url,
+						metadata {
+							dimensions {
+								width,
+								height,
+								aspectRatio
+							}
+						}
+					}
+				}
+			},
+			brands[] {
+				name,
+				"logo": logo.asset-> {
+					url,
+					metadata {
+						dimensions {
+							width,
+							height,
+							aspectRatio
+						}
+					}
+				}
+			}
+		}
 	}`;
-	return await client.fetch(query, { slug });
+
+	try {
+		const page = await client.fetch(query, { slug });
+		if (!page) return null;
+
+		// Ensure all image assets have proper dimensions
+		if (page.content) {
+			page.content = page.content.map((block: any) => {
+				if (block.mainImage?.asset && !block.mainImage.asset.metadata?.dimensions) {
+					block.mainImage.asset.metadata = { dimensions: { width: 800, height: 600 } };
+				}
+				if (block.image?.asset && !block.image.asset.metadata?.dimensions) {
+					block.image.asset.metadata = { dimensions: { width: 800, height: 600 } };
+				}
+				if (block.asset && !block.asset.metadata?.dimensions) {
+					block.asset.metadata = { dimensions: { width: 800, height: 600 } };
+				}
+				return block;
+			});
+		}
+
+		return page;
+	} catch (error) {
+		console.error("Sanity query error:", error);
+		return null;
+	}
 });
 
 // Cache the getHomePage function
@@ -454,4 +566,189 @@ export const getBoatById = cache(async (id: string): Promise<SanityBoat | null> 
 	}`;
 
 	return await client.fetch(query, { id });
+});
+
+// Add this query function
+export const getPrimaryNavigation = cache(async (): Promise<MenuItem[]> => {
+	const query = `*[_type == "menu" && title == "Primary"][0].items[] {
+		_type == 'reference' => {
+			"_id": @->_id,
+			"label": @->title,
+			"link": "/" + @->slug.current,
+			"order": @._key
+		},
+		_type == 'customLink' => {
+			"_id": _key,
+			"label": title,
+			"link": href,
+			"order": _key
+		}
+	}`;
+
+	const defaultNavItems = [
+		{ _id: "home", label: "Home", link: "/", order: 1 },
+		{ _id: "boats", label: "Boats", link: "/boats", order: 2 },
+		{ _id: "services", label: "Services", link: "/services", order: 3 },
+		{ _id: "about", label: "About Us", link: "/about", order: 4 },
+		{ _id: "financing", label: "Financing", link: "/financing", order: 5 },
+		{ _id: "contact", label: "Contact", link: "/contact", order: 6 },
+	];
+
+	try {
+		const items = await client.fetch(query);
+
+		// Filter and maintain array order from Sanity Studio
+		const validItems = items
+			?.filter((item: MenuItem) => item.label && item.link)
+			.map((item: MenuItem, index: number) => ({
+				...item,
+				_id: item._id || `nav-item-${index}`,
+				link: item.link.startsWith("//") ? item.link.substring(1) : item.link,
+				order: index, // Use the array index for ordering
+			}));
+
+		return validItems?.length ? validItems : defaultNavItems;
+	} catch (error) {
+		console.error("Error fetching navigation:", error);
+		return defaultNavItems;
+	}
+});
+
+export const getPageBlocks = cache(async (slug: string) => {
+	const query = `*[_type == "page" && slug.current == $slug][0] {
+		content[] {
+			_type,
+			_key,
+			...,
+			mainImage {
+				asset-> {
+					url,
+					metadata {
+						dimensions
+					}
+				}
+			},
+			boats[]-> {
+				...,
+				mainImage {
+					asset-> {
+						url,
+						metadata {
+							dimensions
+						}
+					}
+				}
+			},
+			services[]-> {
+				...,
+				image {
+					asset-> {
+						url,
+						metadata {
+							dimensions
+						}
+					}
+				}
+			},
+			brands[] {
+				name,
+				"logo": logo.asset->{
+					url,
+					metadata {
+						dimensions
+					}
+				}
+			}
+		}
+	}`;
+
+	try {
+		const page = await client.fetch(query, { slug });
+		const blocks = page?.content || page?.sections || [];
+		console.log("Raw page data:", page);
+		return blocks;
+	} catch (error) {
+		console.error("Error fetching page blocks:", error);
+		return [];
+	}
+});
+
+// Add these interfaces
+export interface SanityService {
+	_id: string;
+	title: string;
+	description: string;
+	icon?: string;
+	image: {
+		asset: {
+			url: string;
+			metadata: {
+				dimensions: {
+					width: number;
+					height: number;
+				};
+			};
+		};
+	};
+}
+
+export interface SanityTestimonial {
+	_id: string;
+	name: string;
+	text: string;
+	rating: number;
+}
+
+export interface SanityBrand {
+	name: string;
+	logo: {
+		asset: {
+			url: string;
+			metadata: {
+				dimensions: {
+					width: number;
+					height: number;
+				};
+			};
+		};
+	};
+}
+
+export const getServices = cache(async () => {
+	const query = `*[_type == "service"] {
+		_id,
+		title,
+		description,
+		icon,
+		"image": {
+			"asset": {
+				"url": image.asset->url,
+				"metadata": image.asset->metadata
+			}
+		}
+	}`;
+	return client.fetch(query);
+});
+
+export const getTestimonials = cache(async () => {
+	const query = `*[_type == "testimonial"] {
+		_id,
+		name,
+		text,
+		rating
+	}`;
+	return client.fetch(query);
+});
+
+export const getBrands = cache(async () => {
+	const query = `*[_type == "brand"] {
+		name,
+		"logo": {
+			"asset": logo.asset->{
+				"url": url,
+				"metadata": metadata
+			}
+		}
+	}`;
+	return client.fetch(query);
 });

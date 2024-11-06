@@ -4,27 +4,18 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, PhoneCall } from "lucide-react";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { useConfig } from "@/hooks/useConfig";
+import { MenuItem } from "@/app/actions/sanity";
 
-export default function Nav() {
-	const { config } = useConfig();
+type NavProps = {
+	phoneNumber: string;
+	phoneNumberRaw: string;
+	navItems: MenuItem[];
+};
+
+export default function NavigationContent({ phoneNumber, phoneNumberRaw, navItems }: NavProps) {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const phoneNumber = config?.phoneNumber || "(770) 881-7808";
-	const phoneNumberRaw = config?.phoneNumber?.replace(/[^0-9+]/g, "") || "+17708817808";
-
-	const navItems = useMemo(
-		() => [
-			{ href: "/", label: "Home" },
-			{ href: "/about-us", label: "About Us" },
-			{ href: "/boats", label: "Boats" },
-			{ href: "/services", label: "Services" },
-			{ href: "/financing", label: "Financing" },
-			{ href: "/contact", label: "Contact" },
-		],
-		[]
-	);
 
 	const handleNavClick = useCallback((label: string) => {
 		sendGTMEvent({ event: "navClick", value: label });
@@ -43,7 +34,7 @@ export default function Nav() {
 		<>
 			<nav className="hidden md:flex space-x-6">
 				{navItems.map((item) => (
-					<Link key={item.href} href={item.href} className="text-sm font-medium hover:text-primary" onClick={() => handleNavClick(item.label)}>
+					<Link key={item._id} href={item.link} className="text-sm font-medium hover:text-primary" onClick={() => handleNavClick(item.label)}>
 						{item.label}
 					</Link>
 				))}
@@ -66,7 +57,7 @@ export default function Nav() {
 				<SheetContent side="right" className="w-[300px] sm:w-[350px]">
 					<nav className="flex flex-col space-y-4 mt-6">
 						{navItems.map((item) => (
-							<Link key={item.href} href={item.href} className="text-sm font-medium hover:text-primary" onClick={() => handleNavClick(item.label)}>
+							<Link key={item._id} href={item.link} className="text-sm font-medium hover:text-primary" onClick={() => handleNavClick(item.label)}>
 								{item.label}
 							</Link>
 						))}

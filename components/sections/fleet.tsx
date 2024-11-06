@@ -1,4 +1,6 @@
-import { memo } from "react";
+"use client";
+
+import { memo, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Waves, Anchor, Wind } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -10,15 +12,12 @@ const BoatImage = memo(function BoatImage({ boat, priority }: { boat: SanityBoat
 	return <div className="relative aspect-video overflow-hidden rounded-xl shadow-2xl">{boat.mainImage?.asset?.url && <Image alt={`${boat.name} - Luxury boat by Impact Marine Group`} src={boat.mainImage.asset.url} className="object-cover transition-transform duration-500 hover:scale-105" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={priority} quality={75} loading={priority ? "eager" : "lazy"} />}</div>;
 });
 
-interface FleetSectionProps {
-	currentBoat: number;
-	nextBoat: () => void;
-	prevBoat: () => void;
-	boats: SanityBoat[];
-}
+export default function FleetSection({ boats }: { boats: SanityBoat[] }) {
+	const [currentBoat, setCurrentBoat] = useState(0);
 
-export default function FleetSection({ currentBoat, nextBoat, prevBoat, boats }: FleetSectionProps) {
-	if (!boats.length) return null;
+	const nextBoat = useCallback(() => setCurrentBoat((prev) => (prev + 1) % boats.length), [boats.length]);
+
+	const prevBoat = useCallback(() => setCurrentBoat((prev) => (prev - 1 + boats.length) % boats.length), [boats.length]);
 
 	const currentBoatData = boats[currentBoat];
 

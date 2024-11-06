@@ -4,12 +4,14 @@ import { Mail, MapPin, Facebook, Instagram, Twitter, PhoneCall } from "lucide-re
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useConfig } from "@/hooks/useConfig";
+import { usePrimaryNavigation } from "@/hooks/usePrimaryNavigation";
 import Image from "next/image";
 
 export default function Footer() {
-	const { config, loading } = useConfig();
+	const { config, loading: configLoading } = useConfig();
+	const { items: menuItems, loading: menuLoading } = usePrimaryNavigation();
 
-	if (loading) return <div>Loading...</div>;
+	if (configLoading || menuLoading) return <div>Loading...</div>;
 	if (!config) return null;
 
 	const socialLinks = config.socialMedia?.reduce((acc, social) => {
@@ -22,38 +24,20 @@ export default function Footer() {
 			<div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 h-full">
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 					<div className="mb-8 sm:mb-0">
-						<Image src="/impact-logo.webp" alt={config.siteName} width={150} height={150} className="p-4 mb-2 bg-white rounded-lg" />
+						<Image src={config.logo?.asset?.url || "/impact-logo.webp"} alt={config.siteName} width={150} height={150} className="p-4 mb-2 bg-white rounded-lg" />
 						<h3 className="text-xl font-bold mb-4">{config.siteName}</h3>
 						<p className="text-gray-400 text-sm sm:text-base">Your premier destination for quality boats and exceptional marine experiences.</p>
 					</div>
 					<div>
 						<h4 className="text-lg font-semibold mb-4">Quick Links</h4>
 						<ul className="space-y-2 text-sm sm:text-base">
-							<li>
-								<Link href="/" className="hover:text-blue-400 transition-colors">
-									Home
-								</Link>
-							</li>
-							<li>
-								<Link href="/inventory" className="hover:text-blue-400 transition-colors">
-									Inventory
-								</Link>
-							</li>
-							<li>
-								<Link href="/services" className="hover:text-blue-400 transition-colors">
-									Services
-								</Link>
-							</li>
-							<li>
-								<Link href="/about" className="hover:text-blue-400 transition-colors">
-									About Us
-								</Link>
-							</li>
-							<li>
-								<Link href="/contact" className="hover:text-blue-400 transition-colors">
-									Contact
-								</Link>
-							</li>
+							{menuItems?.map((item) => (
+								<li key={item._id}>
+									<Link href={item.link} className="hover:text-blue-400 transition-colors">
+										{item.label}
+									</Link>
+								</li>
+							))}
 						</ul>
 					</div>
 					<div>

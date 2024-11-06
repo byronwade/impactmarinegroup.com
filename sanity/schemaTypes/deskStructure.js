@@ -20,6 +20,10 @@ export default (S) =>
             .title('Content')
             .items([
               S.listItem()
+                .title('Landing Pages')
+                .schemaType('landingPage')
+                .child(S.documentTypeList('landingPage')),
+              S.listItem()
                 .title('Blog Posts')
                 .schemaType('blogPost')
                 .child(S.documentTypeList('blogPost')),
