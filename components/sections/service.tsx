@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Anchor, ChevronRight, Users, Wrench, Waves } from "lucide-react";
 import Image from "next/image";
-import { SanityService } from "@/app/actions/sanity";
+import { SanityService } from "@/actions/sanity";
 
 export default async function ServicesSection({ services }: { services: SanityService[] }) {
 	if (!services?.length) return null;

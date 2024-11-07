@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { SanityBrand } from "@/app/actions/sanity";
+import { SanityBrand } from "@/actions/sanity";
 
 export default async function FeaturedBrands({ brands }: { brands: SanityBrand[] }) {
 	if (!brands?.length) return null;

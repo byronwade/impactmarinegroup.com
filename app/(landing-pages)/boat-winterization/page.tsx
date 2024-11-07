@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Snowflake, Shield, Calendar, Wrench, Check, Star, Clock, Phone } from "lucide-react";
-import { getSiteConfig } from "@/app/actions/sanity";
+import { getSiteConfig } from "@/actions/sanity";
 
 export default async function WinterizationLanding() {
 	const config = await getSiteConfig();

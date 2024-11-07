@@ -1,6 +1,6 @@
 import { Quote, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SanityTestimonial } from "@/app/actions/sanity";
+import { SanityTestimonial } from "@/actions/sanity";
 
 export default function TestimonialsSection({ testimonials }: { testimonials: SanityTestimonial[] }) {
 	if (!testimonials?.length) return null;

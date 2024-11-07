@@ -7,29 +7,16 @@ import { Mail, Printer, ChevronRight, Phone } from "lucide-react";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { SanityBoat, getBoatBySlug } from "@/app/actions/sanity";
+import { useBoat } from "@/hooks/useBoat";
 
 export default function BoatDetails() {
 	const { slug } = useParams();
-	const [boat, setBoat] = useState<SanityBoat | null>(null);
+	const { data: boat, isLoading } = useBoat(slug as string);
 	const [mainImage, setMainImage] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		const loadBoat = async () => {
-			if (!slug) return;
-			try {
-				const boatData = await getBoatBySlug(slug as string);
-				setBoat(boatData);
-				setMainImage(boatData?.mainImage?.asset?.url || null);
-			} catch (error) {
-				console.error("Error loading boat:", error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-		loadBoat();
-	}, [slug]);
+		setMainImage(boat?.mainImage?.asset?.url || null);
+	}, [boat]);
 
 	if (isLoading) return <div>Loading...</div>;
 	if (!boat) return <div>Boat not found</div>;

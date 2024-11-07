@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, PhoneCall } from "lucide-react";
 import { useState, useCallback } from "react";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { MenuItem } from "@/app/actions/sanity";
+import { MenuItem } from "@/actions/sanity";
 
 type NavProps = {
 	phoneNumber: string;

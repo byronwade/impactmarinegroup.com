@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Anchor, PhoneCall, Wrench } from "lucide-react";
 import Link from "next/link";
 import { FinancingCalculator } from "./financing-calculator";
-import { getSiteConfig } from "@/app/actions/sanity";
+import { getSiteConfig } from "@/actions/sanity";
 
 export default async function FinancingPage() {
 	const config = await getSiteConfig();

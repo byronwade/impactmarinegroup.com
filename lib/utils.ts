@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { getSiteConfig } from "@/app/actions/sanity";
+import { getSiteConfig } from "@/actions/sanity";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));

@@ -1,4 +1,4 @@
-import { getPageBySlug } from "@/app/actions/sanity";
+import { getPageBySlug } from "@/actions/sanity";
 import RenderBlock, { Block } from "@/components/RenderBlock";
 import { Suspense } from "react";
 import { Metadata } from "next";

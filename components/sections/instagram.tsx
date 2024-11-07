@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Instagram, Anchor } from "lucide-react";
 import Image from "next/image";
 import { Suspense } from "react";
-import { getInstagramFeed } from "@/app/actions/instagram";
+import { getInstagramFeed } from "@/actions/instagram";
 
 // Create a loading skeleton component
 const InstagramSkeleton = () => (

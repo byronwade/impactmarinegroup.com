@@ -10,7 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { getAllInventoryBoats } from "@/app/actions/sanity";
+import { getAllInventoryBoats } from "@/actions/sanity";
 
 export default function BoatsPage() {
 	const [displayCount, setDisplayCount] = useState(6);

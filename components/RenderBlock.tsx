@@ -1,5 +1,3 @@
-"use client";
-
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
@@ -18,7 +16,6 @@ const FeaturedBrands = dynamic(() => import("./sections/featured-brands"), {
 
 const FleetSection = dynamic(() => import("./sections/fleet"), {
 	loading: () => <div>Loading fleet...</div>,
-	ssr: false,
 });
 
 const ServicesSection = dynamic(() => import("./sections/service"), {
@@ -31,7 +28,6 @@ const TestimonialsSection = dynamic(() => import("./sections/testimonials"), {
 
 const SocialSection = dynamic(() => import("./sections/instagram"), {
 	loading: () => <div>Loading social...</div>,
-	ssr: false,
 });
 
 const Hero = dynamic(() => import("./Hero"), {

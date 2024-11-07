@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getSiteConfig } from "@/app/actions/sanity";
+import { getSiteConfig } from "@/actions/sanity";
 import NavigationContent from "./NavigationContent";
-import { getPrimaryNavigation } from "@/app/actions/sanity";
+import { getPrimaryNavigation } from "@/actions/sanity";
 
 export default async function Header() {
 	const config = await getSiteConfig();

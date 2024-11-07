@@ -1,7 +1,7 @@
 import Image from "next/legacy/image"
 import { MapPin, Clock, Phone, Mail, Ship, Wrench, Compass, DollarSign, Users, LifeBuoy, Zap, Shield, Award } from "lucide-react";
 import { Button } from "@/components/ui/button"
-import { getSiteConfig } from "@/app/actions/sanity";
+import { getSiteConfig } from "@/actions/sanity";
 
 export default async function SinglePageDealership() {
 	const config = await getSiteConfig();

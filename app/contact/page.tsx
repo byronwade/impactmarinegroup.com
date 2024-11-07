@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MessageCircle, Phone, MapPin, Ship, Wrench, DollarSign, Clock } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
-import { getSiteConfig } from "@/app/actions/sanity";
+import { getSiteConfig } from "@/actions/sanity";
 
 export default async function ContactPage() {
 	const config = await getSiteConfig();

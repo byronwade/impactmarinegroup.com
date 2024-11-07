@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Waves, Anchor, Wind } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { SanityBoat } from "@/app/actions/sanity";
+import { SanityBoat } from "@/actions/sanity";
 import { formatCurrency } from "@/lib/utils";
 
 const BoatImage = memo(function BoatImage({ boat, priority }: { boat: SanityBoat; priority?: boolean }) {

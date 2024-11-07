@@ -1,4 +1,4 @@
-import { getFeaturedBoats, getHomePage } from "@/app/actions/sanity";
+import { getFeaturedBoats, getHomePage } from "@/actions/sanity";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";

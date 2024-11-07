@@ -1,7 +1,5 @@
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
-import { getPrimaryNavigation } from "@/app/actions/sanity";
+import { getPrimaryNavigation } from "@/actions/sanity";
 
 export function usePrimaryNavigation() {
 	const { data: items = [], isLoading: loading } = useQuery({
