@@ -1,4 +1,4 @@
-import { getFeaturedBoats, getHomePage } from "@/actions/sanity";
+import { getFeaturedBoats, getHomePage, getBrands } from "@/actions/sanity";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
@@ -18,7 +18,7 @@ const TestimonialsSection = dynamic(() => import("@/components/sections/testimon
 const SocialSection = dynamic(() => import("@/components/sections/instagram"), {
 	loading: () => <div>Loading social...</div>,
 });
-const DynamicHero = dynamic(() => import("@/components/hero"), {
+const DynamicHero = dynamic(() => import("@/components/sections/hero"), {
 	loading: () => <div>Loading page content...</div>,
 });
 
@@ -46,19 +46,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
 	const homePage = await getHomePage();
 	const boats = await getFeaturedBoats();
+	const brands = await getBrands();
 
 	if (!homePage) {
 		throw new Error("No home page found");
 	}
-
-	const brands = [
-		{ name: "Godfrey", logo: "/godfrey.svg", width: 100, height: 32 },
-		{ name: "Tige", logo: "/tige.svg", width: 100, height: 32 },
-		{ name: "Lund", logo: "/lund.svg", width: 100, height: 32 },
-		{ name: "Sea Ray", logo: "/sea-ray.svg", width: 100, height: 32 },
-		{ name: "Bayliner", logo: "/bayliner.svg", width: 100, height: 32 },
-		{ name: "Boston Whaler", logo: "/boston-whaler.svg", width: 100, height: 32 },
-	];
 
 	const testimonials = [
 		{ name: "John D.", text: "The team at Impact Marine Group made buying my first yacht a breeze. Their expertise and customer service are unmatched!", rating: 5 },
@@ -72,13 +64,9 @@ export default async function Home() {
 					<DynamicHero />
 				</Suspense>
 				<main className="bg-background">
-					<Suspense fallback={<div>Loading page content...</div>}>
-						<FeaturedBrands brands={brands} />
-					</Suspense>
+					<Suspense fallback={<div>Loading page content...</div>}>{brands?.length > 0 && <FeaturedBrands brands={brands} />}</Suspense>
 					<Suspense fallback={<div>Loading page content...</div>}>{boats.length > 0 && <FleetSection boats={boats} />}</Suspense>
-					<Suspense fallback={<div>Loading page content...</div>}>
-						<ServicesSection />
-					</Suspense>
+					<Suspense fallback={<div>Loading page content...</div>}>{homePage?.services && <ServicesSection services={homePage.services} />}</Suspense>
 					<Suspense fallback={<div>Loading page content...</div>}>
 						<TestimonialsSection testimonials={testimonials} />
 					</Suspense>

@@ -24,7 +24,7 @@ export default {
       name: 'logo',
       title: 'Site Logo',
       type: 'image',
-      description: 'Upload your site logo here. Recommended size: 150x150px',
+      description: 'Upload your site logo here. Recommended size: 150x50px',
       options: {
         hotspot: true,
       },

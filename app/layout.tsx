@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import Providers from "./providers/QueryProvider";
+import Providers from "@/providers/query-provider";
 
 const Header = dynamic(() => import("@/components/header"));
 const Footer = dynamic(() => import("@/components/footer"));

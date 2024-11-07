@@ -2,14 +2,15 @@ import { Quote, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SanityTestimonial } from "@/actions/sanity";
 
-export default function TestimonialsSection({ testimonials }: { testimonials: SanityTestimonial[] }) {
+export default function TestimonialsSection({ testimonials, title = "What Our Customers Say" }: { testimonials: SanityTestimonial[]; title?: string }) {
+	//console.log("Testimonials section props:", { testimonials, title }); // Debug log
 	if (!testimonials?.length) return null;
 
 	return (
 		<section id="testimonials" aria-labelledby="testimonials-heading" className="py-24 overflow-hidden">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
 				<h2 id="testimonials-heading" className="text-4xl font-bold text-center mb-16">
-					What Our Customers Say
+					{title}
 				</h2>
 				<div className="relative">
 					<div className="absolute inset-0 flex items-center justify-center opacity-5">

@@ -19,8 +19,35 @@ export default {
       type: 'array',
       of: [
         {
-          type: 'reference',
-          to: [{type: 'service'}],
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Title',
+            },
+            {
+              name: 'description',
+              type: 'text',
+              title: 'Description',
+            },
+            {
+              name: 'image',
+              title: 'Service Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+              fields: [
+                {
+                  name: 'alt',
+                  type: 'string',
+                  title: 'Alternative text',
+                  description: 'Important for SEO and accessibility.',
+                },
+              ],
+            },
+          ],
         },
       ],
     },

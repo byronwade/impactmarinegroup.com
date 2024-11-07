@@ -85,14 +85,16 @@ const InstagramGrid = async () => {
 	}
 };
 
-export default function SocialSection() {
+export default function SocialSection({ title = "Sail Through Our Instagram" }: { title?: string; displayCount?: number }) {
+	//console.log("Instagram section props:", { title, displayCount }); // Debug log
+
 	return (
 		<section id="social" aria-labelledby="social-heading" className="py-16 bg-muted">
 			<div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
 				<div className="flex items-center justify-center mb-12">
 					<Anchor className="w-10 h-10 mr-3" />
 					<h2 id="social-heading" className="text-4xl font-bold">
-						Sail Through Our Instagram
+						{title}
 					</h2>
 				</div>
 				<Suspense fallback={<InstagramSkeleton />}>

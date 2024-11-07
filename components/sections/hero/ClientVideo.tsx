@@ -2,16 +2,18 @@
 
 import { useState, useCallback } from "react";
 
-export default function ClientVideo() {
+interface ClientVideoProps {
+	videoUrl: string;
+}
+
+export default function ClientVideo({ videoUrl }: ClientVideoProps) {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [hasError, setHasError] = useState(false);
 
 	const handleLoad = useCallback(() => setIsLoaded(true), []);
 	const handleError = useCallback(() => setHasError(true), []);
 
-	if (hasError) {
-		return null;
-	}
+	if (hasError) return null;
 
 	return (
 		<div className="absolute inset-0 w-full h-full overflow-hidden hidden md:block">
@@ -22,7 +24,7 @@ export default function ClientVideo() {
 					right: "-300px",
 					width: "calc(100vw + 400px)",
 					height: "100%",
-					objectFit: "cover" as const,
+					objectFit: "cover",
 					objectPosition: "center left",
 					transform: "scale(1.1)",
 				}}
@@ -34,7 +36,7 @@ export default function ClientVideo() {
 				onLoadedData={handleLoad}
 				onError={handleError}
 			>
-				<source src="/impactlogo.mp4" type="video/mp4" />
+				<source src={videoUrl} type="video/mp4" />
 				Your browser does not support the video tag.
 			</video>
 

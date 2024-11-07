@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getPageBySlug } from "@/actions/sanity";
-import RenderBlock, { Block } from "@/components/RenderBlock";
+import RenderBlock from "@/components/RenderBlock";
 import { Suspense } from "react";
 import { Metadata } from "next";
 
@@ -29,11 +30,13 @@ export default async function Page({ params }: PageProps) {
 	const slug = resolvedParams?.slug?.length ? resolvedParams.slug.join("/") : "home";
 	const page = await getPageBySlug(slug);
 
+	//console.log("Page data:", page); // Debug log
+
 	return (
 		<main className="min-h-screen">
 			<Suspense fallback={<div>Loading content...</div>}>
 				{page?.content?.length > 0 ? (
-					page.content.map((block: Block) => (
+					page.content.map((block: any) => (
 						<Suspense key={block._key} fallback={<div>Loading block...</div>}>
 							<RenderBlock block={block} />
 						</Suspense>

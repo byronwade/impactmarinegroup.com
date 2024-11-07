@@ -18,9 +18,8 @@ import instagramFeed from './components/instagram'
 import testimonialSection from './components/testimonials'
 
 export const schemaTypes = [
-  // Existing schemas...
-
-  siteConfig, // Add siteConfig to the schemaTypes array
+  featuredBrands,
+  siteConfig,
   boat,
   menu,
   page,
@@ -31,7 +30,6 @@ export const schemaTypes = [
   testimonial,
   featuredProducts,
   accordion,
-  featuredBrands,
   fleet,
   services,
   instagramFeed,

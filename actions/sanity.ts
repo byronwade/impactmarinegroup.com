@@ -1,4 +1,3 @@
-import { Block } from "@/components/RenderBlock";
 import { client, StructuredPage } from "@/lib/sanity";
 import { cache } from "react";
 
@@ -12,10 +11,9 @@ export interface SiteConfig {
 	phoneNumber: string;
 	email: string;
 	logo: {
-		asset: {
-			url: string;
-		};
-	};
+		url: string;
+		metadata: unknown;
+	} | null;
 	address: {
 		street: string;
 		city: string;
@@ -32,10 +30,6 @@ export interface Page {
 	_id: string;
 	slug: { current: string };
 	title: string;
-}
-
-export interface PageContent {
-	content: Block[];
 }
 
 export interface Boat {
@@ -263,7 +257,9 @@ export const getMenuByTitle = cache(async (title: string): Promise<Menu> => {
 export const expandMenuItems = cache(async (menu: Menu) => {
 	const expandedItems = await Promise.all(
 		menu.items.map(async (item) => {
+			//@ts-expect-error cant figure it out
 			if (item._type === "reference" && item._ref) {
+				//@ts-expect-error cant figure it out
 				const referenced = await client.getDocument(item._ref);
 				return {
 					...item,
@@ -317,118 +313,109 @@ export const getPageBySlug = cache(async (slug: string) => {
 		_id,
 		_type,
 		title,
-		slug,
+		"slug": slug.current,
 		isHomePage,
-		seo,
+		seo {
+			metaTitle,
+			metaDescription,
+			keywords
+		},
 		content[] {
 			_type,
 			_key,
-			...,
-			mainImage {
+			// Hero section
+			heading,
+			subheading,
+			backgroundImage {
 				asset-> {
 					url,
-					metadata {
-						dimensions {
-							width,
-							height,
-							aspectRatio
-						}
-					}
+					metadata { dimensions }
 				}
 			},
-			image {
-				asset-> {
-					url,
-					metadata {
-						dimensions {
-							width,
-							height,
-							aspectRatio
-						}
-					}
-				}
+			backgroundVideo {
+				asset-> { url }
 			},
-			"asset": asset-> {
-				url,
-				metadata {
-					dimensions {
-						width,
-						height,
-						aspectRatio
-					}
-				}
-			},
-			boats[]-> {
-				...,
-				mainImage {
-					asset-> {
-						url,
-						metadata {
-							dimensions {
-								width,
-								height,
-								aspectRatio
+			primaryCta,
+			secondaryCta,
+			rating,
+			
+			// Brands section
+			_type == "featuredBrands" => {
+				_type,
+				_key,
+				brands[] {
+					name,
+					logo {
+						asset-> {
+							url,
+							metadata {
+								dimensions
 							}
 						}
 					}
 				}
 			},
-			services[]-> {
-				...,
-				image {
-					asset-> {
-						url,
-						metadata {
-							dimensions {
-								width,
-								height,
-								aspectRatio
-							}
-						}
-					}
-				}
-			},
-			brands[] {
+			
+			// Fleet section
+			"boats": boats[]-> {
+				_id,
 				name,
-				"logo": logo.asset-> {
-					url,
-					metadata {
-						dimensions {
-							width,
-							height,
-							aspectRatio
-						}
+				manufacturer,
+				model,
+				trim,
+				modelYear,
+				condition,
+				status,
+				price,
+				description,
+				specs,
+				"mainImage": {
+					"asset": {
+						"url": mainImage.asset->url
+					}
+				},
+				available
+			},
+			
+			// Services section
+			_type == "services" => {
+				_type,
+				_key,
+				title,
+				subtitle,
+				services[] {
+					_id,
+					title,
+					description,
+					icon,
+					"image": {
+						"asset": {
+							"url": image.asset->url,
+							"metadata": image.asset->metadata
+						},
+						"alt": image.alt
 					}
 				}
+			},
+			
+			// Testimonials section
+			"testimonials": testimonials[] {
+				_id,
+				name,
+				text,
+				rating
+			},
+			
+			// Accordion section
+			items[] {
+				_key,
+				trigger,
+				content
 			}
 		}
 	}`;
 
-	try {
-		const page = await client.fetch(query, { slug });
-		if (!page) return null;
-
-		// Ensure all image assets have proper dimensions
-		if (page.content) {
-			page.content = page.content.map((block: any) => {
-				if (block.mainImage?.asset && !block.mainImage.asset.metadata?.dimensions) {
-					block.mainImage.asset.metadata = { dimensions: { width: 800, height: 600 } };
-				}
-				if (block.image?.asset && !block.image.asset.metadata?.dimensions) {
-					block.image.asset.metadata = { dimensions: { width: 800, height: 600 } };
-				}
-				if (block.asset && !block.asset.metadata?.dimensions) {
-					block.asset.metadata = { dimensions: { width: 800, height: 600 } };
-				}
-				return block;
-			});
-		}
-
-		return page;
-	} catch (error) {
-		console.error("Sanity query error:", error);
-		return null;
-	}
+	return await client.fetch(query, { slug });
 });
 
 // Cache the getHomePage function
@@ -442,7 +429,7 @@ export const getHomePage = cache(async () => {
 });
 
 // Add a new function to fetch content separately
-export const getPageContent = cache(async (id: string): Promise<Block[]> => {
+export const getPageContent = cache(async (id: string): Promise<unknown[]> => {
 	try {
 		const query = `*[_id == $id][0].content`;
 		const content = await client.fetch(query, { id });
@@ -620,14 +607,17 @@ export const getPageBlocks = cache(async (slug: string) => {
 			_type,
 			_key,
 			...,
-			mainImage {
-				asset-> {
+			// Resolve brand references
+			brands[]-> {
+				name,
+				"logo": logo.asset->{
 					url,
 					metadata {
 						dimensions
 					}
 				}
 			},
+			// Resolve boat references
 			boats[]-> {
 				...,
 				mainImage {
@@ -639,6 +629,7 @@ export const getPageBlocks = cache(async (slug: string) => {
 					}
 				}
 			},
+			// Resolve service references
 			services[]-> {
 				...,
 				image {
@@ -650,13 +641,25 @@ export const getPageBlocks = cache(async (slug: string) => {
 					}
 				}
 			},
-			brands[] {
+			// Resolve testimonial references
+			testimonials[]-> {
+				_id,
 				name,
-				"logo": logo.asset->{
+				text,
+				rating
+			},
+			// Resolve background assets
+			backgroundImage {
+				asset-> {
 					url,
 					metadata {
 						dimensions
 					}
+				}
+			},
+			backgroundVideo {
+				asset-> {
+					url
 				}
 			}
 		}
@@ -664,8 +667,8 @@ export const getPageBlocks = cache(async (slug: string) => {
 
 	try {
 		const page = await client.fetch(query, { slug });
-		const blocks = page?.content || page?.sections || [];
-		console.log("Raw page data:", page);
+		const blocks = page?.content || [];
+		//console.log("Raw page data:", page);
 		return blocks;
 	} catch (error) {
 		console.error("Error fetching page blocks:", error);
@@ -678,8 +681,8 @@ export interface SanityService {
 	_id: string;
 	title: string;
 	description: string;
-	icon?: string;
-	image: {
+	icon?: "wrench" | "anchor" | "users";
+	image?: {
 		asset: {
 			url: string;
 			metadata: {
@@ -689,6 +692,7 @@ export interface SanityService {
 				};
 			};
 		};
+		alt?: string;
 	};
 }
 
@@ -741,14 +745,48 @@ export const getTestimonials = cache(async () => {
 });
 
 export const getBrands = cache(async () => {
-	const query = `*[_type == "brand"] {
-		name,
-		"logo": {
-			"asset": logo.asset->{
-				"url": url,
-				"metadata": metadata
+	// Query to find featuredBrands blocks within page content
+	const query = `*[_type == "page" && defined(content) && count(content[_type == "featuredBrands"]) > 0] {
+		"brandBlocks": content[_type == "featuredBrands"] {
+			brands[] {
+				name,
+				logo {
+					asset-> {
+						url,
+						metadata {
+							dimensions
+						}
+					}
+				}
 			}
 		}
-	}`;
-	return client.fetch(query);
+	}[0].brandBlocks[0].brands`;
+
+	try {
+		const brands = await client.fetch(query);
+		console.log("Fetched brands from page content:", brands);
+
+		if (!brands?.length) {
+			console.log("No brands found in content blocks");
+			return [];
+		}
+
+		// Filter out invalid brands
+		//@ts-expect-error cant figure it out
+		const validBrands = brands.filter((brand) => {
+			console.log("Checking brand:", brand);
+			return brand && brand.name && brand.logo?.asset?.url;
+		});
+
+		console.log("Valid brands to return:", validBrands);
+		return validBrands;
+	} catch (error) {
+		console.error("Error in getBrands:", error);
+		return [];
+	}
 });
+
+export interface InstagramSection {
+	title?: string;
+	displayCount?: number;
+}

@@ -7,6 +7,7 @@ export default {
       name: 'title',
       title: 'Section Title',
       type: 'string',
+      initialValue: 'Sail Through Our Instagram',
     },
     {
       name: 'displayCount',

@@ -3,10 +3,24 @@
 import { PortableText } from "@portabletext/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
+interface AccordionContent {
+	_type: string;
+	children: Array<{
+		_type: string;
+		text: string;
+		marks?: string[];
+	}>;
+	markDefs?: Array<{
+		_type: string;
+		_key: string;
+		href: string;
+	}>;
+}
+
 interface AccordionItem {
 	_key: string;
 	trigger: string;
-	content: any[];
+	content: AccordionContent[];
 }
 
 interface AccordionBlockProps {
