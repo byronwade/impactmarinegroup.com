@@ -9,16 +9,11 @@ import { ExternalLink, Menu, ChevronRight } from "lucide-react"
 import { getSiteConfig, SiteConfig } from "@/app/actions/sanity";
 import Link from "next/link";
 
-export async function getConfig() {
-	const config = await getSiteConfig();
-	return config;
-}
-
 const useConfig = () => {
 	const [config, setConfig] = useState<SiteConfig | null>(null);
 
 	useEffect(() => {
-		getConfig().then(setConfig);
+		getSiteConfig().then(setConfig);
 	}, []);
 
 	return config;

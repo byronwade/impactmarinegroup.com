@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Search } from "lucide-react";
@@ -9,29 +10,19 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { SanityBoat, getAllInventoryBoats } from "@/app/actions/sanity";
+import { getAllInventoryBoats } from "@/app/actions/sanity";
 
 export default function BoatsPage() {
-	const [boats, setBoats] = useState<SanityBoat[]>([]);
 	const [displayCount, setDisplayCount] = useState(6);
 	const [selectedManufacturer, setSelectedManufacturer] = useState("All Manufacturers");
 	const [selectedCondition, setSelectedCondition] = useState("All Conditions");
 	const [searchQuery, setSearchQuery] = useState("");
-	const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		const loadBoats = async () => {
-			try {
-				const boatData = await getAllInventoryBoats();
-				setBoats(boatData);
-			} catch (error) {
-				console.error("Error loading boats:", error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-		loadBoats();
-	}, []);
+	// Use React Query for data fetching
+	const { data: boats = [], isLoading } = useQuery({
+		queryKey: ["boats"],
+		queryFn: getAllInventoryBoats,
+	});
 
 	const manufacturers = useMemo(() => {
 		const allManufacturers = new Set(boats.map((boat) => boat.manufacturer));
@@ -66,7 +57,7 @@ export default function BoatsPage() {
 	};
 
 	if (isLoading) {
-		return <div>Loading...</div>; // Consider adding a proper loading skeleton here
+		return <div>Loading...</div>;
 	}
 
 	return (

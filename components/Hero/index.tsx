@@ -1,23 +1,24 @@
+"use client";
+
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
-import { getViewport } from "@/app/actions/viewport";
 
 const HeroBackground = dynamic(() => import("./HeroBackground"), {
 	loading: () => null,
 });
 
-const ClientHeroWrapper = dynamic(() => import("./ClientHeroWrapper"));
+const HeroContent = dynamic(() => import("./HeroContent"), {
+	ssr: false,
+});
 
-export default async function Hero() {
-	const viewport = await getViewport();
-
+export default function Hero() {
 	return (
 		<section className="relative w-full h-screen flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
 			<Suspense fallback={<div className="absolute inset-0 bg-gray-900" />}>
-				<HeroBackground viewport={viewport} />
+				<HeroBackground />
 			</Suspense>
 			<Suspense fallback={null}>
-				<ClientHeroWrapper />
+				<HeroContent />
 			</Suspense>
 		</section>
 	);

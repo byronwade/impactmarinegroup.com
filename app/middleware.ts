@@ -5,7 +5,7 @@ export const config = {
 	matcher: "/((?!api|_next/static|_next/image|favicon.ico).*)",
 };
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
 	const { device } = userAgent(request);
 	const viewport = device.type === "mobile" ? "mobile" : "desktop";
 

@@ -1,27 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { getPrimaryNavigation } from "@/app/actions/sanity";
-import type { MenuItem } from "@/app/actions/sanity";
 
 export function usePrimaryNavigation() {
-	const [items, setItems] = useState<MenuItem[]>([]);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		async function fetchNavigation() {
-			try {
-				const navItems = await getPrimaryNavigation();
-				setItems(navItems);
-			} catch (error) {
-				console.error("Error fetching navigation:", error);
-			} finally {
-				setLoading(false);
-			}
-		}
-
-		fetchNavigation();
-	}, []);
+	const { data: items = [], isLoading: loading } = useQuery({
+		queryKey: ["primaryNavigation"],
+		queryFn: getPrimaryNavigation,
+	});
 
 	return { items, loading };
 }

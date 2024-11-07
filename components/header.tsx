@@ -7,7 +7,6 @@ import { getPrimaryNavigation } from "@/app/actions/sanity";
 export default async function Header() {
 	const config = await getSiteConfig();
 	const navItems = await getPrimaryNavigation();
-	console.log(navItems);
 
 	if (!config) return null;
 

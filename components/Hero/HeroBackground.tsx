@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
@@ -8,11 +6,7 @@ const ClientVideo = dynamic(() => import("./ClientVideo"), {
 	ssr: false,
 });
 
-interface HeroBackgroundProps {
-	viewport: string;
-}
-
-export default function HeroBackground({ viewport }: HeroBackgroundProps) {
+export default function HeroBackground() {
 	const imageProps = {
 		src: "/boat.webp",
 		alt: "Impact Marine Group boat on water",
@@ -28,7 +22,7 @@ export default function HeroBackground({ viewport }: HeroBackgroundProps) {
 	return (
 		<div className="absolute inset-0 w-full h-full">
 			<Image {...imageProps} />
-			{viewport !== "mobile" && <ClientVideo />}
+			<ClientVideo />
 		</div>
 	);
 }
