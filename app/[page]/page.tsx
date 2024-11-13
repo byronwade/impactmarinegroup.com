@@ -3,16 +3,13 @@ import RenderBlock from "@/components/RenderBlock";
 import type { Block } from "@/types/sanity";
 
 interface PageProps {
-	params: Promise<{
-		slug?: string[];
-	}>;
+	params: {
+		page: string;
+	};
 }
 
 export default async function Page({ params }: PageProps) {
-	// Wait for the entire params object
-	const resolvedParams = await params;
-	const slug = resolvedParams.slug?.length ? resolvedParams.slug.join("/") : "home";
-	const blocks = await getPageBlocks(slug);
+	const blocks = await getPageBlocks(params.page);
 
 	if (!blocks?.length) {
 		return <div>No content found</div>;
@@ -27,11 +24,8 @@ export default async function Page({ params }: PageProps) {
 	);
 }
 
-// Update metadata generation to also handle async params
 export async function generateMetadata({ params }: PageProps) {
-	const resolvedParams = await params;
-	const slug = resolvedParams.slug?.length ? resolvedParams.slug.join("/") : "home";
-	const blocks = await getPageBlocks(slug);
+	const blocks = await getPageBlocks(params.page);
 
 	return {
 		title: blocks?.[0]?.title || "Impact Marine Group",

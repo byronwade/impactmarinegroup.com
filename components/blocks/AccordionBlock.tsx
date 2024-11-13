@@ -1,33 +1,15 @@
 "use client";
 
+import { memo } from "react";
 import { PortableText } from "@portabletext/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-
-interface AccordionContent {
-	_type: string;
-	children: Array<{
-		_type: string;
-		text: string;
-		marks?: string[];
-	}>;
-	markDefs?: Array<{
-		_type: string;
-		_key: string;
-		href: string;
-	}>;
-}
-
-interface AccordionItem {
-	_key: string;
-	trigger: string;
-	content: AccordionContent[];
-}
+import type { AccordionItem as AccordionItemType } from "@/types/sanity";
 
 interface AccordionBlockProps {
-	items: AccordionItem[];
+	items: AccordionItemType[];
 }
 
-export default function AccordionBlock({ items }: AccordionBlockProps) {
+const AccordionBlock = memo(function AccordionBlock({ items }: AccordionBlockProps) {
 	if (!items?.length) return null;
 
 	return (
@@ -44,4 +26,6 @@ export default function AccordionBlock({ items }: AccordionBlockProps) {
 			))}
 		</Accordion>
 	);
-}
+});
+
+export default AccordionBlock;

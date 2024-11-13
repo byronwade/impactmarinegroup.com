@@ -1,24 +1,31 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
+import type { SanityVideo } from "@/types/sanity";
 
-const AccordionBlock = dynamic(() => import("./blocks/AccordionBlock"), {
-	loading: () => <div>Loading...</div>,
-});
+const AccordionBlock = dynamic(
+	() =>
+		import("./blocks/AccordionBlock").then((mod) => ({
+			default: memo(mod.default),
+		})),
+	{
+		loading: () => <div className="h-32 bg-gray-100 animate-pulse" />,
+		ssr: true,
+	}
+);
 
 interface VideoRendererProps {
 	videoRef: React.RefObject<HTMLVideoElement>;
 	isMobile: boolean;
+	video: SanityVideo;
 }
 
 interface CallToActionProps {
-	block: {
-		heading?: string;
-		text?: string;
-		buttonText?: string;
-		buttonLink?: string;
-	};
+	heading: string;
+	text: string;
+	buttonText: string;
+	buttonLink: string;
 }
 
 interface AccordionBlockProps {
@@ -31,25 +38,38 @@ interface AccordionBlockProps {
 	};
 }
 
-export function VideoRenderer({ videoRef, isMobile }: VideoRendererProps) {
+export const VideoRenderer = memo(function VideoRenderer({ videoRef, isMobile, video }: VideoRendererProps) {
 	useEffect(() => {
-		if (videoRef.current && !isMobile) {
-			videoRef.current.play().catch((error: Error) => {
-				console.error("Error attempting to play video:", error);
-			});
-		}
-	}, [isMobile, videoRef]);
+		const videoElement = videoRef.current;
+		if (!videoElement || isMobile || !video.asset.url) return;
 
-	return null;
-}
+		const playVideo = async () => {
+			try {
+				await videoElement.play();
+			} catch (error) {
+				console.error("Error playing video:", error);
+			}
+		};
 
-export function CallToActionRenderer({ block }: CallToActionProps) {
+		playVideo();
+
+		return () => {
+			videoElement.pause();
+		};
+	}, [isMobile, videoRef, video.asset.url]);
+
+	if (!video.asset.url) return null;
+
+	return <video ref={videoRef} src={video.asset.url} className="w-full" muted playsInline loop preload="metadata" />;
+});
+
+export function CallToActionRenderer({ heading, text, buttonText, buttonLink }: CallToActionProps) {
 	return (
 		<div className="bg-blue-100 p-6 my-8 rounded-lg">
-			<h2 className="text-2xl font-bold mb-4">{block.heading}</h2>
-			<p className="mb-4">{block.text}</p>
-			<a href={block.buttonLink} className="bg-blue-500 text-white px-4 py-2 rounded">
-				{block.buttonText}
+			<h2 className="text-2xl font-bold mb-4">{heading}</h2>
+			<p className="mb-4">{text}</p>
+			<a href={buttonLink} className="bg-blue-500 text-white px-4 py-2 rounded">
+				{buttonText}
 			</a>
 		</div>
 	);

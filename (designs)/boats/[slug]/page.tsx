@@ -6,12 +6,24 @@ import { Badge } from "@/components/ui/badge";
 import { Mail, Printer, ChevronRight, Phone } from "lucide-react";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useBoat } from "@/hooks/useBoat";
+import type { SanityImage } from "@/types/sanity";
 
-export default function BoatDetails() {
-	const { slug } = useParams();
-	const { data: boat, isLoading } = useBoat(slug as string);
+interface GalleryImage extends SanityImage {
+	asset: {
+		url: string;
+	};
+}
+
+interface BoatPageProps {
+	params: {
+		slug: string;
+	};
+}
+
+export default function BoatDetails({ params }: BoatPageProps) {
+	const { slug } = params;
+	const { data: boat, isLoading } = useBoat(slug);
 	const [mainImage, setMainImage] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -60,7 +72,7 @@ export default function BoatDetails() {
 						</div>
 						{boat.gallery && boat.gallery.length > 0 && (
 							<div className="flex space-x-2 overflow-x-auto py-2">
-								{boat.gallery.map((thumb, index) => (
+								{boat.gallery.map((thumb: GalleryImage, index: number) => (
 									<div key={index} className="relative w-20 h-20 flex-shrink-0">
 										<Image src={thumb.asset?.url || "/placeholder-thumb.jpg"} alt={`${boatTitle} - Image ${index + 1}`} width={100} height={100} className="rounded cursor-pointer hover:opacity-75 object-cover" sizes="80px" onClick={() => setMainImage(thumb.asset?.url || null)} />
 									</div>
