@@ -1,11 +1,17 @@
 "use client";
 
+import React from "react";
 import { Mail, MapPin, Facebook, Instagram, Twitter, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useConfig } from "@/hooks/useConfig";
 import { usePrimaryNavigation } from "@/hooks/usePrimaryNavigation";
 import Image from "next/image";
+import type { SocialMedia, MenuItem } from "@/types/sanity";
+
+interface SocialLinks {
+	[key: string]: string;
+}
 
 export default function Footer() {
 	const { config, loading: configLoading } = useConfig();
@@ -14,17 +20,17 @@ export default function Footer() {
 	if (configLoading || menuLoading) return <div>Loading...</div>;
 	if (!config) return null;
 
-	const socialLinks = config.socialMedia?.reduce((acc, social) => {
+	const socialLinks = config.socialMedia?.reduce<SocialLinks>((acc: SocialLinks, social: SocialMedia) => {
 		acc[social.platform.toLowerCase()] = social.url;
 		return acc;
-	}, {} as Record<string, string>);
+	}, {});
 
 	return (
 		<footer className="bg-gray-900 text-white min-h-[400px] w-full flex-shrink-0">
 			<div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 h-full">
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 					<div className="mb-8 sm:mb-0">
-						<Image src={config.logo?.asset?.url || "/impact-logo.webp"} alt={config.siteName} width={150} height={150} className="p-4 mb-2 bg-white rounded-lg" />
+						<Image src={config.logo?.asset?.url || "/impact-logo.webp"} alt={config.siteName || "Logo"} width={150} height={150} className="p-4 mb-2 bg-white rounded-lg" />
 						<h3 className="text-xl font-bold mb-4">{config.siteName}</h3>
 						<p className="text-gray-400 text-sm sm:text-base">Your premier destination for quality boats and exceptional marine experiences.</p>
 					</div>

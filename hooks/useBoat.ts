@@ -1,10 +1,16 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
-import { getBoatBySlug } from "@/actions/sanity";
+import { client } from "@/lib/sanity";
+import { groq } from "next-sanity";
+import type { SanityBoat } from "@/types/sanity";
 
 export function useBoat(slug: string) {
 	return useQuery({
 		queryKey: ["boat", slug],
-		queryFn: () => getBoatBySlug(slug),
-		enabled: !!slug, // Only run query if slug exists
+		queryFn: async () => {
+			const query = groq`*[_type == "boat" && slug.current == $slug][0]`;
+			return client.fetch<SanityBoat>(query, { slug });
+		},
 	});
 }

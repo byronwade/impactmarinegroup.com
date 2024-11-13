@@ -237,3 +237,9 @@ export interface SanityImage {
 	};
 	alt?: string;
 }
+
+export interface SocialMedia {
+	platform: string;
+	url: string;
+	_key?: string;
+}
