@@ -243,3 +243,13 @@ export interface SocialMedia {
 	url: string;
 	_key?: string;
 }
+
+export interface InstagramPost {
+	_id: string;
+	caption?: string;
+	image: {
+		asset: {
+			url: string;
+		};
+	};
+}

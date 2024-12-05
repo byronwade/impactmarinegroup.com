@@ -16,22 +16,22 @@ export default function TestimonialsSection({ testimonials, title = "What Our Cu
 					<div className="absolute inset-0 flex items-center justify-center opacity-5">
 						<Quote className="w-96 h-96" />
 					</div>
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
+					<div key="testimonials-grid" className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
 						{testimonials.map((testimonial) => (
 							<div key={testimonial._id} className="flex flex-col items-center">
-								<div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center mb-6 shadow-lg">
+								<div key={`${testimonial._id}-avatar`} className="w-24 h-24 bg-primary rounded-full flex items-center justify-center mb-6 shadow-lg">
 									<span className="text-3xl font-bold text-primary-foreground">{testimonial.name.charAt(0)}</span>
 								</div>
-								<div className="text-center">
+								<div key={`${testimonial._id}-content`} className="text-center">
 									<p className="text-lg italic mb-4 relative">
 										<span className="absolute -top-4 -left-2 text-4xl text-muted">"</span>
 										{testimonial.text}
 										<span className="absolute -bottom-4 -right-2 text-4xl text-muted">"</span>
 									</p>
 									<p className="font-semibold">{testimonial.name}</p>
-									<div className="flex items-center justify-center mt-2">
+									<div key={`${testimonial._id}-rating`} className="flex items-center justify-center mt-2">
 										{[...Array(testimonial.rating)].map((_, i) => (
-											<Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+											<Star key={`${testimonial._id}-star-${i}`} className="w-5 h-5 text-yellow-400 fill-current" />
 										))}
 									</div>
 								</div>

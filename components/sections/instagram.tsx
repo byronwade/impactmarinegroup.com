@@ -4,13 +4,14 @@ import { Instagram, Anchor } from "lucide-react";
 import Image from "next/image";
 import { Suspense } from "react";
 import { getInstagramFeed } from "@/actions/instagram";
+import type { InstagramPost } from "@/types/sanity";
 
 // Create a loading skeleton component
 const InstagramSkeleton = () => (
-	<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+	<div key="instagram-skeleton-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 		{[...Array(6)].map((_, index) => (
 			<Card key={index} className="animate-pulse overflow-hidden border-2 border-muted">
-				<div className="h-[400px] bg-gray-200" />
+				<div key={`skeleton-${index}`} className="h-[400px] bg-gray-200" />
 			</Card>
 		))}
 	</div>
@@ -18,9 +19,9 @@ const InstagramSkeleton = () => (
 
 // Create a fallback component for when the API fails
 const InstagramFallback = () => (
-	<div className="text-center py-8">
-		<Card className="max-w-2xl mx-auto p-6">
-			<CardContent className="space-y-4">
+	<div key="instagram-fallback" className="text-center py-8">
+		<Card key="instagram-fallback-card" className="max-w-2xl mx-auto p-6">
+			<CardContent key="instagram-fallback-content" className="space-y-4">
 				<Instagram className="w-12 h-12 mx-auto text-muted-foreground" />
 				<h3 className="text-xl font-semibold">Follow Us on Instagram</h3>
 				<p className="text-muted-foreground">Stay updated with our latest projects and marine adventures on Instagram.</p>
@@ -46,35 +47,17 @@ const InstagramGrid = async () => {
 		}
 
 		return (
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+			<div key="instagram-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 				{posts.map((post) => (
-					<Card key={post.id} className="overflow-hidden border-2 border-muted hover:border-primary transition-colors duration-300 shadow-lg">
-						<CardContent className="p-4 bg-muted">
-							<div className="flex items-center space-x-4">
-								<span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-									<span className="flex h-full w-full items-center justify-center rounded-full bg-muted">IM</span>
-								</span>
-								<div>
-									<p className="text-sm font-medium">Impact Marine Group</p>
-									<p className="text-xs text-foreground">@impactmarinegroup</p>
-								</div>
-							</div>
-						</CardContent>
-						<div className="relative group">
-							<Image src={post.media_url} alt={post.caption || "Instagram post"} width={400} height={400} className="transition-transform duration-300 group-hover:scale-105 object-cover" loading="lazy" priority={false} />
-							<div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
-								<a href={post.permalink} target="_blank" rel="noopener noreferrer" className="w-full">
-									<Button variant="secondary" size="sm" className="w-full text-xs bg-background/80 hover:bg-background">
-										View on Instagram
-									</Button>
-								</a>
-							</div>
+					<Card key={post._id} className="overflow-hidden border-2 border-muted">
+						<div key={`${post._id}-image`} className="relative h-[400px]">
+							<Image src={post.image.asset.url} alt={post.caption || "Instagram post"} fill className="object-cover" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
 						</div>
-						<CardContent className="p-4">
-							<p className="text-sm">
-								<span className="font-medium">impactmarinegroup</span> <span className="text-foreground line-clamp-2">{post.caption}</span>
-							</p>
-						</CardContent>
+						{post.caption && (
+							<CardContent key={`${post._id}-caption`} className="p-4">
+								<p className="text-sm text-muted-foreground line-clamp-3">{post.caption}</p>
+							</CardContent>
+						)}
 					</Card>
 				))}
 			</div>

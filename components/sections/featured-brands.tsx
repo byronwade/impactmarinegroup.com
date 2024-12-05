@@ -41,7 +41,7 @@ const FeaturedBrands = memo(function FeaturedBrands({ brands }: { brands: Sanity
 	return (
 		<section>
 			{brandRows.map((row, i) => (
-				<div key={i} className="grid grid-cols-3 gap-4">
+				<div key={`brand-row-${i}`} className="grid grid-cols-3 gap-4">
 					{row.map((brand) => (
 						<BrandCard key={brand.name} brand={brand} />
 					))}

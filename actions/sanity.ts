@@ -247,3 +247,27 @@ export const getBrands = cache(async () => {
 	}`;
 	return client.fetch(query);
 });
+
+export interface SanityTestimonial {
+	_id: string;
+	name: string;
+	text: string;
+	rating: number;
+}
+
+export interface SanityBoat {
+	_id: string;
+	name: string;
+	description: string;
+	mainImage?: {
+		asset?: {
+			url: string;
+		};
+	};
+	price: number;
+	specs?: {
+		length?: string;
+		capacity?: string;
+		speed?: string;
+	};
+}

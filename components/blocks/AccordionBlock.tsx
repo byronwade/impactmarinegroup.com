@@ -18,7 +18,7 @@ const AccordionBlock = memo(function AccordionBlock({ items }: AccordionBlockPro
 				<AccordionItem key={item._key} value={item._key}>
 					<AccordionTrigger>{item.trigger}</AccordionTrigger>
 					<AccordionContent>
-						<div className="prose dark:prose-invert max-w-none">
+						<div key={`${item._key}-content`} className="prose dark:prose-invert max-w-none">
 							<PortableText value={item.content} />
 						</div>
 					</AccordionContent>

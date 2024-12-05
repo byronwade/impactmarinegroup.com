@@ -30,8 +30,8 @@ export default function FleetSection({ boats, title = "Discover Our Premium Flee
 				<h2 id="fleet-heading" className="text-4xl font-bold tracking-tighter text-center mb-8">
 					{title}
 				</h2>
-				<div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-					<div className="w-full lg:w-3/5 relative">
+				<div key="fleet-content" className="flex flex-col lg:flex-row items-center justify-between gap-12">
+					<div key="fleet-image" className="w-full lg:w-3/5 relative">
 						<BoatImage boat={currentBoatData} priority />
 						<Button variant="outline" size="icon" className="absolute top-1/2 left-4 -translate-y-1/2 bg-background/80 hover:bg-background" onClick={prevBoat} aria-label="Previous boat">
 							<ChevronLeft className="h-6 w-6" />
@@ -40,11 +40,11 @@ export default function FleetSection({ boats, title = "Discover Our Premium Flee
 							<ChevronRight className="h-6 w-6" />
 						</Button>
 					</div>
-					<div className="w-full lg:w-2/5 space-y-6">
-						<div>
+					<div key="fleet-details" className="w-full lg:w-2/5 space-y-6">
+						<div key="fleet-header">
 							<h3 className="text-3xl font-bold mb-2">{currentBoatData.name}</h3>
 							<p className="text-lg text-foreground mb-4">{currentBoatData.description}</p>
-							<div className="flex flex-wrap gap-4 mb-6">
+							<div key="fleet-specs" className="flex flex-wrap gap-4 mb-6">
 								{currentBoatData.specs?.length && (
 									<Badge variant="outline" className="text-sm font-medium">
 										<Waves className="w-4 h-4 mr-1" />
