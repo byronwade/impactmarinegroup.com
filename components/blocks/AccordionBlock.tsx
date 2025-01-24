@@ -1,12 +1,17 @@
 "use client";
 
 import { memo } from "react";
-import { PortableText } from "@portabletext/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import type { AccordionItem as AccordionItemType } from "@/types/sanity";
+import type { AccordionContent as AccordionContentType } from "@/types/payload";
+
+interface AccordionItem {
+	_key: string;
+	trigger: string;
+	content: AccordionContentType[];
+}
 
 interface AccordionBlockProps {
-	items: AccordionItemType[];
+	items: AccordionItem[];
 }
 
 const AccordionBlock = memo(function AccordionBlock({ items }: AccordionBlockProps) {
@@ -19,7 +24,13 @@ const AccordionBlock = memo(function AccordionBlock({ items }: AccordionBlockPro
 					<AccordionTrigger>{item.trigger}</AccordionTrigger>
 					<AccordionContent>
 						<div key={`${item._key}-content`} className="prose dark:prose-invert max-w-none">
-							<PortableText value={item.content} />
+							{item.content.map((block, index) => (
+								<div key={index}>
+									{block.children.map((child, childIndex) => (
+										<p key={childIndex}>{child.text}</p>
+									))}
+								</div>
+							))}
 						</div>
 					</AccordionContent>
 				</AccordionItem>

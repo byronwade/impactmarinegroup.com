@@ -1,51 +1,56 @@
+import { withPayload } from "@payloadcms/next/withPayload";
 import type { NextConfig } from "next";
-import type { Configuration, Module } from "webpack";
+import type { Configuration } from "webpack";
 
-interface WebpackModule extends Module {
-	context: string;
-}
-
-const config: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig: NextConfig = {
+	reactStrictMode: true,
 	images: {
-		remotePatterns: [{ hostname: "cdn.sanity.io" }],
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "**",
+			},
+		],
+		formats: ["image/avif", "image/webp"],
 	},
 	experimental: {
+		inlineCss: true,
+		ppr: true,
+		typedRoutes: true,
+		reactCompiler: false,
 		optimizeCss: true,
-		optimizePackageImports: ["@radix-ui/react-icons", "lucide-react"],
 	},
-	webpack: (config: Configuration, { dev }) => {
-		if (!dev) {
-			config.optimization = {
-				...config.optimization,
-				minimize: true,
-				splitChunks: {
-					chunks: "all",
-					minSize: 20000,
-					maxSize: 244000,
-					cacheGroups: {
-						vendor: {
-							test: /[\\/]node_modules[\\/]/,
-							name(module: WebpackModule) {
-								const match = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
-								const packageName = match?.[1] || "vendor";
-								return `vendor.${packageName.replace("@", "")}`;
-							},
-							priority: 20,
-						},
-						common: {
-							minChunks: 2,
-							priority: 10,
-							reuseExistingChunk: true,
-						},
-					},
+	typescript: {
+		ignoreBuildErrors: true,
+	},
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
+	logging: {
+		fetches: {
+			fullUrl: true,
+		},
+	},
+	webpack: (config: Configuration, { isServer }: { isServer: boolean }) => {
+		if (!isServer) {
+			config.resolve = {
+				...config.resolve,
+				fallback: {
+					fs: false,
+					net: false,
+					https: false,
+					child_process: false,
+					module: false,
+					dns: false,
+					readline: false,
+					worker_threads: false,
+					express: false,
 				},
 			};
 		}
 		return config;
 	},
-	compiler: {
-		removeConsole: process.env.NODE_ENV === "production",
-	},
 };
 
-export default config;
+export default withPayload(nextConfig);

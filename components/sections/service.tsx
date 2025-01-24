@@ -1,13 +1,13 @@
 import { memo } from "react";
 import Image from "next/image";
 import { iconMap } from "@/lib/icons";
-import type { SanityService } from "@/types/sanity";
+import type { Service } from "@/types/payload";
 import type { LucideIcon } from "lucide-react";
 
 interface ServicesSectionProps {
 	title?: string;
 	subtitle?: string;
-	services: SanityService[];
+	services: Array<Omit<Service, "featured">>;
 }
 
 const ServicesSection = memo(function ServicesSection({ title, subtitle, services }: ServicesSectionProps) {
@@ -28,15 +28,15 @@ const ServicesSection = memo(function ServicesSection({ title, subtitle, service
 						const IconComponent = service.icon ? (iconMap[service.icon] as LucideIcon) : null;
 
 						return (
-							<div key={service._id} className="flex flex-col md:flex-row items-start gap-6">
-								{service.image?.asset?.url && (
-									<div key={`${service._id}-image`} className="w-full md:w-1/3">
-										<Image src={service.image.asset.url} alt={service.image.alt || service.title} width={400} height={300} className="rounded-lg object-cover w-full h-[200px]" />
+							<div key={service.id} className="flex flex-col md:flex-row items-start gap-6">
+								{service.image?.url && (
+									<div key={`${service.id}-image`} className="w-full md:w-1/3">
+										<Image src={service.image.url} alt={service.image.alt || service.title} width={400} height={300} className="rounded-lg object-cover w-full h-[200px]" />
 									</div>
 								)}
 
-								<div key={`${service._id}-content`} className="flex-1">
-									<div key={`${service._id}-header`} className="flex items-center gap-3 mb-4">
+								<div key={`${service.id}-content`} className="flex-1">
+									<div key={`${service.id}-header`} className="flex items-center gap-3 mb-4">
 										{IconComponent && <IconComponent className="h-6 w-6 text-primary" />}
 										<h3 className="text-xl font-semibold">{service.title}</h3>
 									</div>

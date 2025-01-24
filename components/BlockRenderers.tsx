@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { memo, useEffect } from "react";
-import type { SanityVideo } from "@/types/sanity";
+import type { AccordionContent } from "@/types/payload";
 
 const AccordionBlock = dynamic(
 	() =>
@@ -16,9 +16,13 @@ const AccordionBlock = dynamic(
 );
 
 interface VideoRendererProps {
-	videoRef: React.RefObject<HTMLVideoElement>;
+	videoRef: React.RefObject<HTMLVideoElement | null>;
 	isMobile: boolean;
-	video: SanityVideo;
+	video: {
+		asset: {
+			url: string;
+		};
+	};
 }
 
 interface CallToActionProps {
@@ -33,7 +37,7 @@ interface AccordionBlockProps {
 		items: Array<{
 			_key: string;
 			trigger: string;
-			content: unknown;
+			content: AccordionContent[];
 		}>;
 	};
 }
@@ -76,6 +80,5 @@ export function CallToActionRenderer({ heading, text, buttonText, buttonLink }: 
 }
 
 export function AccordionRenderer({ block }: AccordionBlockProps) {
-	//@ts-expect-error cant figure it out
-	return <AccordionBlock block={block} />;
+	return <AccordionBlock items={block.items} />;
 }

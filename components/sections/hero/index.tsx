@@ -2,62 +2,31 @@
 
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import HeroContent from "./HeroContent";
 
 const HeroBackground = dynamic(() => import("./HeroBackground"), {
 	loading: () => null,
 });
 
-const HeroContent = dynamic(() => import("./HeroContent"), {
-	ssr: false,
-});
-
 interface HeroProps {
-	heading?: string;
-	subheading?: string;
-	backgroundImage?: {
-		asset?: {
-			url?: string;
-		};
-	};
-	backgroundVideo?: {
-		asset?: {
-			url?: string;
-		};
-	};
+	title: string;
+	description: string;
 	primaryCta?: {
-		text?: string;
-		link?: string;
-		icon?: string;
+		label: string;
+		link: string;
 	};
 	secondaryCta?: {
-		text?: string;
-		link?: string;
-	};
-	rating?: {
-		show?: boolean;
-		value?: string;
+		label: string;
+		link: string;
 	};
 }
 
-export default function Hero(props: HeroProps) {
-	//console.log("Hero props:", props); // Debug log
-
-	if (!props?.heading && !props?.subheading) {
-		return (
-			<section className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-gray-900">
-				<div className="text-white text-center">Loading...</div>
-			</section>
-		);
-	}
-
+export default function Hero({ title, description, primaryCta, secondaryCta }: HeroProps) {
 	return (
-		<section className="relative w-full h-screen flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
-			<Suspense fallback={<div className="absolute inset-0 bg-gray-900" />}>
-				<HeroBackground data={props} />
-			</Suspense>
-			<Suspense fallback={null}>
-				<HeroContent data={props} />
-			</Suspense>
+		<section className="relative py-20 overflow-hidden bg-white">
+			<div className="container relative z-10 px-4 mx-auto">
+				<HeroContent title={title} description={description} primaryCta={primaryCta} secondaryCta={secondaryCta} />
+			</div>
 		</section>
 	);
 }

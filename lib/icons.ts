@@ -1,12 +1,26 @@
-import { Wrench, Anchor, Ship, Wrench as ToolIcon, Compass, LifeBuoy, Sailboat, Waves, type LucideIcon } from "lucide-react";
+import { Ship, Wrench, Star, Phone, Mail, MapPin, Facebook, Instagram, Twitter, Menu, X, ChevronRight, ChevronLeft, ChevronDown, Search, User, DollarSign, Calendar, Clock, Info, Check, AlertCircle } from "lucide-react";
 
-export const iconMap: Record<string, LucideIcon> = {
-	wrench: Wrench,
-	anchor: Anchor,
-	ship: Ship,
-	tool: ToolIcon,
-	compass: Compass,
-	lifeBuoy: LifeBuoy,
-	sailboat: Sailboat,
-	waves: Waves,
-};
+export const Icons = {
+	boat: Ship,
+	service: Wrench,
+	star: Star,
+	phone: Phone,
+	email: Mail,
+	location: MapPin,
+	facebook: Facebook,
+	instagram: Instagram,
+	twitter: Twitter,
+	menu: Menu,
+	close: X,
+	chevronRight: ChevronRight,
+	chevronLeft: ChevronLeft,
+	chevronDown: ChevronDown,
+	search: Search,
+	user: User,
+	price: DollarSign,
+	calendar: Calendar,
+	time: Clock,
+	info: Info,
+	check: Check,
+	alert: AlertCircle,
+} as const;

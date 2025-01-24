@@ -1,17 +1,12 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { getSiteConfig } from "@/actions/sanity";
+import { getPhoneNumber } from "@/actions/payload";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-export async function getPhoneNumber() {
-	const config = await getSiteConfig();
-	return config.phoneNumber || "770-881-7808"; // Fallback number
-}
-
-export function formatCurrency(amount: number): string {
+export function formatPrice(amount: number): string {
 	return new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: "USD",
@@ -19,3 +14,13 @@ export function formatCurrency(amount: number): string {
 		maximumFractionDigits: 0,
 	}).format(amount);
 }
+
+// Re-export getPhoneNumber from payload actions
+export { getPhoneNumber };
+
+/**
+ * Returns the current year as a number
+ */
+export const getCurrentYear = (): number => {
+	return new Date().getFullYear();
+};
