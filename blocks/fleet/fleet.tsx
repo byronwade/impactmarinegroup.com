@@ -1,50 +1,55 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import type { Page } from "@/payload-types";
+import dynamic from "next/dynamic";
+import type { Page, Boat } from "@/payload-types";
 
-type LayoutType = NonNullable<Page["layout"]>;
-type FleetBlock = Extract<LayoutType[number], { blockType: "fleet" }>;
-
-export default function Fleet(props: FleetBlock) {
-	const { title, description, boats, cta } = props;
-
-	return (
-		<section className="py-20">
-			<div className="container px-4 mx-auto">
-				<div className="max-w-4xl mx-auto text-center">
-					<h2 className="mb-6 text-4xl font-bold tracking-tight">{title}</h2>
-					<p className="mb-12 text-lg text-muted-foreground">{description}</p>
-				</div>
-				<div className="grid grid-cols-1 gap-8 mb-12 sm:grid-cols-2 lg:grid-cols-3">
-					{boats?.map((boat) => (
-						<Link key={boat.id} href={`/boats/${boat.slug}`} className="overflow-hidden transition-shadow bg-white rounded-lg shadow-sm hover:shadow-md">
-							{boat.mainImage && (
-								<div className="relative w-full h-48">
-									<Image src={boat.mainImage.url} alt={boat.name} fill className="object-cover" />
+const FleetSection = dynamic(() => import("@/components/blocks/Fleet"), {
+	loading: () => (
+		<div className="py-16 animate-pulse">
+			<div className="container mx-auto px-4">
+				<div className="h-8 w-48 bg-gray-200 rounded mx-auto mb-12" />
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{[...Array(3)].map((_, i) => (
+						<div key={i} className="bg-white rounded-lg shadow-md overflow-hidden">
+							<div className="aspect-[16/9] bg-gray-100" />
+							<div className="p-6 space-y-3">
+								<div className="h-6 w-3/4 bg-gray-200 rounded" />
+								<div className="space-y-2">
+									<div className="h-4 w-1/2 bg-gray-100 rounded" />
+									<div className="h-4 w-1/3 bg-gray-100 rounded" />
 								</div>
-							)}
-							<div className="p-6">
-								<h3 className="mb-2 text-xl font-semibold">{boat.name}</h3>
-								<p className="mb-4 text-muted-foreground line-clamp-2">{boat.description}</p>
-								<div className="flex items-center justify-between">
-									<span className="text-lg font-bold text-red-600">{boat.price ? `$${boat.price.toLocaleString()}` : "Contact for Price"}</span>
-									<span className="text-sm text-muted-foreground">
-										{boat.year} {boat.manufacturer}
-									</span>
+								<div className="flex justify-between items-center">
+									<div className="h-5 w-24 bg-gray-200 rounded" />
+									<div className="h-4 w-20 bg-gray-100 rounded" />
 								</div>
 							</div>
-						</Link>
+						</div>
 					))}
 				</div>
-				{cta && (
-					<div className="text-center">
-						<Button asChild size="lg" className="px-8 py-6 text-lg bg-red-600 hover:bg-red-700">
-							<Link href={cta.link}>{cta.label}</Link>
-						</Button>
-					</div>
-				)}
 			</div>
-		</section>
-	);
+		</div>
+	),
+});
+
+interface FleetBlock {
+	id: string;
+	blockType: "fleet";
+	title: string;
+	description: string;
+	boats: Array<{
+		id: number;
+	}>;
+	cta?: {
+		label: string;
+		link: string;
+	};
+}
+
+export default function Fleet(props: FleetBlock) {
+	const { boats } = props;
+
+	if (!boats?.length) return null;
+
+	// Extract just the IDs from the boat references
+	const boatIds = boats.map((boat) => boat.id.toString());
+
+	return <FleetSection boats={boatIds} />;
 }

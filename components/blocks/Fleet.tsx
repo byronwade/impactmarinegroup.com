@@ -1,20 +1,7 @@
 import { getPayloadClient } from "@/payload/payloadClient";
 import Link from "next/link";
-
-interface Boat {
-	id: string;
-	name: string;
-	manufacturer: string;
-	model: string;
-	modelYear: number;
-	price: number;
-	condition: string;
-	status: string;
-	slug: string;
-	mainImage?: {
-		url: string;
-	};
-}
+import Image from "next/image";
+import type { Boat as PayloadBoat } from "@/payload-types";
 
 interface FleetProps {
 	boats: string[];
@@ -31,7 +18,7 @@ export default async function Fleet({ boats }: FleetProps) {
 		},
 	});
 
-	const boatDocs = docs as Boat[];
+	const boatDocs = docs as PayloadBoat[];
 
 	return (
 		<section className="py-16">
@@ -41,15 +28,14 @@ export default async function Fleet({ boats }: FleetProps) {
 					{boatDocs.map((boat) => (
 						<Link href={`/fleet/${boat.slug}`} key={boat.id} className="group">
 							<div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform group-hover:scale-[1.02]">
-								{boat.mainImage ? (
+								{boat.mainImage && typeof boat.mainImage !== "number" ?
 									<div className="aspect-[16/9] relative">
-										<img src={boat.mainImage.url} alt={boat.name} className="w-full h-full object-cover" />
+										<Image src={boat.mainImage.url} alt={boat.name} fill className="object-cover" />
 									</div>
-								) : (
-									<div className="aspect-[16/9] bg-gray-200 flex items-center justify-center">
+								:	<div className="aspect-[16/9] bg-gray-200 flex items-center justify-center">
 										<span className="text-gray-400">No image available</span>
 									</div>
-								)}
+								}
 								<div className="p-6">
 									<h3 className="text-xl font-semibold mb-2">{boat.name}</h3>
 									<div className="text-gray-600 space-y-1">

@@ -1,15 +1,6 @@
 import { getPayloadClient } from "@/payload/payloadClient";
 import Link from "next/link";
-
-interface Service {
-	id: string;
-	title: string;
-	description: string;
-	slug: string;
-	icon?: {
-		url: string;
-	};
-}
+import type { Service as PayloadService } from "@/payload-types";
 
 interface ServicesProps {
 	services: string[];
@@ -27,7 +18,7 @@ export default async function Services({ services, subtitle }: ServicesProps) {
 		},
 	});
 
-	const serviceDocs = docs as Service[];
+	const serviceDocs = docs as PayloadService[];
 
 	return (
 		<section className="py-16 bg-gray-50">

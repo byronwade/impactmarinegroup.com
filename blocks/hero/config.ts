@@ -11,47 +11,127 @@ export const heroBlock: Block = {
 			name: "title",
 			type: "text",
 			required: true,
-			defaultValue: "Welcome to Impact Marine Group",
+			defaultValue: "Expert Boat Service You Can Trust",
 		},
 		{
 			name: "description",
 			type: "textarea",
 			required: true,
-			defaultValue: "Your premier destination for boats and marine services in Lake Lanier",
+			defaultValue: "Certified Technicians, Fast Turnaround, and Unmatched Care for Your Boat.",
+		},
+		{
+			name: "phoneNumber",
+			type: "text",
+			label: "Phone Number",
+			defaultValue: "(555) 123-4567",
+		},
+		{
+			name: "rating",
+			type: "group",
+			label: "Rating Badge",
+			fields: [
+				{
+					name: "value",
+					type: "number",
+					required: true,
+					min: 0,
+					max: 5,
+					defaultValue: 4.9,
+				},
+				{
+					name: "text",
+					type: "text",
+					required: true,
+					defaultValue: "4.9 Star Rated",
+				},
+			],
+		},
+		{
+			name: "backgroundImage",
+			type: "upload",
+			relationTo: "media",
+			label: "Background Image",
+			admin: {
+				description: "Recommended size: 1920x1080px",
+			},
+		},
+		{
+			name: "backgroundVideo",
+			type: "upload",
+			relationTo: "media",
+			label: "Background Video",
+			admin: {
+				description: "MP4 format recommended. Will fallback to background image if video cannot be played.",
+			},
+			filterOptions: {
+				mimeType: { contains: "video" },
+			},
 		},
 		{
 			name: "primaryCta",
 			type: "group",
+			label: "Primary Call to Action",
 			fields: [
 				{
 					name: "label",
 					type: "text",
 					required: true,
-					defaultValue: "View Boats",
+					defaultValue: "Schedule Service",
 				},
 				{
 					name: "link",
 					type: "text",
 					required: true,
-					defaultValue: "/boats",
+					defaultValue: "/schedule",
+				},
+				{
+					name: "icon",
+					type: "select",
+					options: [
+						{
+							label: "Calendar",
+							value: "calendar",
+						},
+						{
+							label: "None",
+							value: "none",
+						},
+					],
+					defaultValue: "calendar",
 				},
 			],
 		},
 		{
 			name: "secondaryCta",
 			type: "group",
+			label: "Secondary Call to Action",
 			fields: [
 				{
 					name: "label",
 					type: "text",
 					required: true,
-					defaultValue: "Our Services",
+					defaultValue: "View Our Services",
 				},
 				{
 					name: "link",
 					type: "text",
 					required: true,
 					defaultValue: "/services",
+				},
+				{
+					name: "icon",
+					type: "select",
+					options: [
+						{
+							label: "Chevron Right",
+							value: "chevron-right",
+						},
+						{
+							label: "None",
+							value: "none",
+						},
+					],
+					defaultValue: "chevron-right",
 				},
 			],
 		},

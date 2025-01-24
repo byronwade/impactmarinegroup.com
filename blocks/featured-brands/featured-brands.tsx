@@ -1,34 +1,41 @@
-import Image from "next/image";
-import Link from "next/link";
-import type { Page } from "@/payload-types";
+import dynamic from "next/dynamic";
 
-type LayoutType = NonNullable<Page["layout"]>;
-type FeaturedBrandsBlock = Extract<LayoutType[number], { blockType: "featuredBrands" }>;
-
-export default function FeaturedBrands(props: FeaturedBrandsBlock) {
-	const { title, description, brands } = props;
-
-	return (
-		<section className="py-20 bg-gray-50">
-			<div className="container px-4 mx-auto">
-				<div className="max-w-4xl mx-auto text-center">
-					<h2 className="mb-6 text-4xl font-bold tracking-tight">{title}</h2>
-					<p className="mb-12 text-lg text-muted-foreground">{description}</p>
-				</div>
-				<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-					{brands?.map((brand) => (
-						<Link key={brand.id} href={`/brands/${brand.slug}`} className="flex flex-col items-center p-8 transition-shadow bg-white rounded-lg shadow-sm hover:shadow-md">
-							{brand.logo && (
-								<div className="relative w-48 h-24 mb-6">
-									<Image src={brand.logo.url} alt={brand.name} fill className="object-contain" />
-								</div>
-							)}
-							<h3 className="mb-2 text-xl font-semibold">{brand.name}</h3>
-							{brand.description && <p className="text-center text-muted-foreground line-clamp-3">{brand.description}</p>}
-						</Link>
+const FeaturedBrandsSection = dynamic(() => import("@/components/blocks/FeaturedBrands"), {
+	loading: () => (
+		<div className="py-16 bg-gray-50 animate-pulse">
+			<div className="container mx-auto px-4">
+				<div className="h-8 w-48 bg-gray-200 rounded mx-auto mb-12" />
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{[...Array(3)].map((_, i) => (
+						<div key={i} className="bg-white p-6 rounded-lg shadow-md">
+							<div className="h-20 bg-gray-100 rounded mb-4" />
+							<div className="h-6 w-3/4 bg-gray-200 rounded mb-2" />
+							<div className="h-4 bg-gray-100 rounded" />
+						</div>
 					))}
 				</div>
 			</div>
-		</section>
-	);
+		</div>
+	),
+});
+
+interface FeaturedBrandsBlock {
+	id: string;
+	blockType: "featuredBrands";
+	title: string;
+	description: string;
+	brands: Array<{
+		id: string;
+	}>;
+}
+
+export default function FeaturedBrands(props: FeaturedBrandsBlock) {
+	const { brands } = props;
+
+	if (!brands?.length) return null;
+
+	// Extract just the IDs from the brand references
+	const brandIds = brands.map((brand) => brand.id);
+
+	return <FeaturedBrandsSection brands={brandIds} />;
 }
