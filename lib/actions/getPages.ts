@@ -13,7 +13,21 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
 					equals: slug,
 				},
 			},
-			depth: 2,
+			depth: 3,
+			populate: {
+				"content.brands": {
+					depth: 2,
+				},
+				"content.boats": {
+					depth: 2,
+				},
+				"content.services": {
+					depth: 2,
+				},
+				"content.testimonials": {
+					depth: 2,
+				},
+			},
 		});
 
 		return page || null;

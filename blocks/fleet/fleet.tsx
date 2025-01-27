@@ -34,9 +34,7 @@ interface FleetBlock {
 	blockType: "fleet";
 	title: string;
 	description: string;
-	boats: Array<{
-		id: number;
-	}>;
+	boats: Array<Boat>;
 	cta?: {
 		label: string;
 		link: string;
@@ -44,12 +42,49 @@ interface FleetBlock {
 }
 
 export default function Fleet(props: FleetBlock) {
-	const { boats } = props;
+	const { boats, title, description, cta } = props;
 
-	if (!boats?.length) return null;
+	console.log("Fleet block props:", props);
 
-	// Extract just the IDs from the boat references
-	const boatIds = boats.map((boat) => boat.id.toString());
+	if (!boats?.length) {
+		console.log("No boats found in block");
+		return null;
+	}
 
-	return <FleetSection boats={boatIds} />;
+	return (
+		<section className="py-16">
+			<div className="container mx-auto px-4">
+				<div className="text-center mb-12">
+					<h2 className="text-3xl font-bold mb-4">{title}</h2>
+					{description && <p className="text-xl text-gray-600">{description}</p>}
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{boats.map((boat) => (
+						<div key={boat.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+							{boat.image && (
+								<div className="aspect-[16/9] relative">
+									<img src={boat.image.url} alt={boat.title} className="object-cover w-full h-full" />
+								</div>
+							)}
+							<div className="p-6 space-y-4">
+								<h3 className="text-xl font-semibold">{boat.title}</h3>
+								<p className="text-gray-600">{boat.description}</p>
+								<div className="flex justify-between items-center">
+									<span className="text-lg font-bold text-primary">{boat.price ? `$${boat.price.toLocaleString()}` : "Contact for Price"}</span>
+									{boat.status && <span className="text-sm text-gray-500">{boat.status}</span>}
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+				{cta && (
+					<div className="text-center mt-12">
+						<a href={cta.link} className="inline-block bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+							{cta.label}
+						</a>
+					</div>
+				)}
+			</div>
+		</section>
+	);
 }

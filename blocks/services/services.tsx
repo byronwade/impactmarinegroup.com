@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import type { Page } from "@/payload-types";
+import type { Page, Service } from "@/payload-types";
 
 const ServicesSection = dynamic(() => import("@/components/blocks/Services"), {
 	loading: () => (
@@ -33,12 +33,36 @@ type LayoutType = NonNullable<Page["layout"]>;
 type ServicesBlock = Extract<LayoutType[number], { blockType: "services" }>;
 
 export default function Services(props: ServicesBlock) {
-	const { services } = props;
+	const { services, title, description } = props;
 
-	if (!services?.length) return null;
+	console.log("Services block props:", props);
 
-	// Extract just the IDs from the service references
-	const serviceIds = services.map((service) => service.id);
+	if (!services?.length) {
+		console.log("No services found in block");
+		return null;
+	}
 
-	return <ServicesSection services={serviceIds} />;
+	return (
+		<section className="py-16 bg-gray-50">
+			<div className="container mx-auto px-4">
+				<div className="text-center mb-12">
+					<h2 className="text-3xl font-bold mb-4">{title}</h2>
+					{description && <p className="text-xl text-gray-600">{description}</p>}
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{services.map((service) => (
+						<div key={service.id} className="bg-white p-6 rounded-lg shadow-md">
+							{service.icon && (
+								<div className="w-16 h-16 mx-auto mb-4">
+									<img src={service.icon.url} alt="" className="w-full h-full object-contain" />
+								</div>
+							)}
+							<h3 className="text-xl font-semibold mb-3 text-center">{service.title}</h3>
+							<p className="text-gray-600 text-center">{service.description}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+	);
 }

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, PhoneCall, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import dynamic from "next/dynamic";
+import { useSettings } from "@/hooks/useSettings";
 
 const HeroBackground = dynamic(() => import("./HeroBackground"), {
 	loading: () => null,
@@ -42,14 +43,21 @@ interface HeroBlock {
 }
 
 export default function Hero(props: HeroBlock) {
-	const { title, description, primaryCta, secondaryCta, phoneNumber, rating, backgroundImage, backgroundVideo } = props;
+	const { title, description, primaryCta, secondaryCta, rating, backgroundImage, backgroundVideo } = props;
+	const settings = useSettings();
+	const phoneNumber = props.phoneNumber || settings?.phone || "(770) 881-7808";
+
+	// Debug logs
+	console.log("Hero props:", props);
+	console.log("Background video:", backgroundVideo);
+	console.log("Background image:", backgroundImage);
 
 	return (
 		<section className="relative h-screen flex items-center justify-center overflow-hidden">
 			<HeroBackground backgroundImage={backgroundImage} backgroundVideo={backgroundVideo} />
-			<div className="relative container mx-auto px-4 py-12 sm:py-24 lg:py-32">
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-					<div className="lg:col-span-2 space-y-8">
+			<div className="relative container mx-auto px-4 py-12 sm:py-24 lg:py-32 z-10">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+					<div className="space-y-8">
 						<h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white" style={{ contentVisibility: "auto" }}>
 							{title}
 						</h1>

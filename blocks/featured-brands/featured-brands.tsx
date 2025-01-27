@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import type { Page, Brand } from "@/payload-types";
 
 const FeaturedBrandsSection = dynamic(() => import("@/components/blocks/FeaturedBrands"), {
 	loading: () => (
@@ -24,18 +25,40 @@ interface FeaturedBrandsBlock {
 	blockType: "featuredBrands";
 	title: string;
 	description: string;
-	brands: Array<{
-		id: string;
-	}>;
+	brands: Array<Brand>;
 }
 
 export default function FeaturedBrands(props: FeaturedBrandsBlock) {
-	const { brands } = props;
+	const { brands, title, description } = props;
 
-	if (!brands?.length) return null;
+	console.log("FeaturedBrands block props:", props);
 
-	// Extract just the IDs from the brand references
-	const brandIds = brands.map((brand) => brand.id);
+	if (!brands?.length) {
+		console.log("No brands found in block");
+		return null;
+	}
 
-	return <FeaturedBrandsSection brands={brandIds} />;
+	return (
+		<section className="py-16 bg-gray-50">
+			<div className="container mx-auto px-4">
+				<div className="text-center mb-12">
+					<h2 className="text-3xl font-bold mb-4">{title}</h2>
+					{description && <p className="text-xl text-gray-600">{description}</p>}
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{brands.map((brand) => (
+						<div key={brand.id} className="bg-white p-6 rounded-lg shadow-md">
+							{brand.logo && (
+								<div className="h-20 flex items-center justify-center mb-4">
+									<img src={brand.logo.url} alt={brand.name} className="max-h-full max-w-full object-contain" />
+								</div>
+							)}
+							<h3 className="text-xl font-semibold text-center mb-2">{brand.name}</h3>
+							<p className="text-gray-600 text-center">{brand.description}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+	);
 }
