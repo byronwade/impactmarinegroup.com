@@ -2,8 +2,7 @@ import { Suspense } from "react";
 import { getPageBySlug } from "@/lib/actions/getPages";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { unstable_cache } from "next/cache";
-import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content } from "@/blocks";
+import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content, About, Brands, Contact } from "@/blocks";
 
 interface PageProps {
 	params: {
@@ -11,28 +10,132 @@ interface PageProps {
 	};
 }
 
-// Cache the page data fetch
-const getCachedPageData = unstable_cache(
-	async (slug: string | null) => {
-		try {
-			console.log("Fetching page data for slug:", slug);
-			const page = await getPageBySlug(slug || "home");
-			console.log("Page data:", page);
-			return page;
-		} catch (error) {
-			console.error("Error fetching page data:", error);
-			return null;
-		}
-	},
-	["page-data"],
-	{
-		revalidate: 30,
-		tags: ["pages"],
-	}
-);
+type Media = {
+	id: string;
+	url: string;
+	filename: string;
+	mimeType?: string;
+	filesize?: number;
+	width?: number;
+	height?: number;
+	alt?: string;
+};
+
+type BaseBlock = {
+	id: string;
+	blockType: string;
+};
+
+type HeroBlock = BaseBlock & {
+	blockType: "hero";
+	title: string;
+	description: string;
+	phoneNumber?: string;
+	rating?: {
+		value: number;
+		text: string;
+	};
+	backgroundImage?: Media;
+	backgroundVideo?: Media;
+};
+
+type FeaturedBrandsBlock = BaseBlock & {
+	blockType: "featuredBrands";
+	title: string;
+	description: string;
+	brands: Array<{
+		id: string;
+		name: string;
+		description?: string;
+		logo?: Media;
+	}>;
+};
+
+type FleetBlock = BaseBlock & {
+	blockType: "fleet";
+	title: string;
+	description: string;
+	boats: Array<{
+		id: string;
+		name: string;
+		description?: string;
+		image?: Media;
+	}>;
+};
+
+type ServicesBlock = BaseBlock & {
+	blockType: "services";
+	title: string;
+	subtitle?: string;
+	services: Array<{
+		id: string;
+		title: string;
+		description?: string;
+		icon?: string;
+	}>;
+};
+
+type TestimonialsBlock = BaseBlock & {
+	blockType: "testimonials";
+	title: string;
+	description: string;
+	testimonials: Array<{
+		id: string;
+		name: string;
+		text: string;
+		rating: number;
+	}>;
+};
+
+type ContentBlock = BaseBlock & {
+	blockType: "content";
+	content: unknown;
+};
+
+type AboutBlock = BaseBlock & {
+	blockType: "about";
+	title: string;
+	content: Array<{ paragraph: string }>;
+	image: Media;
+	features: Array<{
+		icon: "users" | "zap";
+		title: string;
+		description: string;
+	}>;
+};
+
+type BrandsBlock = BaseBlock & {
+	blockType: "brands";
+	title: string;
+	subtitle: string;
+	brands: Array<{
+		name: string;
+		description: string;
+		features: Array<{ text: string }>;
+		image: Media;
+		popularModels: Array<{ model: string }>;
+	}>;
+};
+
+type ContactBlock = BaseBlock & {
+	blockType: "contact";
+	title: string;
+	subtitle: string;
+	address: string;
+	hours: Array<{ text: string }>;
+	phones: Array<{ label: string; number: string }>;
+	emails: Array<{ email: string }>;
+	areasServed: Array<{ area: string }>;
+	mapImage: Media;
+	ctaTitle: string;
+	ctaDescription: string;
+	ctaButtonText: string;
+};
+
+type Block = HeroBlock | FeaturedBrandsBlock | FleetBlock | ServicesBlock | TestimonialsBlock | ContentBlock | AboutBlock | BrandsBlock | ContactBlock;
 
 // Block renderer with error boundary
-function RenderPageBlock({ block }: { block: any }) {
+function RenderPageBlock({ block }: { block: Block }) {
 	const blockType = block.blockType;
 
 	switch (blockType) {
@@ -48,29 +151,79 @@ function RenderPageBlock({ block }: { block: any }) {
 			return <Testimonials {...block} />;
 		case "content":
 			return <Content {...block} />;
+		case "about":
+			return <About {...block} />;
+		case "brands":
+			return <Brands {...block} />;
+		case "contact":
+			return <Contact {...block} />;
 		default:
+			console.warn(`Unknown block type: ${blockType}`);
 			return null;
 	}
 }
 
-export const metadata: Metadata = {
-	title: "Impact Marine Group",
-	description: "Your premier destination for boats and marine services in Lake Lanier",
-};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+	const nextjs15 = await params;
+	const page = await getPageBySlug(nextjs15.slug?.join("/") || "home");
+
+	if (!page) {
+		return {
+			title: "Not Found",
+			description: "The page you are looking for does not exist.",
+		};
+	}
+
+	return {
+		title: page.title,
+		description: page.seo?.metaDescription,
+		openGraph: {
+			title: page.seo?.ogTitle || page.title,
+			description: page.seo?.ogDescription || page.seo?.metaDescription,
+			images: page.seo?.ogImage ? [{ url: page.seo.ogImage.url }] : undefined,
+		},
+	};
+}
 
 export default async function Page({ params }: PageProps) {
 	const nextjs15 = await params;
-	const slugArray = nextjs15.slug || [];
-	const slug = slugArray.join("/") || "home";
-	const page = await getCachedPageData(slug);
+	const slug = nextjs15.slug?.join("/") || null;
 
-	if (!page) {
-		notFound();
+	try {
+		console.log("Fetching page data directly for slug:", slug);
+		const page = await getPageBySlug(slug || "home");
+
+		if (!page) {
+			console.log("Page not found for slug:", slug);
+			notFound();
+		}
+
+		if (!page.content) {
+			console.warn("Page content is undefined for page:", page.title);
+			return (
+				<div className="container mx-auto px-4 py-8">
+					<h1 className="text-3xl font-bold mb-4">{page.title}</h1>
+					<p className="text-gray-600">This page is currently under construction (content undefined).</p>
+				</div>
+			);
+		}
+
+		return (
+			<div className="flex flex-col min-h-screen">
+				<Suspense fallback={<div>Loading...</div>}>
+					<main className="flex-grow">
+						{Array.isArray(page.content) &&
+							page.content.map((block: Block) => (
+								<section key={block.id}>
+									<RenderPageBlock block={block} />
+								</section>
+							))}
+					</main>
+				</Suspense>
+			</div>
+		);
+	} catch (error) {
+		console.error("Error rendering page:", error);
+		throw error;
 	}
-
-	return (
-		<main className="w-full">
-			<Suspense fallback={<div className="min-h-[400px] flex items-center justify-center">Loading...</div>}>{page.content?.map((block: any) => <RenderPageBlock key={block.id} block={block} />)}</Suspense>
-		</main>
-	);
 }

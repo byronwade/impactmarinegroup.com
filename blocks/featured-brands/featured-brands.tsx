@@ -1,24 +1,7 @@
-import dynamic from "next/dynamic";
-import type { Page, Brand } from "@/payload-types";
+"use client";
 
-const FeaturedBrandsSection = dynamic(() => import("@/components/blocks/FeaturedBrands"), {
-	loading: () => (
-		<div className="py-16 bg-gray-50 animate-pulse">
-			<div className="container mx-auto px-4">
-				<div className="h-8 w-48 bg-gray-200 rounded mx-auto mb-12" />
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-					{[...Array(3)].map((_, i) => (
-						<div key={i} className="bg-white p-6 rounded-lg shadow-md">
-							<div className="h-20 bg-gray-100 rounded mb-4" />
-							<div className="h-6 w-3/4 bg-gray-200 rounded mb-2" />
-							<div className="h-4 bg-gray-100 rounded" />
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-	),
-});
+import Image from "next/image";
+import type { Brand } from "@/payload-types";
 
 interface FeaturedBrandsBlock {
 	id: string;
@@ -31,32 +14,27 @@ interface FeaturedBrandsBlock {
 export default function FeaturedBrands(props: FeaturedBrandsBlock) {
 	const { brands, title, description } = props;
 
-	console.log("FeaturedBrands block props:", props);
-
 	if (!brands?.length) {
-		console.log("No brands found in block");
 		return null;
 	}
 
 	return (
-		<section className="py-16 bg-gray-50">
-			<div className="container mx-auto px-4">
-				<div className="text-center mb-12">
-					<h2 className="text-3xl font-bold mb-4">{title}</h2>
-					{description && <p className="text-xl text-gray-600">{description}</p>}
-				</div>
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-					{brands.map((brand) => (
-						<div key={brand.id} className="bg-white p-6 rounded-lg shadow-md">
-							{brand.logo && (
-								<div className="h-20 flex items-center justify-center mb-4">
-									<img src={brand.logo.url} alt={brand.name} className="max-h-full max-w-full object-contain" />
+		<section className="bg-white py-12 sm:py-16 lg:py-20">
+			<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div className="lg:flex lg:items-start lg:justify-between">
+					<div className="lg:w-1/2 lg:pr-8">
+						<h2 className="text-2xl font-semibold text-gray-900 sm:text-3xl lg:text-4xl">{title}</h2>
+						{description && <p className="mt-4 text-base text-gray-600 sm:text-lg lg:text-xl">{description}</p>}
+					</div>
+					<div className="mt-10 lg:mt-0 lg:w-1/2">
+						<div className="flex flex-col items-end justify-center gap-8 sm:flex-row sm:gap-12">
+							{brands.slice(0, 2).map((brand) => (
+								<div key={brand.id} className="relative w-[180px] h-[120px] bg-white">
+									{brand.logo?.url && <Image src={brand.logo.url} alt={brand.name || "Brand logo"} fill sizes="180px" className="object-contain" priority />}
 								</div>
-							)}
-							<h3 className="text-xl font-semibold text-center mb-2">{brand.name}</h3>
-							<p className="text-gray-600 text-center">{brand.description}</p>
+							))}
 						</div>
-					))}
+					</div>
 				</div>
 			</div>
 		</section>

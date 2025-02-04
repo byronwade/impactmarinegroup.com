@@ -1,6 +1,6 @@
 "use client";
 
-import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content } from "@/blocks";
+import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content, About, Brands, Contact } from "@/blocks";
 
 const blockComponents = {
 	hero: Hero,
@@ -9,6 +9,9 @@ const blockComponents = {
 	services: Services,
 	testimonials: Testimonials,
 	content: Content,
+	about: About,
+	brands: Brands,
+	contact: Contact,
 } as const;
 
 interface Block {

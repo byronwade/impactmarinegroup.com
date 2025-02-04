@@ -6,6 +6,10 @@ export const featuredBrandsBlock: Block = {
 		singular: "Featured Brands Block",
 		plural: "Featured Brands Blocks",
 	},
+	admin: {
+		group: "Section Blocks",
+		description: "A section displaying featured boat brands",
+	},
 	fields: [
 		{
 			name: "title",

@@ -144,8 +144,40 @@ export interface Page {
   id: number;
   title: string;
   isHomePage?: boolean | null;
+  /**
+   * 📄 Full-page blocks are marked with a page icon. 🔲 Section blocks are marked with a square icon.
+   */
   content?:
     | (
+        | {
+            title: string;
+            subtitle: string;
+            address: string;
+            hours: {
+              text: string;
+              id?: string | null;
+            }[];
+            phones: {
+              label: string;
+              number: string;
+              id?: string | null;
+            }[];
+            emails: {
+              email: string;
+              id?: string | null;
+            }[];
+            areasServed: {
+              area: string;
+              id?: string | null;
+            }[];
+            mapImage: number | Media;
+            ctaTitle: string;
+            ctaDescription: string;
+            ctaButtonText: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contact';
+          }
         | {
             title: string;
             description: string;
@@ -223,6 +255,48 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'content';
+          }
+        | {
+            title: string;
+            content: {
+              paragraph: string;
+              id?: string | null;
+            }[];
+            image: number | Media;
+            features: {
+              icon: 'users' | 'zap';
+              title: string;
+              description: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'about';
+          }
+        | {
+            title: string;
+            subtitle: string;
+            brands: {
+              name: string;
+              description: string;
+              features?:
+                | {
+                    text: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              image: number | Media;
+              popularModels?:
+                | {
+                    model: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'brands';
           }
       )[]
     | null;
@@ -629,6 +703,44 @@ export interface PagesSelect<T extends boolean = true> {
   content?:
     | T
     | {
+        contact?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              address?: T;
+              hours?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              phones?:
+                | T
+                | {
+                    label?: T;
+                    number?: T;
+                    id?: T;
+                  };
+              emails?:
+                | T
+                | {
+                    email?: T;
+                    id?: T;
+                  };
+              areasServed?:
+                | T
+                | {
+                    area?: T;
+                    id?: T;
+                  };
+              mapImage?: T;
+              ctaTitle?: T;
+              ctaDescription?: T;
+              ctaButtonText?: T;
+              id?: T;
+              blockName?: T;
+            };
         hero?:
           | T
           | {
@@ -712,6 +824,56 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        about?:
+          | T
+          | {
+              title?: T;
+              content?:
+                | T
+                | {
+                    paragraph?: T;
+                    id?: T;
+                  };
+              image?: T;
+              features?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        brands?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              brands?:
+                | T
+                | {
+                    name?: T;
+                    description?: T;
+                    features?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    image?: T;
+                    popularModels?:
+                      | T
+                      | {
+                          model?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };

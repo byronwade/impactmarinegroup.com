@@ -52,7 +52,7 @@ export default function HeroBackground({ backgroundImage, backgroundVideo }: Her
 	return (
 		<div className="absolute inset-0 w-full h-full overflow-hidden">
 			{/* Base dark background */}
-			<div className="absolute inset-0 bg-gray-900" />
+			<div className="absolute inset-0 bg-gray-900/80" />
 
 			{/* Media container */}
 			<div className="absolute inset-0">
@@ -73,10 +73,10 @@ export default function HeroBackground({ backgroundImage, backgroundVideo }: Her
 			</div>
 
 			{/* Dark overlay for left side */}
-			<div className="absolute inset-0 bg-black/80 w-[45%]" />
+			<div className="absolute inset-0 bg-black/60 w-[45%]" />
 
 			{/* Gradient overlay for transition */}
-			<div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent translate-x-[35%]" />
+			<div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent translate-x-[35%]" />
 		</div>
 	);
 }
