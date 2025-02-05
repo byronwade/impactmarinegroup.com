@@ -76,9 +76,11 @@ const getPageData = unstable_cache(
 	}
 );
 
-export async function getPageBySlug(slug: string): Promise<Page | null> {
+export const getPageBySlug = async (slug: string) => {
 	try {
 		const payload = await getPayloadClient();
+		console.log("Fetching page with slug:", slug);
+
 		const { docs } = await payload.find({
 			collection: "pages",
 			where: {
@@ -86,23 +88,11 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
 					equals: slug,
 				},
 			},
-			depth: 10,
-			draft: false, // Only get published content
+			depth: 2,
+			draft: false,
 			locale: "all",
 			sort: "-updatedAt",
 			limit: 1,
-			populate: {
-				content: {
-					depth: 10,
-					sort: "-updatedAt",
-				},
-				image: {
-					depth: 1,
-				},
-				features: {
-					depth: 2,
-				},
-			},
 		});
 
 		if (!docs || docs.length === 0) {
@@ -111,12 +101,13 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
 		}
 
 		const page = docs[0];
+		console.log("Raw page data from find:", JSON.stringify(page, null, 2));
 		return page;
 	} catch (error) {
 		console.error("Error in getPageBySlug:", error);
 		return null;
 	}
-}
+};
 
 export async function getAllPages() {
 	try {

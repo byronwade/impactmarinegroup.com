@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { getPageBySlug } from "@/lib/actions/getPages";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content, About, Brands, Contact } from "@/blocks";
+import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content, About, Brands, Contact, Financing } from "@/blocks";
 
 interface PageProps {
 	params: {
@@ -132,7 +132,39 @@ type ContactBlock = BaseBlock & {
 	ctaButtonText: string;
 };
 
-type Block = HeroBlock | FeaturedBrandsBlock | FleetBlock | ServicesBlock | TestimonialsBlock | ContentBlock | AboutBlock | BrandsBlock | ContactBlock;
+type FinancingBlock = BaseBlock & {
+	blockType: "financing";
+	title: string;
+	subtitle: string;
+	boatFinancing: {
+		title: string;
+		description: string;
+		features: Array<{ text: string }>;
+	};
+	serviceFinancing: {
+		title: string;
+		description: string;
+		features: Array<{ text: string }>;
+	};
+	calculator: {
+		title: string;
+		defaultAmount: number;
+		defaultRate: number;
+		defaultTerm: number;
+		phoneNumber: string;
+	};
+	faq: Array<{
+		question: string;
+		answer: string;
+	}>;
+	cta: {
+		title: string;
+		description: string;
+		phoneNumber: string;
+	};
+};
+
+type Block = HeroBlock | FeaturedBrandsBlock | FleetBlock | ServicesBlock | TestimonialsBlock | ContentBlock | AboutBlock | BrandsBlock | ContactBlock | FinancingBlock;
 
 // Block renderer with error boundary
 function RenderPageBlock({ block }: { block: Block }) {
@@ -157,6 +189,8 @@ function RenderPageBlock({ block }: { block: Block }) {
 			return <Brands {...block} />;
 		case "contact":
 			return <Contact {...block} />;
+		case "financing":
+			return <Financing {...block} />;
 		default:
 			console.warn(`Unknown block type: ${blockType}`);
 			return null;
@@ -187,23 +221,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Page({ params }: PageProps) {
 	const nextjs15 = await params;
-	const slug = nextjs15.slug?.join("/") || null;
+	const slug = nextjs15.slug?.join("/") || "home";
 
 	try {
 		console.log("Fetching page data directly for slug:", slug);
-		const page = await getPageBySlug(slug || "home");
+		const page = await getPageBySlug(slug);
 
 		if (!page) {
 			console.log("Page not found for slug:", slug);
 			notFound();
 		}
 
-		if (!page.content) {
-			console.warn("Page content is undefined for page:", page.title);
+		console.log("Page data:", JSON.stringify(page, null, 2));
+
+		if (!page.content || !Array.isArray(page.content) || page.content.length === 0) {
+			console.warn("Page content is empty for page:", page.title);
 			return (
 				<div className="container mx-auto px-4 py-8">
 					<h1 className="text-3xl font-bold mb-4">{page.title}</h1>
-					<p className="text-gray-600">This page is currently under construction (content undefined).</p>
+					<p className="text-gray-600">This page needs content. Please add blocks in the admin panel.</p>
 				</div>
 			);
 		}
@@ -212,12 +248,9 @@ export default async function Page({ params }: PageProps) {
 			<div className="flex flex-col min-h-screen">
 				<Suspense fallback={<div>Loading...</div>}>
 					<main className="flex-grow">
-						{Array.isArray(page.content) &&
-							page.content.map((block: Block) => (
-								<section key={block.id}>
-									<RenderPageBlock block={block} />
-								</section>
-							))}
+						{page.content.map((block) => (
+							<RenderPageBlock key={block.id} block={block} />
+						))}
 					</main>
 				</Suspense>
 			</div>

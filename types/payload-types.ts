@@ -179,6 +179,168 @@ export interface Page {
             blockType: 'contact';
           }
         | {
+            blockType: 'financing';
+            title: string;
+            subtitle: string;
+            boatFinancing: {
+              title: string;
+              description: string;
+              features: {
+                text: string;
+                id?: string | null;
+              }[];
+            };
+            serviceFinancing: {
+              title: string;
+              description: string;
+              features: {
+                text: string;
+                id?: string | null;
+              }[];
+            };
+            calculator: {
+              title: string;
+              defaultAmount: number;
+              defaultRate: number;
+              defaultTerm: number;
+              phoneNumber: string;
+            };
+            faq: {
+              question: string;
+              answer: string;
+              id?: string | null;
+            }[];
+            cta: {
+              title: string;
+              description: string;
+              phoneNumber: string;
+            };
+            id?: string | null;
+            blockName?: string | null;
+          }
+        | {
+            title: string;
+            subtitle: string;
+            phoneNumber: string;
+            services: {
+              icon: 'Wrench' | 'Anchor' | 'Snowflake' | 'Music' | 'Sun' | 'Zap' | 'Users' | 'Shield';
+              title: string;
+              description: string;
+              id?: string | null;
+            }[];
+            reasons: {
+              text: string;
+              id?: string | null;
+            }[];
+            reasonsImage: number | Media;
+            winterizationPackages: {
+              title: string;
+              description: string;
+              services: {
+                text: string;
+                id?: string | null;
+              }[];
+              price: string;
+              note: string;
+              id?: string | null;
+            }[];
+            servicePolicies: {
+              text: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'servicesPage';
+          }
+        | {
+            aboutSection: {
+              title: string;
+              content: {
+                paragraph: string;
+                id?: string | null;
+              }[];
+              image: number | Media;
+              features: {
+                icon: 'users' | 'zap';
+                title: string;
+                description: string;
+                id?: string | null;
+              }[];
+            };
+            brandsSection: {
+              title: string;
+              subtitle: string;
+              brands: {
+                name: string;
+                description: string;
+                features?:
+                  | {
+                      text: string;
+                      id?: string | null;
+                    }[]
+                  | null;
+                image: number | Media;
+                popularModels?:
+                  | {
+                      model: string;
+                      id?: string | null;
+                    }[]
+                  | null;
+                id?: string | null;
+              }[];
+            };
+            servicesSection: {
+              title: string;
+              subtitle: string;
+              description: string;
+              services: {
+                icon: 'ship' | 'wrench' | 'compass' | 'lifeBuoy' | 'dollarSign' | 'users' | 'zap' | 'shield' | 'award';
+                title: string;
+                description: string;
+                id?: string | null;
+              }[];
+            };
+            testimonialsSection: {
+              title: string;
+              subtitle: string;
+              testimonials: {
+                name: string;
+                location: string;
+                text: string;
+                id?: string | null;
+              }[];
+            };
+            contactSection: {
+              title: string;
+              subtitle: string;
+              address: string;
+              hours: {
+                text: string;
+                id?: string | null;
+              }[];
+              phones: {
+                label: string;
+                number: string;
+                id?: string | null;
+              }[];
+              emails: {
+                email: string;
+                id?: string | null;
+              }[];
+              areasServed: {
+                area: string;
+                id?: string | null;
+              }[];
+              mapImage: number | Media;
+              ctaTitle: string;
+              ctaDescription: string;
+              ctaButtonText: string;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'aboutUs';
+          }
+        | {
             title: string;
             description: string;
             phoneNumber?: string | null;
@@ -738,6 +900,224 @@ export interface PagesSelect<T extends boolean = true> {
               ctaTitle?: T;
               ctaDescription?: T;
               ctaButtonText?: T;
+              id?: T;
+              blockName?: T;
+            };
+        financing?:
+          | T
+          | {
+              blockType?: T;
+              title?: T;
+              subtitle?: T;
+              boatFinancing?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    features?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                  };
+              serviceFinancing?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    features?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                  };
+              calculator?:
+                | T
+                | {
+                    title?: T;
+                    defaultAmount?: T;
+                    defaultRate?: T;
+                    defaultTerm?: T;
+                    phoneNumber?: T;
+                  };
+              faq?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              cta?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    phoneNumber?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        servicesPage?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              phoneNumber?: T;
+              services?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              reasons?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              reasonsImage?: T;
+              winterizationPackages?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    services?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    price?: T;
+                    note?: T;
+                    id?: T;
+                  };
+              servicePolicies?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        aboutUs?:
+          | T
+          | {
+              aboutSection?:
+                | T
+                | {
+                    title?: T;
+                    content?:
+                      | T
+                      | {
+                          paragraph?: T;
+                          id?: T;
+                        };
+                    image?: T;
+                    features?:
+                      | T
+                      | {
+                          icon?: T;
+                          title?: T;
+                          description?: T;
+                          id?: T;
+                        };
+                  };
+              brandsSection?:
+                | T
+                | {
+                    title?: T;
+                    subtitle?: T;
+                    brands?:
+                      | T
+                      | {
+                          name?: T;
+                          description?: T;
+                          features?:
+                            | T
+                            | {
+                                text?: T;
+                                id?: T;
+                              };
+                          image?: T;
+                          popularModels?:
+                            | T
+                            | {
+                                model?: T;
+                                id?: T;
+                              };
+                          id?: T;
+                        };
+                  };
+              servicesSection?:
+                | T
+                | {
+                    title?: T;
+                    subtitle?: T;
+                    description?: T;
+                    services?:
+                      | T
+                      | {
+                          icon?: T;
+                          title?: T;
+                          description?: T;
+                          id?: T;
+                        };
+                  };
+              testimonialsSection?:
+                | T
+                | {
+                    title?: T;
+                    subtitle?: T;
+                    testimonials?:
+                      | T
+                      | {
+                          name?: T;
+                          location?: T;
+                          text?: T;
+                          id?: T;
+                        };
+                  };
+              contactSection?:
+                | T
+                | {
+                    title?: T;
+                    subtitle?: T;
+                    address?: T;
+                    hours?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    phones?:
+                      | T
+                      | {
+                          label?: T;
+                          number?: T;
+                          id?: T;
+                        };
+                    emails?:
+                      | T
+                      | {
+                          email?: T;
+                          id?: T;
+                        };
+                    areasServed?:
+                      | T
+                      | {
+                          area?: T;
+                          id?: T;
+                        };
+                    mapImage?: T;
+                    ctaTitle?: T;
+                    ctaDescription?: T;
+                    ctaButtonText?: T;
+                  };
               id?: T;
               blockName?: T;
             };

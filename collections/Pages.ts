@@ -8,6 +8,9 @@ import { contentBlock } from "../blocks/content/config";
 import { aboutBlock } from "../blocks/about/config";
 import { brandsBlock } from "../blocks/brands/config";
 import { contactBlock } from "../blocks/full-page/contact/config";
+import { financingBlock } from "../blocks/full-page/financing/config";
+import { servicesPageBlock } from "../blocks/full-page/services/config";
+import { aboutUsBlock } from "../blocks/full-page/about-us/config";
 
 export const Pages: CollectionConfig = {
 	slug: "pages",
@@ -46,6 +49,30 @@ export const Pages: CollectionConfig = {
 						...contactBlock.labels,
 						singular: "📄 Contact Page",
 						plural: "📄 Contact Pages",
+					},
+				},
+				{
+					...financingBlock,
+					labels: {
+						...financingBlock.labels,
+						singular: "📄 Financing Page",
+						plural: "📄 Financing Pages",
+					},
+				},
+				{
+					...servicesPageBlock,
+					labels: {
+						...servicesPageBlock.labels,
+						singular: "📄 Services Page",
+						plural: "📄 Services Pages",
+					},
+				},
+				{
+					...aboutUsBlock,
+					labels: {
+						...aboutUsBlock.labels,
+						singular: "📄 About Us Page",
+						plural: "📄 About Us Pages",
 					},
 				},
 				{
