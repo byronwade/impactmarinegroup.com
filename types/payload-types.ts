@@ -219,40 +219,40 @@ export interface Page {
             blockName?: string | null;
           }
         | {
+            blockType: 'services';
             title: string;
             subtitle: string;
             phoneNumber: string;
-            services: {
-              icon: 'Wrench' | 'Anchor' | 'Snowflake' | 'Music' | 'Sun' | 'Zap' | 'Users' | 'Shield';
-              title: string;
-              description: string;
-              id?: string | null;
-            }[];
+            /**
+             * Select featured services to highlight at the top of the page
+             */
+            featuredServices: (number | Service)[];
+            /**
+             * Select maintenance and repair services
+             */
+            maintenanceServices: (number | Service)[];
+            /**
+             * Select upgrade and enhancement services
+             */
+            upgradeServices: (number | Service)[];
             reasons: {
               text: string;
               id?: string | null;
             }[];
             reasonsImage: number | Media;
-            winterizationPackages: {
-              title: string;
-              description: string;
-              services: {
-                text: string;
-                id?: string | null;
-              }[];
-              price: string;
-              note: string;
-              id?: string | null;
-            }[];
+            /**
+             * Select winterization service packages
+             */
+            winterizationPackages: (number | Service)[];
             servicePolicies: {
               text: string;
               id?: string | null;
             }[];
             id?: string | null;
             blockName?: string | null;
-            blockType: 'servicesPage';
           }
         | {
+            blockType: 'aboutUs';
             aboutSection: {
               title: string;
               content: {
@@ -338,7 +338,6 @@ export interface Page {
             };
             id?: string | null;
             blockName?: string | null;
-            blockType: 'aboutUs';
           }
         | {
             title: string;
@@ -391,6 +390,7 @@ export interface Page {
             blockType: 'fleet';
           }
         | {
+            blockType: 'services_section';
             title: string;
             description: string;
             services: (number | Service)[];
@@ -400,7 +400,6 @@ export interface Page {
             };
             id?: string | null;
             blockName?: string | null;
-            blockType: 'services';
           }
         | {
             title: string;
@@ -460,6 +459,7 @@ export interface Page {
             blockName?: string | null;
             blockType: 'brands';
           }
+        | BoatsBlock
       )[]
     | null;
   slug: string;
@@ -476,6 +476,57 @@ export interface Page {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  description: string;
+  /**
+   * Lucide icon name (e.g., 'Wrench', 'Anchor', etc.)
+   */
+  icon?: string | null;
+  /**
+   * Service image
+   */
+  image?: (number | null) | Media;
+  featured?: boolean | null;
+  price?: {
+    /**
+     * Starting price for this service
+     */
+    startingAt?: number | null;
+    unit?: ('hour' | 'service' | 'day') | null;
+  };
+  details?:
+    | {
+        title: string;
+        description?: string | null;
+        /**
+         * Lucide icon name
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  callToAction?: {
+    title?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -564,57 +615,6 @@ export interface Boat {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: number;
-  title: string;
-  description: string;
-  /**
-   * Lucide icon name (e.g., 'Wrench', 'Anchor', etc.)
-   */
-  icon?: string | null;
-  /**
-   * Service image
-   */
-  image?: (number | null) | Media;
-  featured?: boolean | null;
-  price?: {
-    /**
-     * Starting price for this service
-     */
-    startingAt?: number | null;
-    unit?: ('hour' | 'service' | 'day') | null;
-  };
-  details?:
-    | {
-        title: string;
-        description?: string | null;
-        /**
-         * Lucide icon name
-         */
-        icon?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  faqs?:
-    | {
-        question: string;
-        answer: string;
-        id?: string | null;
-      }[]
-    | null;
-  callToAction?: {
-    title?: string | null;
-    description?: string | null;
-    buttonText?: string | null;
-    buttonLink?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials".
  */
 export interface Testimonial {
@@ -631,6 +631,51 @@ export interface Testimonial {
   avatar?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BoatsBlock".
+ */
+export interface BoatsBlock {
+  blockType: 'boats';
+  title: string;
+  boats: {
+    name: string;
+    manufacturer: string;
+    model: string;
+    year: number;
+    type: string;
+    price: number;
+    status: 'IN_STOCK' | 'ON_ORDER' | 'SOLD';
+    condition: 'NEW' | 'USED';
+    image: number | Media;
+    description?:
+      | {
+          [k: string]: unknown;
+        }[]
+      | null;
+    features?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    specifications?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  manufacturers: {
+    name: string;
+    value: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -959,20 +1004,16 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        servicesPage?:
+        services?:
           | T
           | {
+              blockType?: T;
               title?: T;
               subtitle?: T;
               phoneNumber?: T;
-              services?:
-                | T
-                | {
-                    icon?: T;
-                    title?: T;
-                    description?: T;
-                    id?: T;
-                  };
+              featuredServices?: T;
+              maintenanceServices?: T;
+              upgradeServices?: T;
               reasons?:
                 | T
                 | {
@@ -980,21 +1021,7 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                   };
               reasonsImage?: T;
-              winterizationPackages?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    services?:
-                      | T
-                      | {
-                          text?: T;
-                          id?: T;
-                        };
-                    price?: T;
-                    note?: T;
-                    id?: T;
-                  };
+              winterizationPackages?: T;
               servicePolicies?:
                 | T
                 | {
@@ -1007,6 +1034,7 @@ export interface PagesSelect<T extends boolean = true> {
         aboutUs?:
           | T
           | {
+              blockType?: T;
               aboutSection?:
                 | T
                 | {
@@ -1176,9 +1204,10 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        services?:
+        services_section?:
           | T
           | {
+              blockType?: T;
               title?: T;
               description?: T;
               services?: T;
@@ -1257,6 +1286,7 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        boats?: T | BoatsBlockSelect<T>;
       };
   slug?: T;
   seo?:
@@ -1276,6 +1306,51 @@ export interface PagesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BoatsBlock_select".
+ */
+export interface BoatsBlockSelect<T extends boolean = true> {
+  blockType?: T;
+  title?: T;
+  boats?:
+    | T
+    | {
+        name?: T;
+        manufacturer?: T;
+        model?: T;
+        year?: T;
+        type?: T;
+        price?: T;
+        status?: T;
+        condition?: T;
+        image?: T;
+        description?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        specifications?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  manufacturers?:
+    | T
+    | {
+        name?: T;
+        value?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

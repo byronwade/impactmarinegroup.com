@@ -1,16 +1,25 @@
 import type { Block } from "payload/types";
 
 export const servicesPageBlock: Block = {
-	slug: "servicesPage",
+	slug: "services",
 	labels: {
 		singular: "Services Page Block",
 		plural: "Services Page Blocks",
 	},
 	admin: {
 		group: "Full Page Blocks",
-		description: "A full-page services section with service offerings and policies",
+		description: "A full-page services section that displays your service offerings",
 	},
 	fields: [
+		{
+			name: "blockType",
+			type: "text",
+			required: true,
+			defaultValue: "services",
+			admin: {
+				hidden: true,
+			},
+		},
 		{
 			name: "title",
 			type: "text",
@@ -30,78 +39,43 @@ export const servicesPageBlock: Block = {
 			defaultValue: "770-881-7808",
 		},
 		{
-			name: "services",
-			type: "array",
+			name: "featuredServices",
+			type: "relationship",
+			relationTo: "services",
+			hasMany: true,
 			required: true,
-			defaultValue: [
-				{
-					icon: "Wrench",
-					title: "Comprehensive Engine Service",
-					description: "Our Lead Techs have extensive experience with I/O, Inboard, and PWC engines. We're certified by leading manufacturers including Yamaha and Indmar Marine Engines, supporting our Tige boater community.",
-				},
-				{
-					icon: "Anchor",
-					title: "Repairs & Troubleshooting",
-					description: "From simple maintenance to comprehensive engine repair, our 10,000 sq ft shop is equipped to handle all your boating needs.",
-				},
-				{
-					icon: "Snowflake",
-					title: "Winterization Services",
-					description: "Protect your investment during the off-season with our thorough winterization services. We offer several packages to fit your boat's needs, ensuring it's ready to launch when spring arrives.",
-				},
-				{
-					icon: "Music",
-					title: "Audio & Lighting Installation",
-					description: "Upgrade your boat with the latest audio systems and LED lighting. Our technicians are skilled in installing and configuring a wide range of devices to enhance your boating experience.",
-				},
-				{
-					icon: "Sun",
-					title: "Gel Coat & Fiberglass Repair",
-					description: "Keep your boat looking its best with our expert gel coat and fiberglass repair services. We restore damage and maintain the pristine appearance of your vessel.",
-				},
-				{
-					icon: "Zap",
-					title: "Wake Boat Performance",
-					description: "We specialize in wake boat performance enhancements, including surf systems and ballast installation. Maximize your wake for the ultimate riding experience.",
-				},
-				{
-					icon: "Users",
-					title: "On-Dock Lake Service",
-					description: "We offer on-dock lake service for inboard and I/O boats. We also provide free pickup from nearby ramps and storage locations for your convenience.",
-				},
-				{
-					icon: "Shield",
-					title: "Parts & Accessories",
-					description: "Access our complete catalog of marine supplies, parts, and accessories. From ropes and bumpers to cleaners and waxes, we likely have what you need with next-day delivery for orders placed before 4 PM.",
-				},
-			],
-			fields: [
-				{
-					name: "icon",
-					type: "select",
-					required: true,
-					options: [
-						{ label: "Wrench", value: "Wrench" },
-						{ label: "Anchor", value: "Anchor" },
-						{ label: "Snowflake", value: "Snowflake" },
-						{ label: "Music", value: "Music" },
-						{ label: "Sun", value: "Sun" },
-						{ label: "Zap", value: "Zap" },
-						{ label: "Users", value: "Users" },
-						{ label: "Shield", value: "Shield" },
-					],
-				},
-				{
-					name: "title",
-					type: "text",
-					required: true,
-				},
-				{
-					name: "description",
-					type: "textarea",
-					required: true,
-				},
-			],
+			filterOptions: {
+				featured: { equals: true },
+			},
+			admin: {
+				description: "Select featured services to highlight at the top of the page",
+			},
+		},
+		{
+			name: "maintenanceServices",
+			type: "relationship",
+			relationTo: "services",
+			hasMany: true,
+			required: true,
+			filterOptions: {
+				category: { equals: "maintenance" },
+			},
+			admin: {
+				description: "Select maintenance and repair services",
+			},
+		},
+		{
+			name: "upgradeServices",
+			type: "relationship",
+			relationTo: "services",
+			hasMany: true,
+			required: true,
+			filterOptions: {
+				category: { equals: "upgrade" },
+			},
+			admin: {
+				description: "Select upgrade and enhancement services",
+			},
 		},
 		{
 			name: "reasons",
@@ -124,65 +98,16 @@ export const servicesPageBlock: Block = {
 		},
 		{
 			name: "winterizationPackages",
-			type: "array",
+			type: "relationship",
+			relationTo: "services",
+			hasMany: true,
 			required: true,
-			defaultValue: [
-				{
-					title: "Winterization Station",
-					description: "While You Wait or Same Day Pick Up – Complete Protection with the convenience of Same Day Service",
-					services: ["Draining Water", "Anti-Freeze throughout system", "Fogging Oil", "Fuel Stabilizer"],
-					price: "$229",
-					note: "Up to 3 gallons of anti-freeze – additional may incur additional fee",
-				},
-				{
-					title: "Winterization - Drop Off Only",
-					description: "Complete Protection – Your boat will be ready to go in the spring",
-					services: ["Draining Water", "Anti-Freeze throughout engine", "Fogging Oil", "Fuel Stabilizer"],
-					price: "$199",
-					note: "Up to 3 gallons of anti-freeze – additional may incur additional fee",
-				},
-				{
-					title: "Winterize and Oil Change Special",
-					description: "Protect for the winter and be ready for spring!",
-					services: ["Complete winterization", "Complete Oil Change"],
-					price: "$399",
-					note: "Up to 6 quarts of standard oil and filter – additional may incur additional fee",
-				},
-			],
-			fields: [
-				{
-					name: "title",
-					type: "text",
-					required: true,
-				},
-				{
-					name: "description",
-					type: "text",
-					required: true,
-				},
-				{
-					name: "services",
-					type: "array",
-					required: true,
-					fields: [
-						{
-							name: "text",
-							type: "text",
-							required: true,
-						},
-					],
-				},
-				{
-					name: "price",
-					type: "text",
-					required: true,
-				},
-				{
-					name: "note",
-					type: "text",
-					required: true,
-				},
-			],
+			filterOptions: {
+				category: { equals: "winterization" },
+			},
+			admin: {
+				description: "Select winterization service packages",
+			},
 		},
 		{
 			name: "servicePolicies",

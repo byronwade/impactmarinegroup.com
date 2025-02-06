@@ -12,6 +12,15 @@ export const aboutUsBlock: Block = {
 	},
 	fields: [
 		{
+			name: "blockType",
+			type: "text",
+			required: true,
+			defaultValue: "aboutUs",
+			admin: {
+				hidden: true,
+			},
+		},
+		{
 			name: "aboutSection",
 			type: "group",
 			required: true,
@@ -107,6 +116,14 @@ export const aboutUsBlock: Block = {
 					name: "brands",
 					type: "array",
 					required: true,
+					defaultValue: [
+						{
+							name: "Sea Fox Boat Company",
+							description: "Sea Fox Boat Company stands at the forefront of marine innovation, crafting vessels that seamlessly blend luxury, performance, and durability. With a clear mission to provide quality, hand-crafted saltwater boats, Sea Fox offers a range of models that cater to diverse boating needs and preferences.",
+							features: [{ text: "Premium-grade materials for lasting durability" }, { text: "State-of-the-art navigation and fish-finding technology" }, { text: "Ergonomic designs for maximum comfort and functionality" }, { text: "Powered by reliable Yamaha Outboards for optimal performance" }, { text: "Industry-leading warranty for peace of mind" }],
+							popularModels: [{ model: "Sea Fox 288 Commander" }, { model: "Sea Fox 249 Avenger" }, { model: "Sea Fox 226 Traveler" }, { model: "Sea Fox 328 Commander" }],
+						},
+					],
 					fields: [
 						{
 							name: "name",
@@ -177,6 +194,53 @@ export const aboutUsBlock: Block = {
 					name: "services",
 					type: "array",
 					required: true,
+					defaultValue: [
+						{
+							icon: "ship",
+							title: "Boat Repair",
+							description: "From minor fixes to major overhauls, our expert technicians handle all aspects of boat repair with precision and care. We specialize in both structural and mechanical repairs, ensuring your vessel is restored to peak condition.",
+						},
+						{
+							icon: "wrench",
+							title: "Routine Maintenance",
+							description: "Regular maintenance is key to extending the life of your boat. Our comprehensive maintenance programs cover everything from engine tune-ups to hull cleaning, keeping your boat running smoothly and looking great.",
+						},
+						{
+							icon: "compass",
+							title: "Winterization",
+							description: "Protect your investment during the off-season with our thorough winterization services. We safeguard your boat's engine, plumbing, and other critical systems against cold weather damage, ensuring it's ready to launch when spring arrives.",
+						},
+						{
+							icon: "lifeBuoy",
+							title: "Safety Inspections",
+							description: "Safety is paramount on the water. Our certified inspectors conduct thorough safety checks, ensuring your boat meets all current regulations and is equipped with proper safety gear. We provide detailed reports and recommendations for any necessary upgrades.",
+						},
+						{
+							icon: "dollarSign",
+							title: "Financing Options",
+							description: "Make your boating dreams a reality with our flexible financing solutions. We work with top lenders to offer competitive rates and terms tailored to your budget, making boat ownership accessible and affordable.",
+						},
+						{
+							icon: "users",
+							title: "Boating Education",
+							description: "Expand your boating knowledge with our comprehensive educational programs. From beginner courses to advanced seamanship, our classes cover navigation, safety, maintenance, and more, helping you become a more confident and capable boater.",
+						},
+						{
+							icon: "zap",
+							title: "Electronics Installation",
+							description: "Upgrade your boat with the latest marine electronics. Our technicians are skilled in installing and configuring a wide range of devices, from GPS and fish finders to complete entertainment systems, enhancing your boating experience.",
+						},
+						{
+							icon: "shield",
+							title: "Extended Warranty Plans",
+							description: "Enjoy peace of mind with our extended warranty options. We offer comprehensive coverage plans that go beyond standard warranties, protecting your investment and ensuring worry-free boating for years to come.",
+						},
+						{
+							icon: "award",
+							title: "Customization Services",
+							description: "Make your boat truly yours with our customization services. From custom upholstery and paint jobs to adding specialized equipment, we can help you create a boat that perfectly fits your style and needs.",
+						},
+					],
 					fields: [
 						{
 							name: "icon",
@@ -229,6 +293,38 @@ export const aboutUsBlock: Block = {
 					name: "testimonials",
 					type: "array",
 					required: true,
+					defaultValue: [
+						{
+							name: "John D.",
+							location: "Lake Lanier",
+							text: "Impact Marine Group provided exceptional service when I purchased my Sea Fox. Their knowledge and attention to detail made the process smooth and enjoyable. The team went above and beyond to ensure I found the perfect boat for my family's needs. Even after the sale, their support has been outstanding.",
+						},
+						{
+							name: "Sarah M.",
+							location: "Lake Allatoona",
+							text: "The maintenance team at Impact Marine is top-notch. They keep my boat running perfectly, and their winterization service gives me peace of mind during the off-season. I've been a customer for years, and the consistent quality of their work is why I keep coming back. They treat my boat as if it were their own.",
+						},
+						{
+							name: "Mike R.",
+							location: "Lake Burton",
+							text: "I took a boating class with Impact Marine, and it was incredibly informative. The instructors were knowledgeable and patient, perfect for a newcomer like me. They covered everything from basic navigation to advanced safety techniques. I feel much more confident on the water now, thanks to their excellent training program.",
+						},
+						{
+							name: "Lisa K.",
+							location: "Lake Sinclair",
+							text: "The financing options offered by Impact Marine helped me get the boat of my dreams. Their team worked hard to find a plan that fit my budget. They explained every detail of the process, making it stress-free. I appreciate their transparency and commitment to customer satisfaction. I wouldn't hesitate to recommend them to anyone looking to finance a boat.",
+						},
+						{
+							name: "David W.",
+							location: "Lake Hartwell",
+							text: "The customization services at Impact Marine are second to none. They helped me upgrade my boat with a new sound system and fishing equipment. The attention to detail in the installation was impressive, and the result exceeded my expectations. It's like having a brand new boat tailored exactly to my preferences.",
+						},
+						{
+							name: "Emily T.",
+							location: "Atlanta",
+							text: "As a first-time boat owner, I was nervous about maintenance, but Impact Marine's service team has been incredible. They're always willing to explain procedures and offer advice on keeping my boat in top shape. Their preventative maintenance program has saved me from potential issues and given me confidence in my boat's reliability.",
+						},
+					],
 					fields: [
 						{
 							name: "name",
@@ -276,6 +372,7 @@ export const aboutUsBlock: Block = {
 					name: "hours",
 					type: "array",
 					required: true,
+					defaultValue: [{ text: "Monday - Friday: 9AM-6PM" }, { text: "Saturday: 10AM-4PM" }, { text: "Sunday: Closed" }],
 					fields: [
 						{
 							name: "text",
@@ -288,6 +385,10 @@ export const aboutUsBlock: Block = {
 					name: "phones",
 					type: "array",
 					required: true,
+					defaultValue: [
+						{ label: "Sales", number: "(770) 881-7808" },
+						{ label: "Service", number: "(770) 881-7809" },
+					],
 					fields: [
 						{
 							name: "label",
@@ -305,6 +406,7 @@ export const aboutUsBlock: Block = {
 					name: "emails",
 					type: "array",
 					required: true,
+					defaultValue: [{ email: "sales@impactmarinegroup.com" }, { email: "service@impactmarinegroup.com" }],
 					fields: [
 						{
 							name: "email",
@@ -317,6 +419,7 @@ export const aboutUsBlock: Block = {
 					name: "areasServed",
 					type: "array",
 					required: true,
+					defaultValue: [{ area: "Lake Lanier" }, { area: "Lake Allatoona" }, { area: "Lake Burton" }, { area: "Lake Sinclair" }, { area: "Lake Hartwell" }, { area: "All Georgia Lakes" }],
 					fields: [
 						{
 							name: "area",

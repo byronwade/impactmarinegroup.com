@@ -279,7 +279,9 @@ function ContactSection(props: AboutUsBlock["contactSection"]) {
 							<CardContent className="p-4">
 								<h3 className="font-semibold mb-2">{props.ctaTitle}</h3>
 								<p className="text-sm mb-4">{props.ctaDescription}</p>
-								<Button className="w-full">{props.ctaButtonText}</Button>
+								<Button asChild className="w-full">
+									<Link href="/contact">{props.ctaButtonText}</Link>
+								</Button>
 							</CardContent>
 						</Card>
 					</div>

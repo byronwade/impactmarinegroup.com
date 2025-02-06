@@ -1,12 +1,25 @@
-import type { Block } from "payload";
+import type { Block } from "payload/types";
 
 export const servicesBlock: Block = {
-	slug: "services",
+	slug: "services_section",
 	labels: {
-		singular: "Services Block",
-		plural: "Services Blocks",
+		singular: "Services Section Block",
+		plural: "Services Section Blocks",
+	},
+	admin: {
+		group: "Section Blocks",
+		description: "A section displaying service offerings",
 	},
 	fields: [
+		{
+			name: "blockType",
+			type: "text",
+			required: true,
+			defaultValue: "services_section",
+			admin: {
+				hidden: true,
+			},
+		},
 		{
 			name: "title",
 			type: "text",
@@ -15,9 +28,9 @@ export const servicesBlock: Block = {
 		},
 		{
 			name: "description",
-			type: "textarea",
+			type: "text",
 			required: true,
-			defaultValue: "Professional marine services to keep your boat in top condition",
+			defaultValue: "Discover our comprehensive range of marine services",
 		},
 		{
 			name: "services",
@@ -25,13 +38,11 @@ export const servicesBlock: Block = {
 			relationTo: "services",
 			hasMany: true,
 			required: true,
-			filterOptions: {
-				featured: { equals: true },
-			},
 		},
 		{
 			name: "cta",
 			type: "group",
+			required: true,
 			fields: [
 				{
 					name: "label",

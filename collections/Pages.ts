@@ -102,7 +102,6 @@ export const Pages: CollectionConfig = {
 				{
 					...servicesBlock,
 					labels: {
-						...servicesBlock.labels,
 						singular: "🔲 Services Section",
 						plural: "🔲 Services Sections",
 					},
@@ -138,6 +137,139 @@ export const Pages: CollectionConfig = {
 						singular: "🔲 Brands Section",
 						plural: "🔲 Brands Sections",
 					},
+				},
+				{
+					slug: "boats",
+					interfaceName: "BoatsBlock",
+					fields: [
+						{
+							name: "blockType",
+							type: "text",
+							required: true,
+							defaultValue: "boats",
+							admin: {
+								hidden: true,
+							},
+						},
+						{
+							name: "title",
+							type: "text",
+							required: true,
+						},
+						{
+							name: "boats",
+							type: "array",
+							required: true,
+							fields: [
+								{
+									name: "name",
+									type: "text",
+									required: true,
+								},
+								{
+									name: "manufacturer",
+									type: "text",
+									required: true,
+								},
+								{
+									name: "model",
+									type: "text",
+									required: true,
+								},
+								{
+									name: "year",
+									type: "number",
+									required: true,
+									min: 1900,
+									max: new Date().getFullYear() + 1,
+								},
+								{
+									name: "type",
+									type: "text",
+									required: true,
+								},
+								{
+									name: "price",
+									type: "number",
+									required: true,
+									min: 0,
+								},
+								{
+									name: "status",
+									type: "select",
+									required: true,
+									options: [
+										{ label: "In Stock", value: "IN_STOCK" },
+										{ label: "On Order", value: "ON_ORDER" },
+										{ label: "Sold", value: "SOLD" },
+									],
+								},
+								{
+									name: "condition",
+									type: "select",
+									required: true,
+									options: [
+										{ label: "New", value: "NEW" },
+										{ label: "Used", value: "USED" },
+									],
+								},
+								{
+									name: "image",
+									type: "upload",
+									relationTo: "media",
+									required: true,
+								},
+								{
+									name: "description",
+									type: "richText",
+								},
+								{
+									name: "features",
+									type: "array",
+									fields: [
+										{
+											name: "text",
+											type: "text",
+											required: true,
+										},
+									],
+								},
+								{
+									name: "specifications",
+									type: "array",
+									fields: [
+										{
+											name: "label",
+											type: "text",
+											required: true,
+										},
+										{
+											name: "value",
+											type: "text",
+											required: true,
+										},
+									],
+								},
+							],
+						},
+						{
+							name: "manufacturers",
+							type: "array",
+							required: true,
+							fields: [
+								{
+									name: "name",
+									type: "text",
+									required: true,
+								},
+								{
+									name: "value",
+									type: "text",
+									required: true,
+								},
+							],
+						},
+					],
 				},
 			],
 			admin: {
@@ -180,14 +312,14 @@ export const Pages: CollectionConfig = {
 	],
 	hooks: {
 		beforeChange: [
-			({ data }) => {
+			({ data }: { data: any }) => {
 				// Log the data being saved
 				console.log("Saving page data:", JSON.stringify(data, null, 2));
 				return data;
 			},
 		],
 		afterRead: [
-			({ doc }) => {
+			({ doc }: { doc: any }) => {
 				// Log the data being read
 				console.log("Reading page data:", JSON.stringify(doc, null, 2));
 				return doc;
