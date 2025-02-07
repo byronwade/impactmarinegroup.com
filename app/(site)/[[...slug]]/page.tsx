@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import { getPageBySlug } from "@/lib/actions/getPages";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content, About, Brands, Contact, Financing } from "@/blocks";
+import { Hero, FeaturedBrands, Fleet, Services, Testimonials, Content, About, Brands, Contact, Financing, AboutUs } from "@/blocks";
+import type { RichTextContent } from "@/components/ui/rich-text";
 
 interface PageProps {
 	params: {
@@ -10,21 +11,17 @@ interface PageProps {
 	};
 }
 
-type Media = {
-	id: string;
+type BaseBlock = {
+	id?: string | null | undefined;
+	blockType: string;
+};
+
+type ImageType = {
 	url: string;
-	filename: string;
-	mimeType?: string;
-	filesize?: number;
-	width?: number;
-	height?: number;
 	alt?: string;
 };
 
-type BaseBlock = {
-	id: string;
-	blockType: string;
-};
+type OptionalImageType = ImageType | null | undefined;
 
 type HeroBlock = BaseBlock & {
 	blockType: "hero";
@@ -35,8 +32,8 @@ type HeroBlock = BaseBlock & {
 		value: number;
 		text: string;
 	};
-	backgroundImage?: Media;
-	backgroundVideo?: Media;
+	backgroundImage?: OptionalImageType;
+	backgroundVideo?: OptionalImageType;
 };
 
 type FeaturedBrandsBlock = BaseBlock & {
@@ -44,10 +41,10 @@ type FeaturedBrandsBlock = BaseBlock & {
 	title: string;
 	description: string;
 	brands: Array<{
-		id: string;
+		id?: string | null | undefined;
 		name: string;
 		description?: string;
-		logo?: Media;
+		logo?: OptionalImageType;
 	}>;
 };
 
@@ -56,22 +53,29 @@ type FleetBlock = BaseBlock & {
 	title: string;
 	description: string;
 	boats: Array<{
-		id: string;
+		id?: string | null | undefined;
 		name: string;
 		description?: string;
-		image?: Media;
+		image?: OptionalImageType;
 	}>;
 };
 
 type ServicesBlock = BaseBlock & {
 	blockType: "services";
 	title: string;
-	subtitle?: string;
+	subtitle: string;
 	services: Array<{
-		id: string;
+		id?: string | null | undefined;
 		title: string;
 		description?: string;
 		icon?: string;
+	}>;
+	phoneNumber: string;
+	reasons: string[];
+	reasonsImage: OptionalImageType;
+	servicePolicies: Array<{
+		title: string;
+		description: string;
 	}>;
 };
 
@@ -80,7 +84,7 @@ type TestimonialsBlock = BaseBlock & {
 	title: string;
 	description: string;
 	testimonials: Array<{
-		id: string;
+		id?: string | null | undefined;
 		name: string;
 		text: string;
 		rating: number;
@@ -89,14 +93,14 @@ type TestimonialsBlock = BaseBlock & {
 
 type ContentBlock = BaseBlock & {
 	blockType: "content";
-	content: unknown;
+	content: RichTextContent;
 };
 
 type AboutBlock = BaseBlock & {
 	blockType: "about";
 	title: string;
 	content: Array<{ paragraph: string }>;
-	image: Media;
+	image: OptionalImageType;
 	features: Array<{
 		icon: "users" | "zap";
 		title: string;
@@ -112,7 +116,7 @@ type BrandsBlock = BaseBlock & {
 		name: string;
 		description: string;
 		features: Array<{ text: string }>;
-		image: Media;
+		image: OptionalImageType;
 		popularModels: Array<{ model: string }>;
 	}>;
 };
@@ -122,11 +126,11 @@ type ContactBlock = BaseBlock & {
 	title: string;
 	subtitle: string;
 	address: string;
-	hours: Array<{ text: string }>;
-	phones: Array<{ label: string; number: string }>;
-	emails: Array<{ email: string }>;
-	areasServed: Array<{ area: string }>;
-	mapImage: Media;
+	hours: Array<{ text: string; id?: string | null | undefined }>;
+	phones: Array<{ label: string; number: string; id?: string | null | undefined }>;
+	emails: Array<{ email: string; id?: string | null | undefined }>;
+	areasServed: Array<{ area: string; id?: string | null | undefined }>;
+	mapImage: OptionalImageType;
 	ctaTitle: string;
 	ctaDescription: string;
 	ctaButtonText: string;
@@ -164,7 +168,64 @@ type FinancingBlock = BaseBlock & {
 	};
 };
 
-type Block = HeroBlock | FeaturedBrandsBlock | FleetBlock | ServicesBlock | TestimonialsBlock | ContentBlock | AboutBlock | BrandsBlock | ContactBlock | FinancingBlock;
+type AboutUsBlock = BaseBlock & {
+	blockType: "aboutUs";
+	aboutSection: {
+		title: string;
+		content: Array<{ paragraph: string }>;
+		image: OptionalImageType;
+		features: Array<{
+			icon: "users" | "zap";
+			title: string;
+			description: string;
+		}>;
+	};
+	brandsSection: {
+		title: string;
+		subtitle: string;
+		brands: Array<{
+			name: string;
+			description: string;
+			features: Array<{ text: string }>;
+			image: OptionalImageType;
+			popularModels: Array<{ model: string }>;
+		}>;
+	};
+	servicesSection: {
+		title: string;
+		subtitle: string;
+		description: string;
+		services: Array<{
+			icon: "ship" | "wrench" | "compass" | "lifeBuoy" | "dollarSign" | "users" | "zap" | "shield" | "award";
+			title: string;
+			description: string;
+		}>;
+	};
+	testimonialsSection: {
+		title: string;
+		subtitle: string;
+		testimonials: Array<{
+			name: string;
+			location: string;
+			text: string;
+		}>;
+	};
+	contactSection: {
+		title: string;
+		subtitle: string;
+		address: string;
+		hours: Array<{ text: string }>;
+		phones: Array<{ label: string; number: string }>;
+		emails: Array<{ email: string }>;
+		areasServed: Array<{ area: string }>;
+		mapImage: OptionalImageType;
+		ctaTitle: string;
+		ctaDescription: string;
+		ctaButtonText: string;
+	};
+};
+
+type Block = HeroBlock | FeaturedBrandsBlock | FleetBlock | ServicesBlock | TestimonialsBlock | ContentBlock | AboutBlock | BrandsBlock | ContactBlock | FinancingBlock | AboutUsBlock;
 
 // Block renderer with error boundary
 function RenderPageBlock({ block }: { block: Block }) {
@@ -191,6 +252,8 @@ function RenderPageBlock({ block }: { block: Block }) {
 			return <Contact {...block} />;
 		case "financing":
 			return <Financing {...block} />;
+		case "aboutUs":
+			return <AboutUs {...block} />;
 		default:
 			console.warn(`Unknown block type: ${blockType}`);
 			return null;
@@ -222,41 +285,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params }: PageProps) {
 	const nextjs15 = await params;
 	const slug = nextjs15.slug?.join("/") || "home";
+	const page = await getPageBySlug(slug);
 
-	try {
-		console.log("Fetching page data directly for slug:", slug);
-		const page = await getPageBySlug(slug);
-
-		if (!page) {
-			console.log("Page not found for slug:", slug);
-			notFound();
-		}
-
-		console.log("Page data:", JSON.stringify(page, null, 2));
-
-		if (!page.content || !Array.isArray(page.content) || page.content.length === 0) {
-			console.warn("Page content is empty for page:", page.title);
-			return (
-				<div className="container mx-auto px-4 py-8">
-					<h1 className="text-3xl font-bold mb-4">{page.title}</h1>
-					<p className="text-gray-600">This page needs content. Please add blocks in the admin panel.</p>
-				</div>
-			);
-		}
-
-		return (
-			<div className="flex flex-col min-h-screen">
-				<Suspense fallback={<div>Loading...</div>}>
-					<main className="flex-grow">
-						{page.content.map((block) => (
-							<RenderPageBlock key={block.id} block={block} />
-						))}
-					</main>
-				</Suspense>
-			</div>
-		);
-	} catch (error) {
-		console.error("Error rendering page:", error);
-		throw error;
+	if (!page) {
+		notFound();
 	}
+
+	if (!page.content || page.content.length === 0) {
+		return <div>Please add content to this page.</div>;
+	}
+
+	return (
+		<Suspense>
+			{page.content.map((block: Block) => (
+				<RenderPageBlock key={block.id || undefined} block={block} />
+			))}
+		</Suspense>
+	);
 }

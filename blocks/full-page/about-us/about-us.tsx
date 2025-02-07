@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Clock, Phone, Mail, Star, Ship, Wrench, Compass, LifeBuoy, DollarSign, Users, Zap, Shield, Award } from "lucide-react";
-import type { Media } from "@/payload-types";
+import type { Media, Service, Testimonial } from "../../../types/payload-types";
 
 interface AboutUsBlock {
 	id: string;
@@ -35,20 +35,12 @@ interface AboutUsBlock {
 		title: string;
 		subtitle: string;
 		description: string;
-		services: Array<{
-			icon: "ship" | "wrench" | "compass" | "lifeBuoy" | "dollarSign" | "users" | "zap" | "shield" | "award";
-			title: string;
-			description: string;
-		}>;
+		services: Array<Service>;
 	};
 	testimonialsSection: {
 		title: string;
 		subtitle: string;
-		testimonials: Array<{
-			name: string;
-			location: string;
-			text: string;
-		}>;
+		testimonials: Array<Testimonial>;
 	};
 	contactSection: {
 		title: string;
@@ -179,14 +171,29 @@ function ServicesSection({ title, subtitle, description, services }: AboutUsBloc
 				<div className="space-y-6">
 					<p className="text-lg">{description}</p>
 					<div className="grid md:grid-cols-3 gap-6">
-						{services.map((service, index) => {
-							const Icon = iconMap[service.icon];
+						{services.map((service) => {
+							const Icon = service.icon ? iconMap[service.icon as keyof typeof iconMap] : Wrench;
 							return (
-								<Card key={index}>
+								<Card key={service.id}>
 									<CardContent className="p-6">
 										<Icon className="w-12 h-12 mb-4 text-blue-600" />
 										<h3 className="text-xl font-semibold mb-2">{service.title}</h3>
 										<p className="text-sm text-gray-600">{service.description}</p>
+										{service.price?.startingAt && (
+											<p className="mt-4 font-semibold">
+												Starting at ${service.price.startingAt}/{service.price.unit || "service"}
+											</p>
+										)}
+										{service.details && service.details.length > 0 && (
+											<ul className="mt-4 space-y-2">
+												{service.details.map((detail: { title: string; icon?: string | null }, index: number) => (
+													<li key={index} className="flex items-start">
+														{detail.icon && iconMap[detail.icon as keyof typeof iconMap] && <span className="mr-2 mt-1">{iconMap[detail.icon as keyof typeof iconMap]({ className: "h-4 w-4" })}</span>}
+														<span>{detail.title}</span>
+													</li>
+												))}
+											</ul>
+										)}
 									</CardContent>
 								</Card>
 							);
@@ -205,13 +212,29 @@ function TestimonialsSection({ title, subtitle, testimonials }: AboutUsBlock["te
 				<h2 className="text-3xl font-bold mb-8">{title}</h2>
 				<h3 className="text-xl font-semibold mb-4">{subtitle}</h3>
 				<div className="grid md:grid-cols-2 gap-6">
-					{testimonials.map((testimonial, index) => (
-						<Card key={index}>
+					{testimonials.map((testimonial) => (
+						<Card key={testimonial.id}>
 							<CardContent className="p-6">
-								<Star className="w-8 h-8 mb-4 text-yellow-400" />
-								<p className="mb-4 italic">{`"${testimonial.text}"`}</p>
-								<p className="font-semibold">{testimonial.name}</p>
-								<p className="text-sm text-gray-600">{testimonial.location}</p>
+								<div className="flex items-start gap-4">
+									{testimonial.avatar?.url && (
+										<div className="relative w-16 h-16 rounded-full overflow-hidden">
+											<Image src={testimonial.avatar.url} alt={testimonial.name} fill className="object-cover" />
+										</div>
+									)}
+									<div className="flex-1">
+										<div className="flex items-center gap-2 mb-2">
+											{[...Array(testimonial.rating)].map((_, i) => (
+												<Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+											))}
+										</div>
+										<p className="mb-4 italic">{`"${testimonial.text}"`}</p>
+										<div>
+											<p className="font-semibold">{testimonial.name}</p>
+											{testimonial.position && <p className="text-sm text-gray-600">{testimonial.position}</p>}
+											{testimonial.company && <p className="text-sm text-gray-600">{testimonial.company}</p>}
+										</div>
+									</div>
+								</div>
 							</CardContent>
 						</Card>
 					))}
